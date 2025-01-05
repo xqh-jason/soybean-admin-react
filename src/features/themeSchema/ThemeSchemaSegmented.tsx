@@ -5,23 +5,23 @@ import { useContext } from 'react';
 
 import { ThemeContext, icons } from './themeContext';
 
+const OPTIONS = Object.values(ThemeMode).map(item => {
+  const key = item as ThemeModeType;
+  return {
+    label: (
+      <div className="w-[70px] flex justify-center">
+        <SvgIcon
+          className="h-28px text-icon-small"
+          icon={icons[key]}
+        />
+      </div>
+    ),
+    value: item
+  };
+}) satisfies SegmentedOptions;
+
 const ThemeSchemaSegmented = () => {
   const { setThemeScheme, themeScheme } = useContext(ThemeContext);
-
-  const OPTIONS = Object.values(ThemeMode).map(item => {
-    const key = item as ThemeModeType;
-    return {
-      label: (
-        <div className="w-[70px] flex justify-center">
-          <SvgIcon
-            className="h-28px text-icon-small"
-            icon={icons[key]}
-          />
-        </div>
-      ),
-      value: item
-    };
-  }) satisfies SegmentedOptions;
 
   return (
     <ASegmented
