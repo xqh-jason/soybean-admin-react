@@ -1,7 +1,5 @@
-import { RouterProvider } from '@sa/simple-router';
 import type { WatermarkProps } from 'antd';
 
-import { router } from '@/router';
 import { getThemeSettings } from '@/store/slice/theme';
 
 import AppProvider from './components/stateful/AppProvider';
@@ -29,12 +27,7 @@ const App = () => {
             className="h-full"
             content={themeSettings.watermark.visible ? themeSettings.watermark?.text || 'Soybean' : ''}
             {...watermarkProps}
-          >
-            <RouterProvider
-              fallback={<GlobalLoading />}
-              router={router}
-            />
-          </AWatermark>
+          />
         </AppProvider>
       </AntdConfig>
     </ThemeProvider>
