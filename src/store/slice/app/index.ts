@@ -1,9 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { setLng } from '@/locales';
-import { localStg } from '@/utils/storage';
-
 import type { AppThunk } from '../..';
 import { getThemeSettings } from '../theme';
 
@@ -11,8 +8,6 @@ interface InitialStateType {
   contentXScrollable: boolean;
   fullContent: boolean;
   isMobile: boolean;
-  locale: App.I18n.LangType;
-  localeOptions: App.I18n.LangOption[];
   mixSiderFixed: boolean;
   reloadFlag: boolean;
   siderCollapse: boolean;
@@ -24,17 +19,6 @@ const initialState: InitialStateType = {
   fullContent: false,
   /** Is mobile layout */
   isMobile: false,
-  locale: localStg.get('lang') || 'zh-CN',
-  localeOptions: [
-    {
-      key: 'zh-CN',
-      label: '中文'
-    },
-    {
-      key: 'en-US',
-      label: 'English'
-    }
-  ],
   mixSiderFixed: false,
   reloadFlag: true,
   siderCollapse: false,
@@ -45,11 +29,6 @@ export const appSlice = createSlice({
   initialState,
   name: 'app',
   reducers: {
-    changeLocale(state, { payload }: PayloadAction<App.I18n.LangType>) {
-      state.locale = payload;
-      setLng(payload);
-      localStg.set('lang', payload);
-    },
     closeThemeDrawer: state => {
       state.themeDrawerVisible = false;
     },
@@ -85,8 +64,7 @@ export const appSlice = createSlice({
     getContentXScrollable: app => app.contentXScrollable,
     getFullContent: app => app.fullContent,
     getIsMobile: app => app.isMobile,
-    getLocale: app => app.locale,
-    getLocaleOptions: app => app.localeOptions,
+
     getMixSiderFixed: app => app.mixSiderFixed,
     getReloadFlag: app => app.reloadFlag,
     getSiderCollapse: app => app.siderCollapse,
@@ -95,7 +73,6 @@ export const appSlice = createSlice({
 });
 // Action creators are generated for each case reducer function.
 export const {
-  changeLocale,
   closeThemeDrawer,
   openThemeDrawer,
   setContentXScrollable,
@@ -113,8 +90,6 @@ export const {
   getContentXScrollable,
   getFullContent,
   getIsMobile,
-  getLocale,
-  getLocaleOptions,
   getMixSiderFixed,
   getReloadFlag,
   getSiderCollapse,
