@@ -37,3 +37,7 @@ export function toggleCssDarkMode(darkMode = false) {
     htmlElementClassList.remove(DARK_CLASS);
   }
 }
+
+export function useTheme() {
+  return useContext(ThemeContext);
+}

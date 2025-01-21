@@ -1,7 +1,7 @@
 import type { ButtonProps, TooltipProps } from 'antd';
 import type { CSSProperties } from 'react';
 
-import ButtonIcon from '@/components/stateless/custom/ButtonIcon';
+import ButtonIcon from '@/components/ButtonIcon';
 
 import { ThemeContext, icons } from './themeContext';
 

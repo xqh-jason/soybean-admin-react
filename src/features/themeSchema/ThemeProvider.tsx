@@ -40,6 +40,7 @@ const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
       // 在组件卸载时清理监听器
       mediaQuery.removeEventListener('change', handler);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
