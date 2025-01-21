@@ -31,6 +31,10 @@ declare module "@elegant-router/types" {
     "document_antd": "/document/antd";
     "logout": "/logout";
     "(base)_home": "/home";
+    "(blank)_login": "/login";
+    "(blank)_login_code-login": "/login/code-login";
+    "(blank)_login_register": "/login/register";
+    "(blank)_login_reset-pwd": "/login/reset-pwd";
     "403": "/403";
     "404": "/404";
     "500": "/500";
@@ -79,6 +83,7 @@ declare module "@elegant-router/types" {
   export type FirstLevelRouteKey = Extract<
     RouteKey,
     | "(base)"
+    | "(blank)"
     | "403"
     | "404"
     | "500"
@@ -104,6 +109,16 @@ declare module "@elegant-router/types" {
     | "(base)_home"
     | "(base)_home"
     | "(base)"
+    | "(blank)"
+    | "(blank)_login_code-login"
+    | "(blank)_login_code-login"
+    | "(blank)_login"
+    | "(blank)_login"
+    | "(blank)_login"
+    | "(blank)_login_register"
+    | "(blank)_login_register"
+    | "(blank)_login_reset-pwd"
+    | "(blank)_login_reset-pwd"
     | "403"
     | "404"
     | "500"
