@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'clsx';
 import React, { memo } from 'react';
 import type { FC } from 'react';
 

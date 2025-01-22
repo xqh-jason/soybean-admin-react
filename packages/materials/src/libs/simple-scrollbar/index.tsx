@@ -1,4 +1,4 @@
-import ClassNames from 'classnames';
+import classNames from 'clsx';
 import React from 'react';
 import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
@@ -11,7 +11,7 @@ const SimpleScrollbar = ({
   readonly className?: string;
 }) => {
   return (
-    <div className={ClassNames('h-full flex-1-hidden', className)}>
+    <div className={classNames('h-full flex-1-hidden', className)}>
       <SimpleBar className="h-full">{children}</SimpleBar>
     </div>
   );

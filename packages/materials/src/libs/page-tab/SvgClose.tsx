@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import classNames from 'clsx';
 import type { FC, TouchEvent } from 'react';
 import React, { useState } from 'react';
 
