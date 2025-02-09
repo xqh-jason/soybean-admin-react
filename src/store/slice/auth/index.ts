@@ -5,8 +5,6 @@ import { localStg } from '@/utils/storage';
 
 import type { AppThunk } from '../..';
 import { createAppSlice } from '../../createAppSlice';
-import { resetRouteStore } from '../route';
-import { cacheTabs } from '../tab';
 
 import { clearAuthStorage, getToken, getUserInfo } from './shared';
 
@@ -82,10 +80,6 @@ export const resetStore = (): AppThunk => dispatch => {
   clearAuthStorage();
 
   dispatch(resetAuth());
-
-  dispatch(resetRouteStore());
-
-  dispatch(cacheTabs());
 };
 
 /** Is login */
