@@ -29,7 +29,7 @@ import * as echarts from 'echarts/core';
 import { LabelLayout, UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 
-import { ThemeContext } from '@/features';
+import { ThemeContext } from '@/features/themeSchema';
 import { getThemeSettings } from '@/store/slice/theme';
 
 export type ECOption = echarts.ComposeOption<
