@@ -36,48 +36,45 @@ const computeClass = (className: string) => {
 
 /** - 生成复用的button */
 
-const ButtonIcon: FC<Props> = memo(
-  ({
-    children,
-    className = 'h-36px text-icon',
-    icon,
-    style,
-    tooltipContent,
-    tooltipPlacement = 'bottom',
-    triggerParent,
-    zIndex = 98,
-    ...rest
-  }) => {
-    const cls = computeClass(className);
+const ButtonIcon = ({
+  children,
+  className = 'h-36px text-icon',
+  icon,
+  style,
+  tooltipContent,
+  tooltipPlacement = 'bottom',
+  triggerParent,
+  zIndex = 98,
+  ...rest
+}: Props) => {
+  const cls = computeClass(className);
 
-    function getPopupContainer(triggerNode: HTMLElement) {
-      return triggerParent ? triggerNode.parentElement! : document.body;
-    }
-
-    return (
-      <ATooltip
-        getPopupContainer={getPopupContainer}
-        placement={tooltipPlacement}
-        title={tooltipContent}
-        zIndex={zIndex}
-      >
-        <AButton
-          className={cls}
-          type="text"
-          {...rest}
-        >
-          <div className="flex-center gap-8px">
-            {children || (
-              <SvgIcon
-                icon={icon}
-                style={style}
-              />
-            )}
-          </div>
-        </AButton>
-      </ATooltip>
-    );
+  function getPopupContainer(triggerNode: HTMLElement) {
+    return triggerParent ? triggerNode.parentElement! : document.body;
   }
-);
 
+  return (
+    <ATooltip
+      getPopupContainer={getPopupContainer}
+      placement={tooltipPlacement}
+      title={tooltipContent}
+      zIndex={zIndex}
+    >
+      <AButton
+        className={cls}
+        type="text"
+        {...rest}
+      >
+        <div className="flex-center gap-8px">
+          {children || (
+            <SvgIcon
+              icon={icon}
+              style={style}
+            />
+          )}
+        </div>
+      </AButton>
+    </ATooltip>
+  );
+};
 export default ButtonIcon;

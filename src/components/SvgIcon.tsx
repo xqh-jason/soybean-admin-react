@@ -1,11 +1,6 @@
 import { Icon } from '@iconify/react';
 import type { CSSProperties } from 'react';
-/**
- * Props
- *
- * - Support iconify and local svg icon
- * - If icon and localIcon are passed at the same time, localIcon will be rendered first
- */
+
 interface Props {
   readonly className?: string;
   /** Iconify icon name */
@@ -16,12 +11,21 @@ interface Props {
 }
 
 const defaultLocalIcon = 'no-icon';
+
 const { VITE_ICON_LOCAL_PREFIX: prefix } = import.meta.env;
+
 const symbolId = (localIcon: string = defaultLocalIcon) => {
   const iconName = localIcon || defaultLocalIcon;
 
   return `#${prefix}-${iconName}`;
 };
+
+/**
+ * Props
+ *
+ * - Support iconify and local svg icon
+ * - If icon and localIcon are passed at the same time, localIcon will be rendered first
+ */
 const SvgIcon = ({ icon, localIcon, ...props }: Props) => {
   /** If localIcon is passed, render localIcon first */
   return localIcon || !icon ? (

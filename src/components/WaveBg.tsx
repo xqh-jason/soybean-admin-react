@@ -5,7 +5,7 @@ interface Props {
   themeColor: string;
 }
 
-const WaveBg = memo(({ themeColor }: Props) => {
+const WaveBg = ({ themeColor }: Props) => {
   const lightColor = getPaletteColorByNumber(themeColor, 200);
   const darkColor = getPaletteColorByNumber(themeColor, 500);
 
@@ -93,6 +93,6 @@ const WaveBg = memo(({ themeColor }: Props) => {
       </div>
     </div>
   );
-});
+};
 
 export default WaveBg;
