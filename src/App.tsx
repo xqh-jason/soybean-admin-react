@@ -1,37 +1,22 @@
-import type { WatermarkProps } from 'antd';
+import { RouterProvider } from '@/features/router';
 
-import { getThemeSettings } from '@/store/slice/theme';
+import { LazyAnimate } from './features/animate';
+import { AntdContextHolder, AntdProvider } from './features/antdConfig';
+import { LangProvider } from './features/lang';
+import { ThemeProvider } from './features/themeSchema';
 
-import AppProvider from './components/stateful/AppProvider';
-import { AntdConfig, ThemeProvider } from './features';
-
-const watermarkProps: WatermarkProps = {
-  font: {
-    fontSize: 16
-  },
-  height: 128,
-  offset: [12, 60],
-  rotate: -15,
-  width: 240,
-  zIndex: 9999
-};
-
-const App = () => {
-  const themeSettings = useAppSelector(getThemeSettings);
-
-  return (
-    <ThemeProvider>
-      <AntdConfig>
-        <AppProvider>
-          <AWatermark
-            className="h-full"
-            content={themeSettings.watermark.visible ? themeSettings.watermark?.text || 'Soybean' : ''}
-            {...watermarkProps}
-          />
-        </AppProvider>
-      </AntdConfig>
-    </ThemeProvider>
-  );
-};
+const App = () => (
+  <ThemeProvider>
+    <LangProvider>
+      <AntdProvider>
+        <AntdContextHolder>
+          <LazyAnimate>
+            <RouterProvider />
+          </LazyAnimate>
+        </AntdContextHolder>
+      </AntdProvider>
+    </LangProvider>
+  </ThemeProvider>
+);
 
 export default App;
