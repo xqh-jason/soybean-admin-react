@@ -127,7 +127,7 @@ function createThemePaletteColors(colors: App.Theme.ThemeColor, recommended = fa
  * @param tokens Theme setting tokens
  * @param [recommended=false] Use recommended color. Default is `false`
  */
-export function createThemeToken(
+function createThemeToken(
   colors: App.Theme.ThemeColor,
   tokens?: App.Theme.ThemeSetting['tokens'],
   recommended = false

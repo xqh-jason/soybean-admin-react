@@ -32,8 +32,6 @@ const ThemeSchemaSwitch: FC<Props> = memo(({ showTooltip = true, tooltipPlacemen
       return;
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
     const transition = document.startViewTransition(() => {
       toggleThemeScheme();
     });

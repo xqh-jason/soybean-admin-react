@@ -30,18 +30,19 @@ const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
     toggleCssDarkMode(darkMode);
   }, [darkMode]);
 
-  useEffect(() => {
+  useMount(() => {
     const mediaQuery = window.matchMedia(DARK_MODE_MEDIA_QUERY);
+
     const handler = (event: MediaQueryListEvent) => {
       if (themeMode !== 'system') return;
       changeThemeMode(event.matches ? 'dark' : 'light');
     };
+
     return () => {
       // 在组件卸载时清理监听器
       mediaQuery.removeEventListener('change', handler);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  });
 
   return (
     <ThemeContext value={{ darkMode, setThemeScheme: changeThemeMode, themeScheme: themeMode, toggleThemeScheme }}>
