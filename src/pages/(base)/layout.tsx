@@ -1,7 +1,7 @@
-import GlobalContent from '@/layouts/modules/global-content';
+import BaseLayout from '@/layouts/base-layout/BaseLayout';
 
 const BlankLayout = () => {
-  return <GlobalContent />;
+  return <BaseLayout />;
 };
 
 export default BlankLayout;

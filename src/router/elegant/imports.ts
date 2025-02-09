@@ -13,11 +13,12 @@ export const layouts = {
   "(base)": () => import("@/pages/(base)/layout.tsx"),
   "(blank)": () => import("@/pages/(blank)/layout.tsx"),
   "(blank)_login": () => import("@/pages/(blank)/login/layout.tsx"),
-  "root": () => import("@/pages/layout.tsx"),
 };
 
 export const pages = {
   "(base)_home": () => import("@/pages/(base)/home/index.tsx"),
+  "(base)_manage_menu": () => import("@/pages/(base)/manage/menu/index.tsx"),
+  "(base)_user-center": () => import("@/pages/(base)/user-center/index.tsx"),
   "(blank)_login_code-login": () => import("@/pages/(blank)/login/code-login/index.tsx"),
   "(blank)_login": () => import("@/pages/(blank)/login/index.tsx"),
   "(blank)_login_register": () => import("@/pages/(blank)/login/register/index.tsx"),
@@ -34,6 +35,9 @@ export const errors = {
 
 export const configs = {
   "(base)_home": () => import("@/pages/(base)/home/config.ts"),
+  "(base)_manage": () => import("@/pages/(base)/manage/config.ts"),
+  "(base)_manage_menu": () => import("@/pages/(base)/manage/menu/config.ts"),
+  "(base)_user-center": () => import("@/pages/(base)/user-center/config.ts"),
   "(blank)_login_code-login": () => import("@/pages/(blank)/login/code-login/config.ts"),
   "(blank)_login": () => import("@/pages/(blank)/login/config.ts"),
   "(blank)_login_register": () => import("@/pages/(blank)/login/register/config.ts"),

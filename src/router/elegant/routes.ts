@@ -8,49 +8,54 @@
 
 export const generatedRoutes = [
   {
-    matchedFiles: ['root', 'root', '/root', 'root'],
-    name: 'root',
-    path: '/',
+    matchedFiles: ['(base)', null, null, null],
+    name: '(base)',
+    path: null,
     children: [
+      { matchedFiles: [null, '(base)_home', null, null], name: '(base)_home', path: '/home' },
       {
-        matchedFiles: ['(base)', null, null, null],
-        name: '(base)',
-        path: null,
-        children: [{ matchedFiles: [null, '(base)_home', null, null], name: '(base)_home', path: '/home' }]
-      },
-      {
-        matchedFiles: ['(blank)', null, null, null],
-        name: '(blank)',
-        path: null,
+        matchedFiles: [null, null, null, null],
+        name: '(base)_manage',
+        path: '/manage',
         children: [
-          {
-            matchedFiles: ['(blank)_login', '(blank)_login', null, null],
-            name: '(blank)_login',
-            path: '/login',
-            children: [
-              {
-                matchedFiles: [null, '(blank)_login_code-login', null, null],
-                name: '(blank)_login_code-login',
-                path: '/login/code-login'
-              },
-              {
-                matchedFiles: [null, '(blank)_login_register', null, null],
-                name: '(blank)_login_register',
-                path: '/login/register'
-              },
-              {
-                matchedFiles: [null, '(blank)_login_reset-pwd', null, null],
-                name: '(blank)_login_reset-pwd',
-                path: '/login/reset-pwd'
-              }
-            ]
-          }
+          { matchedFiles: [null, '(base)_manage_menu', null, null], name: '(base)_manage_menu', path: '/manage/menu' }
         ]
       },
-      { matchedFiles: [null, '403', null, null], name: '403', path: '/403' },
-      { matchedFiles: [null, '404', null, null], name: '404', path: '/404' },
-      { matchedFiles: [null, '500', null, null], name: '500', path: '/500' },
-      { matchedFiles: [null, '404', null, null], name: 'notFound', path: '*' }
+      { matchedFiles: [null, '(base)_user-center', null, null], name: '(base)_user-center', path: '/user-center' }
     ]
-  }
+  },
+  {
+    matchedFiles: ['(blank)', null, null, null],
+    name: '(blank)',
+    path: null,
+    children: [
+      {
+        matchedFiles: ['(blank)_login', '(blank)_login', null, null],
+        name: '(blank)_login',
+        path: '/login',
+        children: [
+          {
+            matchedFiles: [null, '(blank)_login_code-login', null, null],
+            name: '(blank)_login_code-login',
+            path: '/login/code-login'
+          },
+          {
+            matchedFiles: [null, '(blank)_login_register', null, null],
+            name: '(blank)_login_register',
+            path: '/login/register'
+          },
+          {
+            matchedFiles: [null, '(blank)_login_reset-pwd', null, null],
+            name: '(blank)_login_reset-pwd',
+            path: '/login/reset-pwd'
+          }
+        ]
+      }
+    ]
+  },
+  { matchedFiles: [null, '403', null, null], name: '403', path: '/403' },
+  { matchedFiles: [null, '404', null, null], name: '404', path: '/404' },
+  { matchedFiles: [null, '500', null, null], name: '500', path: '/500' },
+  { matchedFiles: [null, 'root', '/root', 'root'], name: 'root', path: '/' },
+  { matchedFiles: [null, '404', null, null], name: 'notFound', path: '*' }
 ];
