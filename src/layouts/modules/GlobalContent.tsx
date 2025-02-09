@@ -2,8 +2,7 @@ import clsx from 'clsx';
 import KeepAlive, { useKeepAliveRef } from 'keepalive-for-react';
 
 import { getReloadFlag } from '@/store/slice/app';
-import { getRemoveCacheKey, selectCacheRoutes } from '@/store/slice/route';
-import { getThemeSettings } from '@/store/slice/theme';
+import { selectCacheRoutes, selectRemoveCacheKey } from '@/store/slice/route';
 import './transition.css';
 
 interface Props {
@@ -11,28 +10,18 @@ interface Props {
   closePadding?: boolean;
 }
 
-const useGetCacheKey = () => {
-  const { pathname, search } = useLocation();
-
-  const cacheKey = useMemo(() => {
-    return (pathname + search).slice(1).split('/').join('_');
-  }, [pathname, search]);
-
-  return cacheKey;
-};
-
 const GlobalContent: FC<Props> = memo(({ closePadding }) => {
   const currentOutlet = useOutlet();
-
+  const { pathname } = useLocation();
   const aliveRef = useKeepAliveRef();
 
-  const removeCacheKey = useAppSelector(getRemoveCacheKey);
+  const removeCacheKey = useAppSelector(selectRemoveCacheKey);
 
   const cacheKeys = useAppSelector(selectCacheRoutes);
 
-  const reload = useAppSelector(getReloadFlag);
+  console.log(cacheKeys, 'cacheKeys');
 
-  const cacheKey = useGetCacheKey();
+  const reload = useAppSelector(getReloadFlag);
 
   // const themeSetting = useAppSelector(getThemeSettings);
 
@@ -51,7 +40,7 @@ const GlobalContent: FC<Props> = memo(({ closePadding }) => {
   return (
     <div className={clsx('h-full flex-grow bg-layout', { 'p-16px': !closePadding })}>
       <KeepAlive
-        activeCacheKey={cacheKey}
+        activeCacheKey={pathname}
         aliveRef={aliveRef}
         include={cacheKeys}
       >

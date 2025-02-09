@@ -2,8 +2,10 @@ import type { WatermarkProps } from 'antd';
 import type { PropsWithChildren } from 'react';
 
 import { info } from '@/constants/app';
+import { useThemeSettings } from '@/hooks/common/theme';
 import { antdLocales } from '@/locales/antd';
-import { getThemeSettings, themeColors } from '@/store/slice/theme';
+import { selectTabs } from '@/store/slice/tab';
+import { themeColors } from '@/store/slice/theme';
 import { getAntdTheme, setupThemeVarsToHtml } from '@/store/slice/theme/shared';
 import { localStg } from '@/utils/storage';
 
@@ -22,9 +24,11 @@ const WATERMARK_CONFIG = {
 } satisfies WatermarkProps;
 
 function useAntdTheme() {
-  const themeSettings = useAppSelector(getThemeSettings);
+  const themeSettings = useThemeSettings();
 
   const colors = useAppSelector(themeColors);
+
+  const tabs = useAppSelector(selectTabs);
 
   const { darkMode } = useTheme();
 
@@ -34,6 +38,32 @@ function useAntdTheme() {
     setupThemeVarsToHtml(colors, themeSettings.tokens, themeSettings.recommendColor);
     localStg.set('themeColor', colors.primary);
   }, [colors, themeSettings]);
+
+  useMount(() => {
+    function cacheThemeSettings() {
+      const isProd = import.meta.env.PROD;
+
+      if (!isProd) return;
+      localStg.set('themeSettings', themeSettings);
+    }
+
+    function cacheTabs() {
+      if (!themeSettings.tab.cache) return;
+      localStg.set('globalTabs', tabs);
+    }
+
+    window.addEventListener('beforeunload', () => {
+      cacheThemeSettings();
+      cacheTabs();
+    });
+
+    return () => {
+      window.removeEventListener('beforeunload', () => {
+        cacheThemeSettings();
+        cacheTabs();
+      });
+    };
+  });
 
   console.info(`%c${info}`, `color: ${colors.primary}`);
 

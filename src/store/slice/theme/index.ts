@@ -2,10 +2,6 @@ import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { getPaletteColorByNumber } from '@sa/color';
 
-import { localStg } from '@/utils/storage';
-
-import type { AppThunk } from '../..';
-
 import { initThemeSettings, toggleAuxiliaryColorModes, toggleGrayscaleMode } from './shared';
 
 interface InitialStateType {
@@ -156,15 +152,6 @@ export const themeColors = createSelector([getThemeSettings], ({ isInfoFollowPri
   };
   return colors;
 });
-
-/** Cache theme settings */
-export const cacheThemeSettings = (): AppThunk => (_, getState) => {
-  const isProd = import.meta.env.PROD;
-
-  if (!isProd) return;
-
-  localStg.set('themeSettings', getThemeSettings(getState()));
-};
 
 export const settingsJson = createSelector([getThemeSettings], settings => {
   return JSON.stringify(settings);
