@@ -1,4 +1,4 @@
-import GlobalContent from '@/layouts/modules/global-content';
+import GlobalContent from '@/layouts/modules/GlobalContent';
 
 const BlankLayout = () => {
   return <GlobalContent closePadding />;

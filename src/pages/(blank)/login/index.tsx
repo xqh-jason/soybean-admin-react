@@ -2,7 +2,6 @@ import { Button, Checkbox, Divider, Input, Space } from 'antd';
 
 import { loginModuleRecord } from '@/constants/app';
 import { SubmitEnterButton, useFormRules } from '@/features/form';
-import { useRouter } from '@/features/router';
 import { useLogin } from '@/hooks/common/login';
 
 type AccountKey = 'admin' | 'super' | 'user';
@@ -20,14 +19,14 @@ const INITIAL_VALUES = {
   userName: 'Soybean'
 };
 
-const PwdLogin = memo(() => {
+const PwdLogin = () => {
   const { t } = useTranslation();
 
   const { loading, toLogin } = useLogin();
 
   const [form] = AForm.useForm<LoginParams>();
 
-  const { navigate } = useRouter();
+  const navigate = useNavigate();
 
   const {
     formRules: { pwd, userName: userNameRules }
@@ -155,6 +154,6 @@ const PwdLogin = memo(() => {
       </AForm>
     </>
   );
-});
+};
 
 export default PwdLogin;
