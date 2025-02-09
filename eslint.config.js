@@ -73,7 +73,6 @@ export default defineConfig(
         'warn',
         { callbacksLast: true, ignoreCase: true, multiline: 'last', shorthandFirst: true }
       ],
-      'react/prefer-read-only-props': ['error'],
       'react/self-closing-comp': [
         'error',
         {
