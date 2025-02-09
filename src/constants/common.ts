@@ -18,3 +18,8 @@ export const YesOrNo_Map: Record<CommonType.YesOrNo, string> = {
   N: 'default',
   Y: 'error'
 };
+
+export const LAYOUT_MODE_VERTICAL: UnionKey.ThemeLayoutMode = 'vertical';
+export const LAYOUT_MODE_HORIZONTAL: UnionKey.ThemeLayoutMode = 'horizontal';
+export const LAYOUT_MODE_VERTICAL_MIX: UnionKey.ThemeLayoutMode = 'vertical-mix';
+export const LAYOUT_MODE_HORIZONTAL_MIX: UnionKey.ThemeLayoutMode = 'horizontal-mix';
