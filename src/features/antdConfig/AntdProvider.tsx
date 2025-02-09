@@ -1,5 +1,5 @@
 import type { WatermarkProps } from 'antd';
-import React from 'react';
+import type { PropsWithChildren } from 'react';
 
 import { info } from '@/constants/app';
 import { antdLocales } from '@/locales/antd';
@@ -40,7 +40,7 @@ function useAntdTheme() {
   return { antdTheme, watermarkText: themeSettings.watermark.text, watermarkVisible: themeSettings.watermark.visible };
 }
 
-function AntdConfig({ children }: { readonly children: React.ReactNode }) {
+function AntdConfig({ children }: PropsWithChildren) {
   const { locale } = useLang();
 
   const { antdTheme, watermarkText, watermarkVisible } = useAntdTheme();
