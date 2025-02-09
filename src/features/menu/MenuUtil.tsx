@@ -11,9 +11,14 @@ import { $t } from '@/locales';
 export function filterRoutesToMenus(routes: RouteObject[]) {
   const menus: App.Global.Menu[] = [];
 
+  const cacheRoutes: string[] = [];
+
   for (const route of routes) {
     // 如果节点存在 path（注意：这里假设空字符串或 undefined 均视为无 path）
-    if (route.path && !route.handle?.hideInMenu) {
+    if (route.handle?.keepAlive) {
+      cacheRoutes.push(route.path as string);
+    }
+    if (route.path && !route.handle?.hideInMenu && route.id?.includes('base')) {
       // 如果存在 children，则递归处理
       const newNode = getGlobalMenuByBaseRoute(route);
 
@@ -61,4 +66,21 @@ export function getGlobalMenuByBaseRoute(route: RouteObject): App.Global.Menu {
   };
 
   return menu;
+}
+
+/**
+ * Get active first level menu key
+ *
+ * @param route
+ */
+export function getActiveFirstLevelMenuKey(route: App.Global.TabRoute) {
+  const { activeMenu, hideInMenu } = route.handle;
+
+  const name = route.pathname;
+
+  const routeName = (hideInMenu ? activeMenu : name) || name;
+
+  const [firstLevelRouteName] = routeName;
+
+  return firstLevelRouteName;
 }

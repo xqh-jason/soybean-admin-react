@@ -3,12 +3,11 @@ import type { FC, PropsWithChildren } from 'react';
 
 import { routes } from '@/router';
 import { selectActiveFirstLevelMenuKey, setActiveFirstLevelMenuKey } from '@/store/slice/tab';
-import { getActiveFirstLevelMenuKey } from '@/store/slice/tab/shared';
 
 import { useLang } from '../lang';
 import { useRoute } from '../router';
 
-import { filterRoutesToMenus } from './MenuUtil';
+import { filterRoutesToMenus, getActiveFirstLevelMenuKey } from './MenuUtil';
 import { MixMenuContext } from './menuContext';
 
 const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -47,7 +46,7 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
       routeKey = getActiveFirstLevelMenuKey(route);
     }
 
-    dispatch(setActiveFirstLevelMenuKey(routeKey));
+    dispatch(setActiveFirstLevelMenuKey(routeKey || ''));
   }
 
   const mixMenuContext = useCreation(
