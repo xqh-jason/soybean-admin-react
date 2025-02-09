@@ -33,6 +33,12 @@ declare module "@elegant-router/types" {
     "(base)_home": "/home";
     "(base)_manage": "/manage";
     "(base)_manage_menu": "/manage/menu";
+    "(base)_multi-menu": "/multi-menu";
+    "(base)_multi-menu_first": "/multi-menu/first";
+    "(base)_multi-menu_first_child": "/multi-menu/first/child";
+    "(base)_multi-menu_second": "/multi-menu/second";
+    "(base)_multi-menu_second_child": "/multi-menu/second/child";
+    "(base)_multi-menu_second_child_home": "/multi-menu/second/child/home";
     "(base)_user-center": "/user-center";
     "(blank)_login": "/login";
     "(blank)_login_code-login": "/login/code-login";
@@ -115,6 +121,14 @@ declare module "@elegant-router/types" {
     | "(base)_manage"
     | "(base)_manage_menu"
     | "(base)_manage_menu"
+    | "(base)_multi-menu"
+    | "(base)_multi-menu_first_child"
+    | "(base)_multi-menu_first_child"
+    | "(base)_multi-menu_first"
+    | "(base)_multi-menu_second_child"
+    | "(base)_multi-menu_second_child_home"
+    | "(base)_multi-menu_second_child_home"
+    | "(base)_multi-menu_second"
     | "(base)_user-center"
     | "(base)_user-center"
     | "(blank)"

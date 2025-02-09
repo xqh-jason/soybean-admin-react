@@ -21,6 +21,44 @@ export const generatedRoutes = [
           { matchedFiles: [null, '(base)_manage_menu', null, null], name: '(base)_manage_menu', path: '/manage/menu' }
         ]
       },
+      {
+        matchedFiles: [null, null, null, null],
+        name: '(base)_multi-menu',
+        path: '/multi-menu',
+        children: [
+          {
+            matchedFiles: [null, null, null, null],
+            name: '(base)_multi-menu_first',
+            path: '/multi-menu/first',
+            children: [
+              {
+                matchedFiles: [null, '(base)_multi-menu_first_child', null, null],
+                name: '(base)_multi-menu_first_child',
+                path: '/multi-menu/first/child'
+              }
+            ]
+          },
+          {
+            matchedFiles: [null, null, null, null],
+            name: '(base)_multi-menu_second',
+            path: '/multi-menu/second',
+            children: [
+              {
+                matchedFiles: [null, null, null, null],
+                name: '(base)_multi-menu_second_child',
+                path: '/multi-menu/second/child',
+                children: [
+                  {
+                    matchedFiles: [null, '(base)_multi-menu_second_child_home', null, null],
+                    name: '(base)_multi-menu_second_child_home',
+                    path: '/multi-menu/second/child/home'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
       { matchedFiles: [null, '(base)_user-center', null, null], name: '(base)_user-center', path: '/user-center' }
     ]
   },
