@@ -31,6 +31,9 @@ declare module "@elegant-router/types" {
     "document_antd": "/document/antd";
     "logout": "/logout";
     "(base)_home": "/home";
+    "(base)_manage": "/manage";
+    "(base)_manage_menu": "/manage/menu";
+    "(base)_user-center": "/user-center";
     "(blank)_login": "/login";
     "(blank)_login_code-login": "/login/code-login";
     "(blank)_login_register": "/login/register";
@@ -109,6 +112,11 @@ declare module "@elegant-router/types" {
     | "(base)_home"
     | "(base)_home"
     | "(base)"
+    | "(base)_manage"
+    | "(base)_manage_menu"
+    | "(base)_manage_menu"
+    | "(base)_user-center"
+    | "(base)_user-center"
     | "(blank)"
     | "(blank)_login_code-login"
     | "(blank)_login_code-login"
@@ -122,7 +130,6 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
-    | "root"
     | "root"
     | "root"
     | "root"

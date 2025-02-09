@@ -161,7 +161,6 @@ declare namespace App {
 
   /** Global namespace */
   namespace Global {
-    type RouteLocationNormalizedLoaded = import('@sa/simple-router').Route;
     type RouteKey = import('@elegant-router/types').RouteKey;
     type RouteMap = import('@elegant-router/types').RouteMap;
     type RoutePath = import('@elegant-router/types').RoutePath;
@@ -193,7 +192,7 @@ declare namespace App {
       /** The menu i18n key */
       i18nKey?: I18n.I18nKey | null;
       /** The menu icon */
-      icon?: React.FunctionComponentElement<IconProps>;
+      icon?: React.ReactElement;
       /**
        * The menu key
        *
@@ -211,8 +210,7 @@ declare namespace App {
     };
 
     /** Tab route */
-    type TabRoute = Pick<RouteLocationNormalizedLoaded, 'meta' | 'name' | 'path'> &
-      Partial<Pick<RouteLocationNormalizedLoaded, 'fullPath' | 'matched' | 'query'>>;
+    type TabRoute = Router.Route;
 
     /** The global tab */
     type Tab = {

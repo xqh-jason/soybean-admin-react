@@ -174,7 +174,7 @@ declare namespace Api {
     type IconType = '1' | '2';
 
     type MenuPropsOfRoute = Pick<
-      import('@ohh-889/react-auto-route').RouteMeta,
+      import('@soybean-react/vite-plugin-react-router').RouteMeta,
       | 'activeMenu'
       | 'constant'
       | 'fixedIndexInTab'

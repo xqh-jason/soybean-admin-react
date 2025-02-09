@@ -1,7 +1,7 @@
-import '@ohh-889/react-auto-route';
+declare namespace Router {
+  type UIMatch<Data = unknown, Handle = unknown> = import('react-router-dom').UIMatch<Data, Handle>;
 
-declare module '@ohh-889/react-auto-route' {
-  interface RouteMeta {
+  type RouteHandle = {
     /**
      * The menu key will be activated when entering the route
      *
@@ -68,5 +68,9 @@ declare module '@ohh-889/react-auto-route' {
      * It can be used in document title
      */
     title: string;
-  }
+  };
+
+  type Route<T = unknown> = UIMatch<T, RouteHandle> & {
+    matched: UIMatch<T, RouteHandle>[];
+  };
 }
