@@ -1,10 +1,6 @@
 export const config = {
   i18nKey: 'route.home',
+  icon: 'mdi:monitor-dashboard',
+  order: 1,
   title: 'home'
 };
-
-export const loader = undefined;
-
-export const action = undefined;
-
-export const shouldRevalidate = undefined;
