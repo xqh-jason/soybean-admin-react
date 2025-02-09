@@ -21,6 +21,7 @@ const LangProvider: FC<PropsWithChildren> = ({ children }) => {
 
   function changeLocale(lang: App.I18n.LangType) {
     setLng(lang);
+
     setLocale(lang);
 
     localStg.set('lang', lang);

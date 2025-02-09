@@ -5,9 +5,11 @@ import { localStg } from '@/utils/storage';
 
 import locales from './locale';
 
+export const reactI18nextInstance = i18n.use(initReactI18next);
+
 /** Setup plugin i18n */
 export function setupI18n() {
-  i18n.use(initReactI18next).init({
+  reactI18nextInstance.init({
     interpolation: {
       escapeValue: false
     },
@@ -16,8 +18,8 @@ export function setupI18n() {
   });
 }
 
-export const $t = i18n.t;
+export const $t = reactI18nextInstance.t;
 
 export function setLng(locale: App.I18n.LangType) {
-  i18n.changeLanguage(locale);
+  reactI18nextInstance.changeLanguage(locale);
 }

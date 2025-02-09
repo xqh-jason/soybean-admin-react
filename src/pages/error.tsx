@@ -9,8 +9,6 @@ type Props = Partial<FallbackProps>;
 
 const isDev = import.meta.env.DEV;
 
-const { Text, Title } = Typography;
-
 function HookSupportChecker() {
   try {
     // 尝试使用一个简单的 Hook
@@ -43,9 +41,9 @@ const ErrorPage = ({ error, resetErrorBoundary }: Props) => {
         <SvgIcon localIcon="error" />
       </div>
       {isDev ? (
-        <Text code>{hook ? hook.error.message : error.message}</Text>
+        <Typography.Text code>{hook ? hook.error.message : error.message}</Typography.Text>
       ) : (
-        <Title level={3}>{$t('common.errorHint')}</Title>
+        <Typography.Title level={3}>{$t('common.errorHint')}</Typography.Title>
       )}
       <Button
         style={{ backgroundColor: theme }}

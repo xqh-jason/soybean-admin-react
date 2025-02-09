@@ -24,5 +24,11 @@ export const LangContext = createContext<LangContextType>({
 });
 
 export function useLang() {
-  return useContext(LangContext);
+  const context = useContext(LangContext);
+
+  if (!context) {
+    throw new Error('useLang must be used within a LangProvider');
+  }
+
+  return context;
 }
