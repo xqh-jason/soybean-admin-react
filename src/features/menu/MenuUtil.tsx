@@ -9,6 +9,7 @@ import { $t } from '@/locales';
  * @param routes Auth routes
  */
 export function filterRoutesToMenus(routes: RouteObject[]) {
+  console.log(routes, 'routes');
   const menus: App.Global.Menu[] = [];
 
   const cacheRoutes: string[] = [];
@@ -18,7 +19,7 @@ export function filterRoutesToMenus(routes: RouteObject[]) {
     if (route.handle?.keepAlive) {
       cacheRoutes.push(route.path as string);
     }
-    if (route.path && !route.handle?.hideInMenu && route.id?.includes('base')) {
+    if (route.path && !route.handle?.hideInMenu) {
       // 如果存在 children，则递归处理
       const newNode = getGlobalMenuByBaseRoute(route);
 
