@@ -18,7 +18,8 @@ export const generatedRoutes = [
         name: '(base)_manage',
         path: '/manage',
         children: [
-          { matchedFiles: [null, '(base)_manage_menu', null, null], name: '(base)_manage_menu', path: '/manage/menu' }
+          { matchedFiles: [null, '(base)_manage_menu', null, null], name: '(base)_manage_menu', path: '/manage/menu' },
+          { matchedFiles: [null, '(base)_manage_user', null, null], name: '(base)_manage_user', path: '/manage/user' }
         ]
       },
       {
@@ -52,6 +53,32 @@ export const generatedRoutes = [
                     matchedFiles: [null, '(base)_multi-menu_second_child_home', null, null],
                     name: '(base)_multi-menu_second_child_home',
                     path: '/multi-menu/second/child/home'
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        matchedFiles: [null, null, null, null],
+        name: '(base)_projects',
+        path: '/projects',
+        children: [
+          {
+            matchedFiles: [null, null, null, null],
+            name: '(base)_projects_[pid]',
+            path: '/projects/:pid',
+            children: [
+              {
+                matchedFiles: [null, null, null, null],
+                name: '(base)_projects_[pid]_edit',
+                path: '/projects/:pid/edit',
+                children: [
+                  {
+                    matchedFiles: [null, '(base)_projects_[pid]_edit_[id]', null, null],
+                    name: '(base)_projects_[pid]_edit_[id]',
+                    path: '/projects/:pid/edit/:id'
                   }
                 ]
               }
@@ -94,6 +121,7 @@ export const generatedRoutes = [
   { matchedFiles: [null, '403', null, null], name: '403', path: '/403' },
   { matchedFiles: [null, '404', null, null], name: '404', path: '/404' },
   { matchedFiles: [null, '500', null, null], name: '500', path: '/500' },
+  { matchedFiles: [null, 'iframe-page', null, null], name: 'iframe-page', path: '/iframe-page' },
   { matchedFiles: [null, 'root', '/root', 'root'], name: 'root', path: '/' },
   { matchedFiles: [null, '404', null, null], name: 'notFound', path: '*' }
 ];

@@ -8,8 +8,7 @@
 // 这是自动生成的文件，请不要手动修改
 
 
-import type { RouteKey, RouteMap, RoutePath } from '@elegant-router/types';
-import type { ElegantConstRoute } from '@soybean-react/vite-plugin-react-router';
+import type { ElegantConstRoute, RouteKey, RouteMap, RoutePath } from '@soybean-react/vite-plugin-react-router';
 import type { ReactElement } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
@@ -21,6 +20,12 @@ type LazyRouteConfig = Record<string, () => Promise<RouteConfig>>;
 
 const loadings = import.meta.glob(`/src/pages/**/loading.tsx`, { eager: true, import: 'default' });
 
+const commonHandles = import.meta.glob(`/src/pages/**/config.ts`, { eager: true, import: 'config' });
+
+const specHandles = import.meta.glob(`/src/pages/**/[[]*[]].config.ts`, { eager: true, import: 'config' });
+console.log(commonHandles, 'specHandles');
+
+const handles = Object.assign({}, commonHandles, specHandles);
 /**
  * transform elegant const routes to react routes
  *
@@ -80,11 +85,10 @@ export function transformElegantRouteToReactRoute(
 
   // Convert route config, simplifying the logic for actions, loader, etc.
    function convertConfig(m: RouteConfig) {
-    const { action, config, loader, shouldRevalidate, ...rest } = m;
+    const { action, loader, shouldRevalidate, ...rest } = m;
     return {
       ...rest,
       action, // always use action
-      handle: config,
       loader, // always use loader
       shouldRevalidate
     };
@@ -92,7 +96,7 @@ export function transformElegantRouteToReactRoute(
 
   // Get config for the route if available
   async function getConfig(index:boolean=false) {
-    if(matchedFiles[0]&&matchedFiles[1]&&!index) return null
+     if((matchedFiles[0]&&matchedFiles[1]&&!index)||(!isRouteGroup(name)&&handles?.[getPathFromKey(name,Boolean(children?.length))]&&!index)) return null
 
     if (configs?.[name]) {
       const config = await configs[name]();
@@ -106,8 +110,9 @@ export function transformElegantRouteToReactRoute(
 
   const reactRoute = {
     children: [],
-    HydrateFallback: matchedFiles[2] ? loadings[`/src/pages${matchedFiles[2]==='/root'?'':matchedFiles[2]}/loading.tsx`] : null,
+    HydrateFallback: matchedFiles[2] ? loadings[`/src/pages${matchedFiles[2]==='/root'?'':matchedFiles[2]}/loading.tsx`] : loadings[`/src/pages/loading.tsx`] ,
     id: name,
+    handle: handles?.[getPathFromKey(name,Boolean(children?.length))]||'',
     lazy: async () => {
       const [Component, ErrorBoundary] = await Promise.all(loaderModule);
 
@@ -125,14 +130,15 @@ export function transformElegantRouteToReactRoute(
       transformElegantRouteToReactRoute(child, layouts, views, errors, configs)
     );
 
-    if (matchedFiles[0] && matchedFiles[1] && !isRouteGroup(name)) {
+     if ((matchedFiles[0] && matchedFiles[1] && !isRouteGroup(name))||(!isRouteGroup(name)&&handles?.[getPathFromKey(name,true)])) {
       reactRoute.children.unshift({
         index: true,
+        handle:handles?.[getPathFromKey(name,true)]||'',
         lazy: async () => {
           const [Component, ErrorBoundary] = await Promise.all([matchedFiles[1]?views[matchedFiles[1]]():null, getErrorComponent()]);
 
           return {
-            Component: Component?.default,
+            Component: Component?.default as any,
             ErrorBoundary: ErrorBoundary?.default,
             ...(await getConfig(true))
           };
@@ -164,6 +170,15 @@ export const routeMap: RouteMap = {
   "document_antd": "/document/antd",
   "logout": "/logout",
   "(base)_home": "/home",
+  "(base)_manage": "/manage",
+  "(base)_manage_menu": "/manage/menu",
+  "(base)_multi-menu": "/multi-menu",
+  "(base)_multi-menu_first": "/multi-menu/first",
+  "(base)_multi-menu_first_child": "/multi-menu/first/child",
+  "(base)_multi-menu_second": "/multi-menu/second",
+  "(base)_multi-menu_second_child": "/multi-menu/second/child",
+  "(base)_multi-menu_second_child_home": "/multi-menu/second/child/home",
+  "(base)_user-center": "/user-center",
   "(blank)_login": "/login",
   "(blank)_login_code-login": "/login/code-login",
   "(blank)_login_register": "/login/register",
@@ -171,6 +186,8 @@ export const routeMap: RouteMap = {
   "403": "/403",
   "404": "/404",
   "500": "/500",
+  "iframe-page": "/iframe-page",
+  "iframe-page_[url]": "/iframe-page/:url",
   "root": "/"
 };
 
@@ -180,6 +197,23 @@ export const routeMap: RouteMap = {
  */
 export function getRoutePath<T extends RouteKey>(name: T) {
   return routeMap[name];
+}
+
+function getPathFromKey  (key: string,isSpec:boolean=false) {
+  if (key === 'root') return '/src/pages/config.ts'
+
+  const pathArray = key.split('_')
+
+  if (pathArray.at(-1)?.startsWith('[')&&!isSpec) {
+
+    const path=pathArray.slice(0, -1).join('/')
+
+    return `/src/pages/${path}/${pathArray.at(-1)}.config.ts`;
+  }
+
+  const path=pathArray.join('/')
+
+  return `/src/pages/${path}/config.ts`;
 }
 
 /**
