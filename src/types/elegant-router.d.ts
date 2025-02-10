@@ -7,10 +7,9 @@
 // 如果需要修改，请在优雅路由配置文件中进行修改
 // 这是自动生成的文件，请不要手动修改
 
+import '@soybean-react/vite-plugin-react-router';
 
-declare module "@elegant-router/types" {
-  type ElegantConstRoute = import('@ohh-889/react-auto-route').ElegantConstRoute;
-
+declare module "@soybean-react/vite-plugin-react-router" {
 
   /**
    * route map
@@ -33,12 +32,17 @@ declare module "@elegant-router/types" {
     "(base)_home": "/home";
     "(base)_manage": "/manage";
     "(base)_manage_menu": "/manage/menu";
+    "(base)_manage_user": "/manage/user";
     "(base)_multi-menu": "/multi-menu";
     "(base)_multi-menu_first": "/multi-menu/first";
     "(base)_multi-menu_first_child": "/multi-menu/first/child";
     "(base)_multi-menu_second": "/multi-menu/second";
     "(base)_multi-menu_second_child": "/multi-menu/second/child";
     "(base)_multi-menu_second_child_home": "/multi-menu/second/child/home";
+    "(base)_projects": "/projects";
+    "(base)_projects_[pid]": "/projects/:pid";
+    "(base)_projects_[pid]_edit": "/projects/:pid/edit";
+    "(base)_projects_[pid]_edit_[id]": "/projects/:pid/edit/:id";
     "(base)_user-center": "/user-center";
     "(blank)_login": "/login";
     "(blank)_login_code-login": "/login/code-login";
@@ -47,6 +51,7 @@ declare module "@elegant-router/types" {
     "403": "/403";
     "404": "/404";
     "500": "/500";
+    "iframe-page": "/iframe-page";
     "root": "/";
   };
 
@@ -96,6 +101,7 @@ declare module "@elegant-router/types" {
     | "403"
     | "404"
     | "500"
+    | "iframe-page"
     | "root"
   >;
 
@@ -121,6 +127,8 @@ declare module "@elegant-router/types" {
     | "(base)_manage"
     | "(base)_manage_menu"
     | "(base)_manage_menu"
+    | "(base)_manage_user"
+    | "(base)_manage_user"
     | "(base)_multi-menu"
     | "(base)_multi-menu_first_child"
     | "(base)_multi-menu_first_child"
@@ -129,6 +137,11 @@ declare module "@elegant-router/types" {
     | "(base)_multi-menu_second_child_home"
     | "(base)_multi-menu_second_child_home"
     | "(base)_multi-menu_second"
+    | "(base)_projects_[pid]"
+    | "(base)_projects_[pid]_edit_[id]"
+    | "(base)_projects_[pid]_edit_[id]"
+    | "(base)_projects_[pid]_edit"
+    | "(base)_projects"
     | "(base)_user-center"
     | "(base)_user-center"
     | "(blank)"
@@ -142,8 +155,13 @@ declare module "@elegant-router/types" {
     | "(blank)_login_reset-pwd"
     | "(blank)_login_reset-pwd"
     | "403"
+    | "403"
+    | "404"
     | "404"
     | "500"
+    | "500"
+    | "iframe-page"
+    | "iframe-page"
     | "root"
     | "root"
     | "root"
