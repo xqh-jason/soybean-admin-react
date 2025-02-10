@@ -64,7 +64,6 @@ export const appSlice = createSlice({
     getContentXScrollable: app => app.contentXScrollable,
     getFullContent: app => app.fullContent,
     getIsMobile: app => app.isMobile,
-
     getMixSiderFixed: app => app.mixSiderFixed,
     getReloadFlag: app => app.reloadFlag,
     getSiderCollapse: app => app.siderCollapse,

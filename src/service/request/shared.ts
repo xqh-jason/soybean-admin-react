@@ -1,5 +1,3 @@
-import { store } from '@/store';
-import { resetStore } from '@/store/slice/auth';
 import { localStg } from '@/utils/storage';
 
 import { fetchRefreshToken } from '../api';
@@ -26,8 +24,6 @@ export async function handleRefreshToken() {
     localStg.set('refreshToken', data.refreshToken);
     return true;
   }
-
-  store.dispatch(resetStore());
 
   return false;
 }

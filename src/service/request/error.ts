@@ -3,8 +3,6 @@ import { BACKEND_ERROR_CODE } from '@sa/axios';
 import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
 import { $t } from '@/locales';
-import { store } from '@/store';
-import { resetStore } from '@/store/slice/auth';
 
 import { getAuthorization, handleExpiredRequest, showErrorMsg } from './shared';
 import type { RequestInstanceState } from './type';
@@ -17,13 +15,8 @@ export async function backEndFail(
 ) {
   const responseCode = String(response.data.code);
 
-  function handleLogout() {
-    store.dispatch(resetStore());
-  }
-
   function logoutAndCleanup() {
-    handleLogout();
-    window.removeEventListener('beforeunload', handleLogout);
+    window.removeEventListener('beforeunload', () => {});
 
     request.state.errMsgStack = request.state.errMsgStack.filter(msg => msg !== response.data.msg);
   }
@@ -31,8 +24,6 @@ export async function backEndFail(
   // when the backend response code is in `logoutCodes`, it means the user will be logged out and redirected to login page
   const logoutCodes = import.meta.env.VITE_SERVICE_LOGOUT_CODES?.split(',') || [];
   if (logoutCodes.includes(responseCode)) {
-    handleLogout();
-    return null;
   }
 
   // when the backend response code is in `modalLogoutCodes`, it means the user will be logged out by displaying a modal
@@ -41,7 +32,7 @@ export async function backEndFail(
     request.state.errMsgStack = [...(request.state.errMsgStack || []), response.data.msg];
 
     // prevent the user from refreshing the page
-    window.addEventListener('beforeunload', handleLogout);
+    window.addEventListener('beforeunload', () => {});
 
     window.$modal?.error({
       content: response.data.msg,

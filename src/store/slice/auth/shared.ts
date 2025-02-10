@@ -1,4 +1,5 @@
 import { localStg } from '@/utils/storage';
+
 /** Get token */
 export function getToken() {
   return localStg.get('token') || '';
