@@ -3,7 +3,7 @@ import type { RouterNavigateOptions, To } from 'react-router-dom';
 import { router as reactRouter } from '@/router';
 
 export function navigator() {
-  function navigate(path: To | null, options?: RouterNavigateOptions) {
+ async function navigate(path: To | null, options?: RouterNavigateOptions) {
     reactRouter.navigate(path, options);
   }
 

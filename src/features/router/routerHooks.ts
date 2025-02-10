@@ -32,8 +32,6 @@ export function useCacheRoutes() {
 
   const cacheRoutes = filterCacheRoutes(allRoutes);
 
-  console.log(cacheRoutes, 'cacheRoutes');
-
   useEffect(() => {
     dispatch(setCacheRoutes(cacheRoutes));
   }, [cacheRoutes]);
