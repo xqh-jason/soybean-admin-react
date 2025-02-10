@@ -3,10 +3,9 @@ import { createSelector } from '@reduxjs/toolkit';
 import { fetchGetUserInfo, fetchLogin } from '@/service/api';
 import { localStg } from '@/utils/storage';
 
-import type { AppThunk } from '../..';
 import { createAppSlice } from '../../createAppSlice';
 
-import { clearAuthStorage, getToken, getUserInfo } from './shared';
+import { getToken, getUserInfo } from './shared';
 
 const initialState = {
   token: getToken(),
@@ -37,7 +36,7 @@ export const authSlice = createAppSlice({
           }
         }
 
-        return false;
+        return initialState;
       },
 
       {
@@ -56,31 +55,17 @@ export const authSlice = createAppSlice({
     selectUserInfo: auth => auth.userInfo
   }
 });
+
 export const { selectToken, selectUserInfo } = authSlice.selectors;
+
 export const { login, resetAuth } = authSlice.actions;
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
-export const getUerName = (): AppThunk<string> => (_, getState) => {
-  const pass = selectToken(getState());
-
-  return pass ? selectUserInfo(getState()).userName : '';
-};
-
-/** is super role in static route */
-
-export const isStaticSuper = (): AppThunk<boolean> => (_, getState) => {
-  const { roles } = selectUserInfo(getState());
-
-  const { VITE_AUTH_ROUTE_MODE, VITE_STATIC_SUPER_ROLE } = import.meta.env;
-  return VITE_AUTH_ROUTE_MODE === 'static' && roles.includes(VITE_STATIC_SUPER_ROLE);
-};
-
-/** Reset auth store */
-export const resetStore = (): AppThunk => dispatch => {
-  clearAuthStorage();
-
-  dispatch(resetAuth());
-};
 
 /** Is login */
 export const getIsLogin = createSelector([selectToken], token => Boolean(token));
+
+/** Is static super role */
+export const isStaticSuper = createSelector([selectUserInfo], userInfo => {
+  const { VITE_AUTH_ROUTE_MODE, VITE_STATIC_SUPER_ROLE } = import.meta.env;
+
+  return VITE_AUTH_ROUTE_MODE === 'static' && userInfo.roles.includes(VITE_STATIC_SUPER_ROLE);
+});

@@ -1,6 +1,6 @@
-import type { RoutePath } from '@elegant-router/types';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { RoutePath } from '@soybean-react/vite-plugin-react-router';
 
 interface InitialStateType {
   activeFirstLevelMenuKey: string;
@@ -27,16 +27,27 @@ export const tabSlice = createSlice({
   initialState,
   name: 'tab',
   reducers: {
+    initHomeTab(state, { payload }: PayloadAction<Rou>) {
+      state.homeTab = payload;
+    },
     setActiveFirstLevelMenuKey: (state, action: PayloadAction<string>) => {
       state.activeFirstLevelMenuKey = action.payload;
+    },
+    setActiveTabId: (state, action: PayloadAction<string>) => {
+      state.activeTabId = action.payload;
+    },
+    setTabs: (state, action: PayloadAction<App.Global.Tab[]>) => {
+      state.tabs = action.payload;
     }
   },
   selectors: {
     selectActiveFirstLevelMenuKey: tab => tab.activeFirstLevelMenuKey,
+    selectActiveTabId: tab => tab.activeTabId,
+    selectHomeTab: tab => tab.homeTab,
     selectTabs: tab => tab.tabs
   }
 });
 
-export const { setActiveFirstLevelMenuKey } = tabSlice.actions;
+export const { setActiveFirstLevelMenuKey, setActiveTabId, setTabs } = tabSlice.actions;
 
-export const { selectActiveFirstLevelMenuKey, selectTabs } = tabSlice.selectors;
+export const { selectActiveFirstLevelMenuKey, selectActiveTabId, selectHomeTab, selectTabs } = tabSlice.selectors;
