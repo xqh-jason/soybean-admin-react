@@ -2,7 +2,8 @@ import { Button, Checkbox, Divider, Input, Space } from 'antd';
 
 import { loginModuleRecord } from '@/constants/app';
 import { SubmitEnterButton, useFormRules } from '@/features/form';
-import { useLogin } from '@/hooks/common/login';
+
+import { useLogin } from './hook';
 
 type AccountKey = 'admin' | 'super' | 'user';
 interface Account {

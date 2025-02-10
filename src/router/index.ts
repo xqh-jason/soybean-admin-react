@@ -1,19 +1,27 @@
-import type { ElegantConstRoute } from '@soybean-react/vite-plugin-react-router';
 import { createBrowserRouter } from 'react-router';
 
-import { configs, errors, layouts, pages } from './elegant/imports';
-import { generatedRoutes } from './elegant/routes';
-import { transformElegantRoutesToReactRoutes } from './elegant/transform';
+import { routes } from './routes';
 
-/**
- * Get auth react routes
- *
- * @param routes Elegant routes
- */
-function getReactRoutes(route: ElegantConstRoute[]) {
-  return transformElegantRoutesToReactRoutes(route, layouts, pages, errors, configs);
-}
-
-export const routes = getReactRoutes(generatedRoutes);
+export { routes };
 
 export const router = createBrowserRouter(routes, { basename: import.meta.env.VITE_BASE_URL });
+
+/** create routes when the auth route mode is static */
+export function createStaticRoutes() {
+  const constantRoutes: ElegantRoute[] = [];
+
+  const authRoutes: ElegantRoute[] = [];
+
+  [...customRoutes, ...generatedRoutes].forEach(item => {
+    if (item.meta?.constant) {
+      constantRoutes.push(item);
+    } else {
+      authRoutes.push(item);
+    }
+  });
+
+  return {
+    authRoutes,
+    constantRoutes
+  };
+}
