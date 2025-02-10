@@ -161,10 +161,10 @@ declare namespace App {
 
   /** Global namespace */
   namespace Global {
-    type RouteKey = import('@elegant-router/types').RouteKey;
-    type RouteMap = import('@elegant-router/types').RouteMap;
-    type RoutePath = import('@elegant-router/types').RoutePath;
-    type LastLevelRouteKey = import('@elegant-router/types').LastLevelRouteKey;
+    type RouteKey = import('@soybean-react/vite-plugin-react-router').RouteKey;
+    type RouteMap = import('@soybean-react/vite-plugin-react-router').RouteMap;
+    type RoutePath = import('@soybean-react/vite-plugin-react-router').RoutePath;
+    type LastLevelRouteKey = import('@soybean-react/vite-plugin-react-router').LastLevelRouteKey;
 
     /** The global header props */
     interface HeaderProps {
@@ -267,7 +267,7 @@ declare namespace App {
    * Locales type
    */
   namespace I18n {
-    type RouteKey = import('@elegant-router/types').RouteKey;
+    type RouteKey = import('@soybean-react/vite-plugin-react-router').RouteKey;
 
     type LangType = 'en-US' | 'zh-CN';
 

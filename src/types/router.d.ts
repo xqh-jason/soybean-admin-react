@@ -10,7 +10,7 @@ declare namespace Router {
      * @example
      *   the route is "user_detail", if it is set to "user_list", the menu "user_list" will be activated
      */
-    activeMenu?: import('@elegant-router/types').RouteKey | null;
+    activeMenu?: import('@soybean-react/vite-plugin-react-router').RouteKey | null;
     /**
      * Is constant route
      *

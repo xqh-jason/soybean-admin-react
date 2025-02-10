@@ -1,4 +1,4 @@
-import type { RouteKey } from '@elegant-router/types';
+import type { RouteKey } from '@soybean-react/vite-plugin-react-router';
 import ElegantReactRouter from '@soybean-react/vite-plugin-react-router';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

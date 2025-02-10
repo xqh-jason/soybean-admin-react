@@ -72,14 +72,14 @@ declare namespace Api {
    * backend api module: "route"
    */
   namespace Route {
-    type ElegantConstRoute = import('@elegant-router/types').ElegantConstRoute;
+    type ElegantConstRoute = import('@soybean-react/vite-plugin-react-router').ElegantConstRoute;
 
     interface MenuRoute extends ElegantConstRoute {
       id: string;
     }
 
     interface UserRoute {
-      home: import('@elegant-router/types').LastLevelRouteKey;
+      home: import('@soybean-react/vite-plugin-react-router').LastLevelRouteKey;
       routes: MenuRoute[];
     }
   }
