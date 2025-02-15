@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import KeepAlive, { useKeepAliveRef } from 'keepalive-for-react';
 
+import { selectCacheRoutes, selectRemoveCacheKey } from '@/features/router';
 import { getReloadFlag } from '@/store/slice/app';
-import { selectCacheRoutes, selectRemoveCacheKey } from '@/store/slice/route';
 import './transition.css';
 
 interface Props {
@@ -12,14 +12,14 @@ interface Props {
 
 const GlobalContent: FC<Props> = memo(({ closePadding }) => {
   const currentOutlet = useOutlet();
+
   const { pathname } = useLocation();
+
   const aliveRef = useKeepAliveRef();
 
   const removeCacheKey = useAppSelector(selectRemoveCacheKey);
 
   const cacheKeys = useAppSelector(selectCacheRoutes);
-
-  console.log(cacheKeys, 'cacheKeys');
 
   const reload = useAppSelector(getReloadFlag);
 
