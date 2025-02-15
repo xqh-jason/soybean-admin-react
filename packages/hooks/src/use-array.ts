@@ -16,7 +16,7 @@ type ArrayActions<T, K extends keyof T> = {
   splice: (start: number, deleteCount?: number, ...items: T[]) => void;
   unshift: (...newItems: T[]) => void;
   up: (itemKey: T[K]) => void;
-  updateState: (newState: T[]) => void;
+  updateState: (newState: T[] | ((prevState: T[]) => T[])) => void;
 };
 
 export default function useArray<T, K extends keyof T>(initState: T[], key?: K): [ArrayState<T>, ArrayActions<T, K>] {
@@ -24,7 +24,7 @@ export default function useArray<T, K extends keyof T>(initState: T[], key?: K):
 
   const resolvedKey = (key ?? 'id') as K;
 
-  const updateState = (newState: T[]) => {
+  const updateState = (newState: T[] | ((prevState: T[]) => T[])) => {
     setState(newState);
   };
 
