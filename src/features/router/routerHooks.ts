@@ -1,38 +1,45 @@
-import type { RouteObject } from 'react-router';
+import { emitter } from '@sa/hooks';
 
-import { routes as allRoutes } from '@/router';
-import { setCacheRoutes } from '@/store/slice/route';
+import { authRoutes } from '@/router';
 
-function filterCacheRoutes(routes: RouteObject[]) {
-  const cacheRoutes: string[] = [];
+import type { RouterContextType } from './router';
+import { filterAuthRoutesByRoles, mergeValuesByParent } from './shared';
 
-  for (const route of routes) {
-    const { children, handle, path } = route;
-    // 如果节点存在 path（注意：这里假设空字符串或 undefined 均视为无 path）
-    if (path) {
-      if (handle?.keepAlive) {
-        cacheRoutes.push(path);
+export function useInitAuthRoutes() {
+  const authRouteMode = import.meta.env.VITE_AUTH_ROUTE_MODE;
+
+  const reactAuthRoutes = mergeValuesByParent(authRoutes).reverse();
+
+  function initAuthRoutes(isStaticSuper: boolean, roles: string[], addRoutes: RouterContextType['addRoutes']) {
+    // 静态模式
+    if (authRouteMode === 'static') {
+      // 超级管理员
+      if (isStaticSuper) {
+        reactAuthRoutes.forEach(route => {
+          emitter.emit('ADD_MENUS', route.route);
+          addRoutes(route.route, route.parent);
+        });
+      } else {
+        // 非超级管理员
+        const filteredRoutes = filterAuthRoutesByRoles(reactAuthRoutes, roles);
+        filteredRoutes.forEach((route, index) => {
+          emitter.emit('ADD_MENUS', route);
+          addRoutes(route, reactAuthRoutes[index].parent);
+        });
       }
-
-      if (children && children.length) {
-        cacheRoutes.push(...filterCacheRoutes(children));
-      }
-    } else if (children && children.length) {
-      // 如果当前节点没有 path，但有 children，则递归处理 children，
-      cacheRoutes.push(...filterCacheRoutes(children));
-      // 如果既没有 path 也没有 children，则该节点直接被过滤掉
+    } else {
+      // 动态模式
+      // await dispatch(initDynamicAuthRoute());
     }
+
+    // const routeHomeName = getRouteHome(getState());
+
+    // const homeRoute = router.getRouteByName(routeHomeName);
+
+    // if (homeRoute) dispatch(initHomeTab({ homeRouteName: routeHomeName as LastLevelRouteKey, route: homeRoute }));
   }
 
-  return cacheRoutes;
-}
-
-export function useCacheRoutes() {
-  const dispatch = useAppDispatch();
-
-  const cacheRoutes = filterCacheRoutes(allRoutes);
-
-  useEffect(() => {
-    dispatch(setCacheRoutes(cacheRoutes));
-  }, [cacheRoutes]);
+  return {
+    initAuthRoutes
+  };
 }

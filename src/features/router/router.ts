@@ -1,9 +1,12 @@
-import type { RouterNavigateOptions, To } from 'react-router-dom';
+import type { RouteObject, RouterNavigateOptions, To } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
-import { router as reactRouter } from '@/router';
+import { routes } from '@/router';
 
 export function navigator() {
- async function navigate(path: To | null, options?: RouterNavigateOptions) {
+  const reactRouter = createBrowserRouter(routes, { basename: import.meta.env.VITE_BASE_URL });
+
+  async function navigate(path: To | null, options?: RouterNavigateOptions) {
     reactRouter.navigate(path, options);
   }
 
@@ -35,7 +38,12 @@ export function navigator() {
     reactRouter.navigate('/');
   }
 
+  function addRoutes(newRoutes: RouteObject[], parent: string | null = null) {
+    reactRouter.patchRoutes(parent, newRoutes);
+  }
+
   return {
+    addRoutes,
     back,
     forward,
     go,
