@@ -31,7 +31,6 @@ export const pages = {
   "404": () => import("@/pages/_builtin/404/index.tsx"),
   "500": () => import("@/pages/_builtin/500/index.tsx"),
   "iframe-page": () => import("@/pages/_builtin/iframe-page/index.tsx"),
-  "root": () => import("@/pages/index.tsx"),
 };
 
 export const errors = {
