@@ -11,6 +11,7 @@
 import type { ElegantConstRoute, RouteKey, RouteMap, RoutePath } from '@soybean-react/vite-plugin-react-router';
 import type { ReactElement } from 'react';
 import type { RouteObject } from 'react-router-dom';
+import {configs} from './imports'
 
 type LazyRouteComponent = Record<string, () => Promise<{ default: () => ReactElement }>>;
 
@@ -23,7 +24,7 @@ const loadings = import.meta.glob(`/src/pages/**/loading.tsx`, { eager: true, im
 const commonHandles = import.meta.glob(`/src/pages/**/config.ts`, { eager: true, import: 'config' });
 
 const specHandles = import.meta.glob(`/src/pages/**/[[]*[]].config.ts`, { eager: true, import: 'config' });
-console.log(commonHandles, 'specHandles');
+
 
 const handles = Object.assign({}, commonHandles, specHandles);
 /**
@@ -85,7 +86,7 @@ export function transformElegantRouteToReactRoute(
 
   // Convert route config, simplifying the logic for actions, loader, etc.
    function convertConfig(m: RouteConfig) {
-    const { action, loader, shouldRevalidate, ...rest } = m;
+    const { action,config,loader, shouldRevalidate, ...rest } = m;
     return {
       ...rest,
       action, // always use action
@@ -96,7 +97,7 @@ export function transformElegantRouteToReactRoute(
 
   // Get config for the route if available
   async function getConfig(index:boolean=false) {
-     if((matchedFiles[0]&&matchedFiles[1]&&!index)||(!isRouteGroup(name)&&handles?.[getPathFromKey(name,Boolean(children?.length))]&&!index)) return null
+     if((matchedFiles[0]&&matchedFiles[1]&&!index)||(isRouteGroup(name)&&handles?.[getPathFromKey(name)]&&!index)) return null
 
     if (configs?.[name]) {
       const config = await configs[name]();
@@ -108,11 +109,12 @@ export function transformElegantRouteToReactRoute(
 
   const loaderModule = [getComPonent(name), getErrorComponent()];
 
+
   const reactRoute = {
     children: [],
     HydrateFallback: matchedFiles[2] ? loadings[`/src/pages${matchedFiles[2]==='/root'?'':matchedFiles[2]}/loading.tsx`] : loadings[`/src/pages/loading.tsx`] ,
     id: name,
-    handle: handles?.[getPathFromKey(name,Boolean(children?.length))]||'',
+    handle: handles?.[getPathFromKey(name)]||'',
     lazy: async () => {
       const [Component, ErrorBoundary] = await Promise.all(loaderModule);
 
@@ -130,10 +132,10 @@ export function transformElegantRouteToReactRoute(
       transformElegantRouteToReactRoute(child, layouts, views, errors, configs)
     );
 
-     if ((matchedFiles[0] && matchedFiles[1] && !isRouteGroup(name))||(!isRouteGroup(name)&&handles?.[getPathFromKey(name,true)])) {
+     if ((matchedFiles[0] && matchedFiles[1] && !isRouteGroup(name))||(!isRouteGroup(name)&&handles?.[getPathFromKey(name)])) {
       reactRoute.children.unshift({
         index: true,
-        handle:handles?.[getPathFromKey(name,true)]||'',
+        handle:handles?.[getPathFromKey(name)]||'',
         lazy: async () => {
           const [Component, ErrorBoundary] = await Promise.all([matchedFiles[1]?views[matchedFiles[1]]():null, getErrorComponent()]);
 
@@ -199,21 +201,25 @@ export function getRoutePath<T extends RouteKey>(name: T) {
   return routeMap[name];
 }
 
-function getPathFromKey  (key: string,isSpec:boolean=false) {
-  if (key === 'root') return '/src/pages/config.ts'
+function getPathFromKey(key: string,) {
 
-  const pathArray = key.split('_')
+  if(key==='notFound') key='404'
 
-  if (pathArray.at(-1)?.startsWith('[')&&!isSpec) {
+  // 将 "iframe-page" 对应的函数转换成字符串
+  const fnStr = configs?.[key as keyof typeof configs]?.toString();
 
-    const path=pathArray.slice(0, -1).join('/')
+  // 使用正则匹配 import("...") 中的路径
+  const match = fnStr?.match(/import\(["']([^"']+)["']\)/);
 
-    return `/src/pages/${path}/${pathArray.at(-1)}.config.ts`;
+  // 如果匹配到，就获取第一个捕获组中的内容
+  let importPath = match ? match[1].replace(/@/g, '/src') : null;
+
+  if (importPath?.includes('?')) {
+    // 去掉 query 参数
+    importPath = importPath.split('?')[0];
   }
 
-  const path=pathArray.join('/')
-
-  return `/src/pages/${path}/config.ts`;
+  return importPath||'';
 }
 
 /**
