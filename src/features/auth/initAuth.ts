@@ -1,12 +1,20 @@
+import type { RouterContextType } from '@/features/router';
+import { useInitAuthRoutes } from '@/features/router';
+
+const { VITE_AUTH_ROUTE_MODE, VITE_STATIC_SUPER_ROLE } = import.meta.env;
+
 export function useInitAuth() {
-  if (authRouteMode === 'static') {
-    dispatch(initStaticAuthRoute());
-  } else {
-    await dispatch(initDynamicAuthRoute());
+  const { initAuthRoutes } = useInitAuthRoutes();
+
+  function initAuth(roles: string[], addRoutes: RouterContextType['addRoutes']) {
+    const isStaticSuper = VITE_AUTH_ROUTE_MODE === 'static' && roles.includes(VITE_STATIC_SUPER_ROLE);
+
+    if (isStaticSuper) {
+      initAuthRoutes(isStaticSuper, roles, addRoutes);
+    }
   }
-  const routeHomeName = getRouteHome(getState());
 
-  const homeRoute = router.getRouteByName(routeHomeName);
-
-  if (homeRoute) dispatch(initHomeTab({ homeRouteName: routeHomeName as LastLevelRouteKey, route: homeRoute }));
+  return {
+    initAuth
+  };
 }
