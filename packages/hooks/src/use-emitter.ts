@@ -13,10 +13,25 @@ type EventBus = {
 class Emitter implements EventBus {
   private _events = new Map<string, EventFn[]>();
 
+  private _prevEvents = new Map<string, EventParams[]>();
+
   emit(event: string, ...args: EventParams) {
     const fns = this._events.get(event);
+
+    const allFns = this._events.get('*');
+
+    if (allFns) {
+      fns?.forEach(fn => fn(...args));
+    }
+
     if (fns) {
       fns.forEach(fn => fn(...args));
+    } else {
+      if (!this._prevEvents.has(event)) {
+        this._prevEvents.set(event, []);
+      }
+
+      this._prevEvents.get(event)?.push(args);
     }
   }
 
@@ -40,10 +55,20 @@ class Emitter implements EventBus {
     } else {
       this._events.set(event, [fn]);
     }
+
+    if (this._prevEvents.has(event)) {
+      this._prevEvents.get(event)?.forEach(args => fn(...args));
+      this._prevEvents.delete(event);
+    }
+  }
+
+  offAll() {
+    this._events.clear();
+    this._prevEvents.clear();
   }
 }
 
-const emitter = new Emitter();
+export const emitter = new Emitter();
 
 export function useEmit() {
   return (event: string, ...args: EventParams) => emitter.emit(event, ...args);
