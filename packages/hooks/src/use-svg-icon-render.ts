@@ -1,4 +1,5 @@
 import { createElement } from 'react';
+import type { ReactElement } from 'react';
 
 interface IconConfig {
   /** Icon color */
@@ -24,7 +25,7 @@ interface Props {
  *
  * @param SvgIcon Svg icon component
  */
-export default function useSvgIconRender(SvgIcon: ({ className, icon, localIcon, style }: Props) => JSX.Element) {
+export default function useSvgIconRender(SvgIcon: ({ className, icon, localIcon, style }: Props) => ReactElement) {
   type IconStyle = Partial<Pick<CSSStyleDeclaration, 'color' | 'fontSize'>>;
 
   /**
