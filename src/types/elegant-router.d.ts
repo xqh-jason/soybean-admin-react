@@ -165,7 +165,6 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "root"
     | "root"
     | "root"
-    | "root"
   >;
 
   /**

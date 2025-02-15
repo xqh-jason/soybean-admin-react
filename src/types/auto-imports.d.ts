@@ -67,7 +67,7 @@ declare global {
   const useAppDispatch: typeof import('../hooks/business/useStore')['useAppDispatch']
   const useAppSelector: typeof import('../hooks/business/useStore')['useAppSelector']
   const useAsyncEffect: typeof import('ahooks')['useAsyncEffect']
-  const useAuth: typeof import('../hooks/business/auth')['useAuth']
+  const useAuth: typeof import('../features/auth/auth')['useAuth']
   const useBoolean: typeof import('ahooks')['useBoolean']
   const useCallback: typeof import('react')['useCallback']
   const useCaptcha: typeof import('../hooks/business/captcha')['useCaptcha']
