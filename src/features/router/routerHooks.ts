@@ -2,6 +2,8 @@ import { emitter } from '@sa/hooks';
 
 import { authRoutes } from '@/router';
 
+import { filterRoutesToMenus } from '../menu/MenuUtil';
+
 import type { RouterContextType } from './router';
 import { filterAuthRoutesByRoles, mergeValuesByParent } from './shared';
 
@@ -16,14 +18,16 @@ export function useInitAuthRoutes() {
       // 超级管理员
       if (isStaticSuper) {
         reactAuthRoutes.forEach(route => {
-          emitter.emit('ADD_MENUS', route.route);
+          if (route.parent?.includes('base')) {
+            emitter.emit('ADD_MENUS', filterRoutesToMenus(route.route));
+          }
+
           addRoutes(route.route, route.parent);
         });
       } else {
         // 非超级管理员
         const filteredRoutes = filterAuthRoutesByRoles(reactAuthRoutes, roles);
         filteredRoutes.forEach((route, index) => {
-          emitter.emit('ADD_MENUS', route);
           addRoutes(route, reactAuthRoutes[index].parent);
         });
       }
@@ -39,7 +43,5 @@ export function useInitAuthRoutes() {
     // if (homeRoute) dispatch(initHomeTab({ homeRouteName: routeHomeName as LastLevelRouteKey, route: homeRoute }));
   }
 
-  return {
-    initAuthRoutes
-  };
+  return initAuthRoutes;
 }

@@ -27,7 +27,7 @@ export const BaseChildrenRoutes = [
           icon: 'ic:baseline-block',
           title: 'exception_403'
         },
-        id: 'exception_403',
+        id: '(base)_exception_403',
         lazy: () => import('@/pages/_builtin/403').then(convert),
         path: '/exception/403'
       },
@@ -37,7 +37,7 @@ export const BaseChildrenRoutes = [
           icon: 'ic:baseline-web-asset-off',
           title: 'exception_404'
         },
-        id: 'exception_404',
+        id: '(base)_exception_404',
         lazy: () => import('@/pages/_builtin/404').then(convert),
         path: '/exception/404'
       },
@@ -47,7 +47,7 @@ export const BaseChildrenRoutes = [
           icon: 'ic:baseline-wifi-off',
           title: 'exception_500'
         },
-        id: 'exception_500',
+        id: '(base)_exception_500',
         lazy: () => import('@/pages/_builtin/500').then(convert),
         path: '/exception/500'
       }
@@ -58,7 +58,7 @@ export const BaseChildrenRoutes = [
       order: 7,
       title: 'exception'
     },
-    id: 'exception',
+    id: '(base)_exception',
     path: '/exception'
   },
   {
@@ -71,7 +71,7 @@ export const BaseChildrenRoutes = [
           title: 'document_antd',
           url: 'https://ant.design/index-cn'
         },
-        id: 'document_antd',
+        id: '(base)_document_antd',
         lazy: () => import('@/pages/_builtin/iframe-page').then(convert),
         path: '/document/antd'
       },
@@ -83,7 +83,7 @@ export const BaseChildrenRoutes = [
           title: 'document_procomponents',
           url: 'https://pro-components.antdigital.dev/'
         },
-        id: 'document_procomponents',
+        id: '(base)_document_procomponents',
         lazy: () => import('@/pages/_builtin/iframe-page').then(convert),
         path: '/document/procomponents'
       },
@@ -95,7 +95,7 @@ export const BaseChildrenRoutes = [
           title: 'document_project',
           url: 'https://react-soybean-docs.pages.dev/index-cn?theme=dark'
         },
-        id: 'document_project',
+        id: '(base)_document_project',
         lazy: () => import('@/pages/_builtin/iframe-page').then(convert),
         path: '/document/project'
       },
@@ -107,7 +107,7 @@ export const BaseChildrenRoutes = [
           order: 2,
           title: 'document_project-link'
         },
-        id: 'document_project-link',
+        id: '(base)_document_project-link',
         lazy: () => import('@/pages/_builtin/iframe-page').then(convert),
         path: '/document/project-link'
       },
@@ -119,7 +119,7 @@ export const BaseChildrenRoutes = [
           title: 'document_unocss',
           url: 'https://unocss.dev/'
         },
-        id: 'document_unocss',
+        id: '(base)_document_unocss',
         lazy: () => import('@/pages/_builtin/iframe-page').then(convert),
         path: '/document/unocss'
       },
@@ -131,7 +131,7 @@ export const BaseChildrenRoutes = [
           title: 'document_vite',
           url: 'https://cn.vitejs.dev/'
         },
-        id: 'document_vite',
+        id: '(base)_document_vite',
         lazy: () => import('@/pages/_builtin/iframe-page').then(convert),
         path: '/document/vite'
       },
@@ -143,7 +143,7 @@ export const BaseChildrenRoutes = [
           title: 'document_react',
           url: 'https://react.dev/'
         },
-        id: 'document_react',
+        id: '(base)_document_react',
         lazy: () => import('@/pages/_builtin/iframe-page').then(convert),
         path: '/document/react'
       }
@@ -154,7 +154,7 @@ export const BaseChildrenRoutes = [
       order: 2,
       title: 'document'
     },
-    id: 'document',
+    id: '(base)_document',
     path: '/document'
   }
 ] satisfies RouteObject[];

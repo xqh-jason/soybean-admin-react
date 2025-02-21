@@ -97,7 +97,7 @@ export function transformElegantRouteToReactRoute(
 
   // Get config for the route if available
   async function getConfig(index:boolean=false) {
-     if((matchedFiles[0]&&matchedFiles[1]&&!index)||(isRouteGroup(name)&&handles?.[getPathFromKey(name)]&&!index)) return null
+    if ((matchedFiles[0] && matchedFiles[1] && !index) || (!isRouteGroup(name) && handles?.[getPathFromKey(name)] && !index)) return null
 
     if (configs?.[name]) {
       const config = await configs[name]();

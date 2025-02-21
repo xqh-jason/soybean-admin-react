@@ -29,7 +29,13 @@ function getReactRoutes(route: ElegantConstRoute[]) {
  * @param {Array} authRoutes - 用于记录需要权限的路由和对应父级的数组
  * @returns {Array} 返回过滤后的路由数组
  */
-function filterRoutes(routes: RouteObject[], parent: string | null = null, authRoutes: AuthRoute[] = []) {
+// eslint-disable-next-line max-params
+function filterRoutes(
+  routes: RouteObject[],
+  parent: string | null = null,
+  authRoutes: AuthRoute[] = [],
+  cacheRoutes: string[] = []
+) {
   return routes.reduce((acc, route) => {
     // 判断是否需要权限：假设 handles.constant 为 true 表示有权限要求
     const noPermission = route.handle && route.handle.constant;
@@ -39,7 +45,7 @@ function filterRoutes(routes: RouteObject[], parent: string | null = null, authR
     // 递归处理子路由：注意，此处传递当前路由作为父级
     if (route.children && route.children.length > 0) {
       if (noPermission || isRouteGroup) {
-        route.children = filterRoutes(route.children, route.id, authRoutes);
+        route.children = filterRoutes(route.children, route.id, authRoutes, cacheRoutes);
       }
     }
 
@@ -75,6 +81,9 @@ function filterRoutes(routes: RouteObject[], parent: string | null = null, authR
         });
       }
     } else {
+      if (route.handle?.keepAlive) {
+        cacheRoutes.push(route.path || '');
+      }
       // 放入结果数组
       acc.push(route);
     }
@@ -103,9 +112,11 @@ function initRoutes() {
 
   const authRoutes: AuthRoute[] = [];
 
-  const constantRoutes = filterRoutes(customRoutes, null, authRoutes);
+  const cacheRoutes: string[] = [];
 
-  return { authRoutes, constantRoutes };
+  const constantRoutes = filterRoutes(customRoutes, null, authRoutes, cacheRoutes);
+
+  return { authRoutes, cacheRoutes, constantRoutes };
 }
 
-export const { authRoutes, constantRoutes } = initRoutes();
+export const { authRoutes, cacheRoutes, constantRoutes } = initRoutes();
