@@ -11,8 +11,8 @@ import './plugins/assets';
 import { setupI18n } from './locales';
 import { setupAppVersionNotification, setupDayjs, setupIconifyOffline, setupLoading, setupNProgress } from './plugins';
 
-function setupApp() {
-  setupI18n();
+async function setupApp() {
+  await setupI18n();
 
   setupLoading();
 

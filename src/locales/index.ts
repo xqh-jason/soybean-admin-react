@@ -8,8 +8,8 @@ import locales from './locale';
 export const reactI18nextInstance = i18n.use(initReactI18next);
 
 /** Setup plugin i18n */
-export function setupI18n() {
-  reactI18nextInstance.init({
+export async function setupI18n() {
+  await reactI18nextInstance.init({
     interpolation: {
       escapeValue: false
     },
