@@ -1,4 +1,4 @@
-import { getIsLogin, selectUserInfo } from '@/store/slice/auth';
+import { getIsLogin, selectUserInfo } from '@/features/auth/authStore';
 
 export function useAuth() {
   const userInfo = useAppSelector(selectUserInfo);

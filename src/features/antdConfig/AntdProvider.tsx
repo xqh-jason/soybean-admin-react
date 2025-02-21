@@ -2,9 +2,9 @@ import type { WatermarkProps } from 'antd';
 import type { PropsWithChildren } from 'react';
 
 import { info } from '@/constants/app';
+import { selectTabs } from '@/features/tab/tabStore';
 import { useThemeSettings } from '@/hooks/common/theme';
 import { antdLocales } from '@/locales/antd';
-import { selectTabs } from '@/store/slice/tab';
 import { themeColors } from '@/store/slice/theme';
 import { getAntdTheme, setupThemeVarsToHtml } from '@/store/slice/theme/shared';
 import { localStg } from '@/utils/storage';
