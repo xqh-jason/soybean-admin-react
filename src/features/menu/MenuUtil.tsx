@@ -9,16 +9,11 @@ import { $t } from '@/locales';
  * @param routes Auth routes
  */
 export function filterRoutesToMenus(routes: RouteObject[]) {
-  console.log(routes, 'routes');
   const menus: App.Global.Menu[] = [];
-
-  const cacheRoutes: string[] = [];
 
   for (const route of routes) {
     // 如果节点存在 path（注意：这里假设空字符串或 undefined 均视为无 path）
-    if (route.handle?.keepAlive) {
-      cacheRoutes.push(route.path as string);
-    }
+
     if (route.path && !route.handle?.hideInMenu) {
       // 如果存在 children，则递归处理
       const newNode = getGlobalMenuByBaseRoute(route);
@@ -84,4 +79,44 @@ export function getActiveFirstLevelMenuKey(route: App.Global.TabRoute) {
   const [firstLevelRouteName] = routeName;
 
   return firstLevelRouteName;
+}
+
+export function mergeMenus(menus: App.Global.Menu[], newMenus: App.Global.Menu[]) {
+  newMenus.forEach(newMenu => {
+    const newMenuKey = newMenu.key.split('/'); // 分割路径
+
+    function findAndMergeParent(currentMenus: App.Global.Menu[], menuPath: string[]): boolean {
+      for (const menu of currentMenus) {
+        // 判断当前菜单的路径是否匹配，使用 startsWith 来判断路径的前缀
+        const menuKeyParts = menu.key.split('/');
+
+        // 如果路径的前缀一致，进一步递归查找子菜单
+        if (menuKeyParts[1] === menuPath[1]) {
+          // 如果匹配到父级菜单的路径并且这个菜单没有 children，则初始化 children
+          if (!menu.children) {
+            menu.children = [];
+          }
+
+          // 如果 newMenu 的路径和当前菜单的路径匹配，递归查找它的子菜单
+          if (menuPath.length === 3) {
+            // 如果路径已完全匹配，将 newMenu 添加到子菜单中
+            menu.children.push(newMenu);
+
+            return true;
+          }
+
+          // 如果路径部分匹配，递归检查当前菜单的 children
+          return findAndMergeParent(menu.children || [], menuPath.slice(1));
+        }
+      }
+      return false;
+    }
+
+    // 如果没有找到父级，将 newMenu 直接添加到 menus
+    if (!findAndMergeParent(menus, newMenuKey)) {
+      menus.push(newMenu);
+    }
+  });
+
+  return menus;
 }

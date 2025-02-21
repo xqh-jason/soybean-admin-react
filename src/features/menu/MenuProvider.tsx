@@ -1,13 +1,14 @@
+import { emitter, useArray } from '@sa/hooks';
 import { useCreation } from 'ahooks';
 import type { FC, PropsWithChildren } from 'react';
 
+import { selectActiveFirstLevelMenuKey, setActiveFirstLevelMenuKey } from '@/features/tab/tabStore';
 import { routes } from '@/router';
-import { selectActiveFirstLevelMenuKey, setActiveFirstLevelMenuKey } from '@/store/slice/tab';
 
 import { useLang } from '../lang';
 import { useRoute } from '../router';
 
-import { filterRoutesToMenus, getActiveFirstLevelMenuKey } from './MenuUtil';
+import { filterRoutesToMenus, getActiveFirstLevelMenuKey, mergeMenus } from './MenuUtil';
 import { MixMenuContext } from './menuContext';
 
 const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -17,7 +18,9 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const { locale } = useLang();
 
-  const menus = useCreation(() => filterRoutesToMenus(routes[0].children || []), [locale]);
+  const [menus, { updateState }] = useArray<App.Global.Menu, 'key'>(
+    filterRoutesToMenus(routes.find(r => r.id === '(base)')?.children || [])
+  );
 
   const firstLevelMenu = menus.map(menu => {
     const { children: _, ...rest } = menu;
@@ -48,6 +51,17 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
 
     dispatch(setActiveFirstLevelMenuKey(routeKey || ''));
   }
+
+  useMount(() => {
+    emitter.on('ADD_MENUS', (newMenus: App.Global.Menu[]) => {
+      console.log('newMenus', newMenus);
+      updateState(old => mergeMenus(old, newMenus));
+    });
+  });
+
+  useUpdateEffect(() => {
+    updateState(menus);
+  }, [locale]);
 
   const mixMenuContext = useCreation(
     () => ({
