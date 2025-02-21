@@ -1,9 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 import { fetchGetUserInfo, fetchLogin } from '@/service/api';
+import { createAppSlice } from '@/store/createAppSlice';
 import { localStg } from '@/utils/storage';
-
-import { createAppSlice } from '../../createAppSlice';
 
 import { getToken, getUserInfo } from './shared';
 

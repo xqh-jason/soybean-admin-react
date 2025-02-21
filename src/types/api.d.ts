@@ -64,6 +64,11 @@ declare namespace Api {
       userId: string;
       userName: string;
     }
+
+    type Info = {
+      token: LoginToken['token'];
+      userInfo: UserInfo;
+    };
   }
 
   /**

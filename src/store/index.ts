@@ -5,7 +5,7 @@ import { routeSlice } from '../features/router';
 import { tabSlice } from '../features/tab/tabStore';
 
 import { appSlice } from './slice/app';
-import { authSlice } from './slice/auth';
+import { authSlice } from '../features/auth/authStore';
 import { themeSlice } from './slice/theme';
 
 // `combineSlices` automatically combines the reducers using
