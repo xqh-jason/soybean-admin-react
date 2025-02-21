@@ -1,9 +1,8 @@
 import { Button, Checkbox, Divider, Input, Space } from 'antd';
 
 import { loginModuleRecord } from '@/constants/app';
+import { useInitAuth } from '@/features/auth/initAuth';
 import { SubmitEnterButton, useFormRules } from '@/features/form';
-
-import { useLogin } from './hook';
 
 type AccountKey = 'admin' | 'super' | 'user';
 interface Account {
@@ -23,7 +22,7 @@ const INITIAL_VALUES = {
 const PwdLogin = () => {
   const { t } = useTranslation();
 
-  const { loading, toLogin } = useLogin();
+  const { loading, toLogin } = useInitAuth();
 
   const [form] = AForm.useForm<LoginParams>();
 
