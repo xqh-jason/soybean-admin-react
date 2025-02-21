@@ -1,5 +1,5 @@
 import avatar from '@/assets/imgs/soybean.jpg';
-import { selectUserInfo } from '@/store/slice/auth';
+import { selectUserInfo } from '@/features/auth/authStore';
 
 interface StatisticData {
   id: number;

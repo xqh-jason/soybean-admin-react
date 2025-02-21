@@ -1,7 +1,5 @@
-import React from 'react';
-
 const UserManage = () => {
-  return <div>UserManage</div>;
+  return <AInput />;
 };
 
 export default UserManage;
