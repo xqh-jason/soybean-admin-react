@@ -1,5 +1,5 @@
 import { useRouter } from '@/features/router';
-import { selectActiveTabId, selectHomeTab, selectTabs, setActiveTabId, setTabs } from '@/store/slice/tab';
+import { selectActiveTabId, selectHomeTab, selectTabs, setActiveTabId, setTabs } from '@/features/tab/tabStore';
 
 import { filterTabsById } from './shared';
 
@@ -43,6 +43,8 @@ export function useTabActions() {
     changeActiveTabId(tab.id);
   }
 
+  function clearTabs() {}
+
   /**
    * 清除左侧标签页
    *
@@ -55,7 +57,7 @@ export function useTabActions() {
 
     const restTabs = tabs.slice(tabIndex);
 
-    dispatch(setTabs(restTabs));
+    updateTabs(restTabs);
   }
 
   /**

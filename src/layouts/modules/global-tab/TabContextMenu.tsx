@@ -1,7 +1,7 @@
 import { Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
 
-import { clearLeftTabs, clearRightTabs, clearTabs, removeTab } from '@/store/slice/tab';
+import { clearLeftTabs, clearRightTabs, clearTabs, removeTab } from '@/features/tab/tabStore';
 
 interface ContextMenuProps {
   active: boolean;
