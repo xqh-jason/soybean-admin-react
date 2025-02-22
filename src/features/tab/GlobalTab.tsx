@@ -1,49 +1,35 @@
-import type BScroll from '@better-scroll/core';
 import { PageTab } from '@sa/materials';
 import clsx from 'clsx';
 
 import BetterScroll from '@/components/BetterScroll';
-import { useTheme, useThemeSettings } from '@/features/theme';
+import { useTheme } from '@/features/theme';
 import { getFullContent, toggleFullContent } from '@/layouts/appStore';
 import { isPC } from '@/utils/agent';
 
-import { setRemoveCacheKey, useRouter } from '../router';
+import { setRemoveCacheKey } from '../router';
 
 import ContextMenu from './TabContextMenu';
 import TabReloadButton from './TabReloadButton';
 import { useTabActions } from './tabHooks';
+import { useTabScroll } from './useTabScroll';
 
 const GlobalTab = () => {
-  const bsWrapper = useRef<HTMLDivElement>(null);
-
-  const bsScrollRef = useRef<BScroll | null>(null);
-
-  const tabRef = useRef<HTMLDivElement>(null);
-
   const { t } = useTranslation();
 
   const isPCFlag = isPC();
 
-  const themeSettings = useThemeSettings();
-
   const { darkMode } = useTheme();
 
-  const { activeTabId, isTabRetain, removeTab, tabs } = useTabActions();
+  const { activeTabId, dispatch, isTabRetain, navigate, removeTabById, tabs, themeSettings } = useTabActions();
+
+  const { bsWrapper, setBsScroll, tabRef } = useTabScroll(activeTabId);
 
   const fullContent = useAppSelector(getFullContent);
-
-  const dispatch = useAppDispatch();
-
-  const { navigate } = useRouter();
 
   const tabWrapperClass = themeSettings.tab.mode === 'chrome' ? 'items-end' : 'items-center gap-12px';
 
   function removeFocus() {
     (document.activeElement as HTMLElement)?.blur();
-  }
-
-  function setBsScroll(bscroll: BScroll) {
-    bsScrollRef.current = bscroll;
   }
 
   function getContextMenuDisabledKeys(tabId: string, index: number) {
@@ -64,7 +50,7 @@ const GlobalTab = () => {
   }
 
   function handleCloseTab(tab: App.Global.Tab) {
-    removeTab(tab.id);
+    removeTabById(tab.id);
     dispatch(setRemoveCacheKey(tab.routeKey));
   }
 

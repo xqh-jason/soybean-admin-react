@@ -1,38 +1,48 @@
-import { useArray } from '@sa/hooks';
+import { useOn } from '@sa/hooks';
 
-import { routeMap } from '@/router/elegant/transform';
+import { useRoute, useRouter } from '@/features/router';
+import {
+  addTab,
+  selectActiveTabId,
+  selectTabs,
+  setActiveFirstLevelMenuKey,
+  setActiveTabId,
+  setTabs
+} from '@/features/tab/tabStore';
 import { localStg } from '@/utils/storage';
 
-import { useRoute, useRouter } from '../router';
+import { getActiveFirstLevelMenuKey } from '../menu/MenuUtil';
 import { useThemeSettings } from '../theme';
 
-import { extractTabsByAllRoutes, filterTabsById, getFixedTabIds, getTabByRoute, isTabInTabs } from './shared';
-import { selectActiveTabId, setActiveTabId, setTabs } from './tabStore';
+import { filterTabsById, filterTabsByIds, getFixedTabs, getTabByRoute, isTabInTabs } from './shared';
+import { TabEvent } from './tabEnum';
 
 export function useTabActions() {
   const dispatch = useAppDispatch();
 
-  const route = useRoute();
+  const tabs = useAppSelector(selectTabs);
 
-  const update = useUpdate();
+  const _route = useRoute();
+
+  const isInit = useRef(false);
+
+  const _fixedTabs = getFixedTabs(tabs);
+
+  const _tabIds = tabs.map(tab => tab.id);
 
   const themeSettings = useThemeSettings();
-
-  const tabs = useRef<App.Global.Tab[]>([]);
 
   const { navigate } = useRouter();
 
   const activeTabId = useAppSelector(selectActiveTabId);
 
+  /**
+   * 更新标签页
+   *
+   * @param newTabs
+   */
   function updateTabs(newTabs: App.Global.Tab[]) {
-    tabs.current = newTabs;
-    update();
-  }
-
-  function isTabRetain(tabId: string) {
-    if (tabId.includes(import.meta.env.VITE_ROUTE_HOME)) return true;
-
-    return getFixedTabIds(tabs.current).includes(tabId);
+    dispatch(setTabs(newTabs));
   }
 
   /**
@@ -55,21 +65,46 @@ export function useTabActions() {
     changeActiveTabId(tab.id);
   }
 
-  function clearTabs() {}
+  /**
+   * 清除标签页
+   *
+   * @param excludes
+   */
+  function _clearTabs(excludes: string[] = []) {
+    const remainTabIds = [..._fixedTabs.map(tab => tab.id), ...excludes];
+
+    const removedTabsIds = _tabIds.filter(id => !remainTabIds.includes(id));
+
+    const isRemoveActiveTab = removedTabsIds.includes(activeTabId);
+
+    const updatedTabs = filterTabsByIds(removedTabsIds, tabs);
+
+    if (!isRemoveActiveTab) {
+      updateTabs(updatedTabs);
+    } else {
+      const activeTab = updatedTabs.at(-1);
+
+      if (activeTab) {
+        switchRouteByTab(activeTab);
+
+        updateTabs(updatedTabs);
+      }
+    }
+  }
 
   /**
    * 清除左侧标签页
    *
    * @param tabId
    */
-  function clearLeftTabs(tabId: string) {
-    const tabIndex = tabs.current.findIndex(tab => tab.id === tabId);
+  function _clearLeftTabs(tabId: string) {
+    const index = _tabIds.indexOf(tabId);
 
-    if (tabIndex === -1) return;
+    if (index === -1) return;
 
-    const restTabs = tabs.current.slice(tabIndex);
+    const excludes = _tabIds.slice(index);
 
-    updateTabs(restTabs);
+    _clearTabs(excludes);
   }
 
   /**
@@ -77,17 +112,70 @@ export function useTabActions() {
    *
    * @param tabId
    */
-  function clearRightTabs(tabId: string) {}
+  function _clearRightTabs(tabId: string) {
+    const index = _tabIds.indexOf(tabId);
+
+    if (index === 0) {
+      _clearTabs();
+      return;
+    }
+
+    if (index === -1) return;
+
+    const excludes = _tabIds.slice(0, index + 1);
+
+    _clearTabs(excludes);
+  }
+
+  function _initTabs() {
+    const storageTabs = localStg.get('globalTabs');
+
+    if (themeSettings.tab.cache && storageTabs) {
+      // const tabs = extractTabsByAllRoutes(router.getAllRouteNames(), storageTabs);
+      // dispatch(setTabs(tabs));
+      updateTabs(storageTabs);
+      return storageTabs;
+    }
+
+    return [];
+  }
+
+  function _cacheTabs() {
+    if (!themeSettings.tab.cache) return;
+
+    localStg.set('globalTabs', tabs);
+  }
+
+  function _addTab(route: Router.Route) {
+    const tab = getTabByRoute(route);
+
+    if (!isInit.current) {
+      isInit.current = true;
+
+      const initTabs = _initTabs();
+
+      if (initTabs.length > 0 && !isTabInTabs(tab.id, initTabs)) {
+        dispatch(addTab(tab));
+      }
+    } else if (!isTabInTabs(tab.id, tabs)) {
+      dispatch(addTab(tab));
+    }
+
+    dispatch(setActiveTabId(tab.id));
+
+    const firstLevelRouteName = getActiveFirstLevelMenuKey(route);
+    dispatch(setActiveFirstLevelMenuKey(firstLevelRouteName));
+  }
 
   /**
    * 删除标签页
    *
    * @param tabId
    */
-  function removeTab(tabId: string) {
+  function removeTabById(tabId: string) {
     const isRemoveActiveTab = activeTabId === tabId;
 
-    const updatedTabs = filterTabsById(tabId, tabs.current);
+    const updatedTabs = filterTabsById(tabId, tabs);
 
     if (!isRemoveActiveTab) {
       // 如果删除的不是激活的标签页，则更新标签页
@@ -104,66 +192,52 @@ export function useTabActions() {
     }
   }
 
-  function _addTab() {
-    if (route.fullPath) {
-      if (!isTabInTabs(route.fullPath, tabs.current)) {
-        const tab = getTabByRoute(route);
-
-        const { fixedIndex } = tab;
-        if (fixedIndex || fixedIndex === 0) {
-          tabs.current.splice(fixedIndex, 0, tab);
-        } else {
-          tabs.current.push(tab);
-        }
-      }
-      dispatch(setActiveTabId(route.fullPath));
-    }
+  /**
+   * 判断标签页是否保留
+   *
+   * @param tabId
+   * @returns
+   */
+  function isTabRetain(tabId: string) {
+    return _fixedTabs.some(tab => tab.id === tabId);
   }
-
-  function _initTabs() {
-    const storageTabs = localStg.get('globalTabs');
-
-    if (themeSettings.tab.cache && storageTabs) {
-      // const initTabs = extractTabsByAllRoutes(Object.keys(routeMap), storageTabs);
-
-      updateTabs(storageTabs);
-    }
-  }
-
-  function _cacheTabs() {
-    if (!themeSettings.tab.cache) return;
-
-    localStg.set('globalTabs', tabs.current);
-  }
-
-  useMount(() => {
-    window.addEventListener('beforeunload', () => {
-      _cacheTabs();
-    });
-
-    return () => {
-      window.removeEventListener('beforeunload', () => {
-        _cacheTabs();
-      });
-    };
-  });
-
-  useLayoutEffect(() => {
-    _initTabs();
-  }, []);
 
   useEffect(() => {
-    _addTab();
-  }, [route.fullPath]);
+    _addTab(_route);
+  }, [_route.fullPath]);
+
+  useEventListener(
+    'beforeunload',
+    () => {
+      _cacheTabs();
+    },
+    { target: window }
+  );
+
+  useOn(TabEvent.UPDATE_TABS, (eventName: TabEvent, id: string) => {
+    // 清除左侧标签页
+    if (eventName === TabEvent.CLEAR_LEFT_TABS) return _clearLeftTabs(id);
+
+    // 清除右侧标签页
+    if (eventName === TabEvent.CLEAR_RIGHT_TABS) return _clearRightTabs(id);
+
+    // 关闭当前标签页
+    if (eventName === TabEvent.CLOSE_CURRENT) return removeTabById(id);
+
+    // 关闭其他标签页
+    if (eventName === TabEvent.CLOSE_OTHER) return _clearTabs([id]);
+
+    // 清除所有标签页
+    return _clearTabs();
+  });
 
   return {
     activeTabId,
-    clearLeftTabs,
-    clearRightTabs,
-    clearTabs,
+    dispatch,
     isTabRetain,
-    removeTab,
-    tabs: tabs.current,
-    updateTabs
+    navigate,
+    removeTabById,
+    tabs,
+    themeSettings
   };
 }

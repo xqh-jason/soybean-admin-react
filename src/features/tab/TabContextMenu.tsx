@@ -1,5 +1,8 @@
+import { useEmit } from '@sa/hooks';
 import { Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
+
+import { TabEvent } from './tabEnum';
 
 interface ContextMenuProps {
   active: boolean;
@@ -76,23 +79,25 @@ const ContextMenu = ({ children, disabledKeys = [], excludeKeys = [], tabId }: C
       });
   };
 
+  const emit = useEmit();
+
   const menu = getMenu(options());
 
   const dropdownAction: Record<App.Global.DropdownKey, () => void> = {
     closeAll() {
-      console.log('closeAll', tabId);
+      emit(TabEvent.UPDATE_TABS, TabEvent.CLOSE_ALL);
     },
     closeCurrent() {
-      console.log('closeCurrent', tabId);
+      emit(TabEvent.UPDATE_TABS, TabEvent.CLOSE_CURRENT, tabId);
     },
     closeLeft() {
-      console.log('closeLeft', tabId);
+      emit(TabEvent.UPDATE_TABS, TabEvent.CLEAR_LEFT_TABS, tabId);
     },
     closeOther() {
-      console.log('closeOther', tabId);
+      emit(TabEvent.UPDATE_TABS, TabEvent.CLOSE_OTHER, tabId);
     },
     closeRight() {
-      console.log('closeRight', tabId);
+      emit(TabEvent.UPDATE_TABS, TabEvent.CLEAR_RIGHT_TABS, tabId);
     }
   };
 

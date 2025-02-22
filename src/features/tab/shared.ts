@@ -1,7 +1,5 @@
 import type { LastLevelRouteKey, RouteMap } from '@soybean-react/vite-plugin-react-router';
 
-import { getRouteName, getRoutePath } from '@/router/elegant/transform';
-
 /**
  * Filter tabs by id
  *
@@ -10,38 +8,6 @@ import { getRouteName, getRoutePath } from '@/router/elegant/transform';
  */
 export function filterTabsById(tabId: string, tabs: App.Global.Tab[]) {
   return tabs.filter(tab => tab.id !== tabId);
-}
-
-/**
- * Get default home tab
- *
- * @param router
- * @param homeRouteName routeHome in useRouteStore
- */
-export function getDefaultHomeTab({
-  homeRouteNamePath,
-  route
-}: {
-  homeRouteNamePath: string;
-  route: RouteRecordNormalized | false;
-}) {
-  const homeRoutePath = getRoutePath(homeRouteName);
-
-  const i18nLabel = $t(`route.${homeRouteName}`);
-
-  let homeTab: App.Global.Tab = {
-    fullPath: homeRoutePath,
-    id: getRoutePath(homeRouteName),
-    label: i18nLabel || homeRouteName,
-    routeKey: homeRouteName,
-    routePath: homeRoutePath
-  };
-
-  if (route) {
-    homeTab = getTabByRoute(route);
-  }
-
-  return homeTab;
 }
 
 /**
@@ -61,7 +27,16 @@ export function getFixedTabIds(tabs: App.Global.Tab[]) {
  * @param tabs
  */
 export function getFixedTabs(tabs: App.Global.Tab[]) {
-  return tabs.filter(tab => tab.fixedIndex !== undefined);
+  return tabs.filter(tab => tab.fixedIndex || tab.fixedIndex === 0);
+}
+/**
+ * Filter tabs by ids
+ *
+ * @param tabIds
+ * @param tabs
+ */
+export function filterTabsByIds(tabIds: string[], tabs: App.Global.Tab[]) {
+  return tabs.filter(tab => !tabIds.includes(tab.id));
 }
 
 /**
@@ -102,8 +77,6 @@ export function getTabByRoute(route: Router.Route) {
   if (pathname === import.meta.env.VITE_ROUTE_HOME) {
     fixedIndex = 0;
   }
-
-  console.log('fixedIndex', fixedIndex, pathname, import.meta.env.VITE_ROUTE_HOME);
 
   // Get icon and localIcon from getRouteIcons function
   const { icon, localIcon } = getRouteIcons(route);
