@@ -1,9 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import type { AppThunk } from '../..';
-import { getThemeSettings } from '../theme';
-
 interface InitialStateType {
   contentXScrollable: boolean;
   fullContent: boolean;
@@ -20,7 +17,7 @@ const initialState: InitialStateType = {
   /** Is mobile layout */
   isMobile: false,
   mixSiderFixed: false,
-  reloadFlag: true,
+  reloadFlag: false,
   siderCollapse: false,
   themeDrawerVisible: false
 };
@@ -94,23 +91,3 @@ export const {
   getSiderCollapse,
   getThemeDrawerVisible
 } = appSlice.selectors;
-
-/**
- * Reload page
- *
- * @param duration Duration time
- */
-export const reloadPage =
-  (duration = 300): AppThunk =>
-  async (dispatch, getState) => {
-    dispatch(setReloadFlag(false));
-
-    const themeSettings = getThemeSettings(getState());
-    const d = themeSettings.page.animate ? duration : 40;
-
-    await new Promise(resolve => {
-      setTimeout(resolve, d);
-    });
-
-    dispatch(setReloadFlag(true));
-  };

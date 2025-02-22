@@ -11,7 +11,7 @@ import {
   setSider,
   setTab,
   setWatermark
-} from '@/store/slice/theme';
+} from '@/features/theme';
 
 import SettingItem from '../components/SettingItem';
 

@@ -10,8 +10,9 @@ import {
   LAYOUT_MODE_VERTICAL_MIX
 } from '@/constants/common';
 import { MenuProvider } from '@/features/menu';
-import { getSiderCollapse } from '@/store/slice/app';
-import { getThemeSettings } from '@/store/slice/theme';
+import GlobalTab from '@/features/tab/GlobalTab';
+import { getThemeSettings } from '@/features/theme';
+import { getSiderCollapse } from '@/layouts/appStore';
 
 import GlobalContent from '../modules/GlobalContent';
 import GlobalSider from '../modules/GlobalSider';
@@ -35,6 +36,7 @@ const BaseLayout = () => {
       <AdminLayout
         scrollMode={themeSettings.layout.scrollMode}
         siderCollapse={siderCollapse}
+        Tab={<GlobalTab />}
         Header={
           <GlobalHeader
             mode={themeSettings.layout.mode}

@@ -1,25 +1,27 @@
-import { emitter, useArray } from '@sa/hooks';
 import { useCreation } from 'ahooks';
 import type { FC, PropsWithChildren } from 'react';
 
 import { selectActiveFirstLevelMenuKey, setActiveFirstLevelMenuKey } from '@/features/tab/tabStore';
-import { routes } from '@/router';
 
 import { useLang } from '../lang';
-import { useRoute } from '../router';
+import { useRoute, useRouter } from '../router';
 
-import { filterRoutesToMenus, getActiveFirstLevelMenuKey, mergeMenus } from './MenuUtil';
+import { filterRoutesToMenus, getActiveFirstLevelMenuKey } from './MenuUtil';
 import { MixMenuContext } from './menuContext';
 
 const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
   const route = useRoute();
 
+  const router = useRouter();
+
   const dispatch = useAppDispatch();
 
   const { locale } = useLang();
 
-  const [menus, { updateState }] = useArray<App.Global.Menu, 'key'>(
-    filterRoutesToMenus(routes.find(r => r.id === '(base)')?.children || [])
+  const menus = useMemo(
+    () => filterRoutesToMenus(router.reactRouter.routes.find(r => r.id === '(base)')?.children || []),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [router.reactRouter.routes, locale]
   );
 
   const firstLevelMenu = menus.map(menu => {
@@ -52,17 +54,6 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
     dispatch(setActiveFirstLevelMenuKey(routeKey || ''));
   }
 
-  useMount(() => {
-    emitter.on('ADD_MENUS', (newMenus: App.Global.Menu[]) => {
-      console.log('newMenus', newMenus);
-      updateState(old => mergeMenus(old, newMenus));
-    });
-  });
-
-  useUpdateEffect(() => {
-    updateState(menus);
-  }, [locale]);
-
   const mixMenuContext = useCreation(
     () => ({
       activeFirstLevelMenuKey,
@@ -74,7 +65,7 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
       selectKey,
       setActiveFirstLevelMenuKey: changeActiveFirstLevelMenuKey
     }),
-    [activeFirstLevelMenuKey, route]
+    [activeFirstLevelMenuKey, route.fullPath]
   );
 
   return <MixMenuContext value={mixMenuContext}>{children}</MixMenuContext>;

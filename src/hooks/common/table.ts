@@ -2,7 +2,7 @@ import { useBoolean, useHookTable } from '@sa/hooks';
 import type { TablePaginationConfig, TableProps } from 'antd';
 import { Form } from 'antd';
 
-import { getIsMobile } from '@/store/slice/app';
+import { getIsMobile } from '@/layouts/appStore';
 
 type TableData = AntDesign.TableData;
 type GetTableData<A extends AntDesign.TableApiFn> = AntDesign.GetTableData<A>;

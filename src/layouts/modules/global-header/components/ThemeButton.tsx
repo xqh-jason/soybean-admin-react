@@ -1,4 +1,4 @@
-import { openThemeDrawer } from '@/store/slice/app';
+import { openThemeDrawer } from '@/layouts/appStore';
 
 const ThemeButton = memo(() => {
   const { t } = useTranslation();

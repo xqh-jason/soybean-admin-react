@@ -1,6 +1,7 @@
 import { SimpleScrollbar } from '@sa/materials';
 
-import { closeThemeDrawer, getThemeDrawerVisible } from '@/store/slice/app';
+import { cacheThemeSettings } from '@/features/theme';
+import { closeThemeDrawer, getThemeDrawerVisible } from '@/layouts/appStore';
 
 import ConfigOperation from './modules/ConfigOperation';
 import DarkMode from './modules/DarkMode';
@@ -18,6 +19,16 @@ const ThemeDrawer = memo(() => {
   function close() {
     dispatch(closeThemeDrawer());
   }
+
+  useMount(() => {
+    window.addEventListener('beforeunload', () => {
+      dispatch(cacheThemeSettings());
+    });
+
+    return () => {
+      window.removeEventListener('beforeunload', () => {});
+    };
+  });
 
   return (
     <ADrawer

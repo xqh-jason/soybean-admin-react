@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { changeReverseHorizontalMix, getThemeSettings } from '@/store/slice/theme';
+import { changeReverseHorizontalMix, getThemeSettings } from '@/features/theme';
 
 import LayoutModeCard from '../components/LayoutModeCard';
 import SettingItem from '../components/SettingItem';

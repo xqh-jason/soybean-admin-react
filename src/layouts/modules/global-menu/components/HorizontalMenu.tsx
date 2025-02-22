@@ -3,7 +3,7 @@ import type { FC } from 'react';
 
 import { useMixMenuContext } from '@/features/menu';
 import { useRouter } from '@/features/router';
-import { getThemeSettings } from '@/store/slice/theme';
+import { getThemeSettings } from '@/features/theme';
 
 interface Props {
   mode: '1' | '2' | '3';

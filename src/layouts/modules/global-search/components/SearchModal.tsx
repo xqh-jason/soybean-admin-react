@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import { useMixMenuContext } from '@/features/menu';
 import { useRouter } from '@/features/router';
-import { getIsMobile } from '@/store/slice/app';
+import { getIsMobile } from '@/layouts/appStore';
 
 import SearchFooter from './SearchFooter';
 import SearchResult from './SearchResult';

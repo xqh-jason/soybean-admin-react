@@ -4,8 +4,8 @@ import type { MenuInfo } from 'rc-menu/lib/interface';
 
 import { useMixMenuContext } from '@/features/menu';
 import { useRouter } from '@/features/router';
-import { getSiderCollapse } from '@/store/slice/app';
-import { getThemeSettings } from '@/store/slice/theme';
+import { getThemeSettings } from '@/features/theme';
+import { getSiderCollapse } from '@/layouts/appStore';
 
 interface LevelKeysProps {
   children?: LevelKeysProps[];

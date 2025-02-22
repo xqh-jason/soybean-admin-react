@@ -2,8 +2,7 @@ import { getPaletteColorByNumber, mixColor } from '@sa/color';
 import { Outlet } from 'react-router-dom';
 
 import WaveBg from '@/components/WaveBg';
-import { useTheme } from '@/features/themeSchema';
-import { getThemeSettings } from '@/store/slice/theme';
+import { getThemeSettings, useTheme } from '@/features/theme';
 
 import Header from './modules/Header';
 

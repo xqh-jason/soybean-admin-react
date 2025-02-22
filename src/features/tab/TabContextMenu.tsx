@@ -1,16 +1,12 @@
 import { Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
 
-import { clearLeftTabs, clearRightTabs, clearTabs, removeTab } from '@/features/tab/tabStore';
-
 interface ContextMenuProps {
   active: boolean;
   children: React.ReactNode;
   darkMode: boolean;
   disabledKeys?: App.Global.DropdownKey[];
   excludeKeys?: App.Global.DropdownKey[];
-  i18nKey: App.Global.Tab['i18nKey'];
-  locale: App.I18n.LangType;
   mode: UnionKey.ThemeTabMode;
   tabId: string;
 }
@@ -38,24 +34,8 @@ function getMenu(options: DropdownOption[]) {
   return items;
 }
 
-function arePropsEqual(oldProps: Readonly<ContextMenuProps>, newProps: Readonly<ContextMenuProps>) {
-  if (oldProps.active !== newProps.active) return false;
-  if (oldProps.darkMode !== newProps.darkMode) return false;
-  if (oldProps.i18nKey !== newProps.i18nKey) return false;
-  if (oldProps.mode !== newProps.mode) return false;
-  if (oldProps.locale !== newProps.locale) return false;
-  if (oldProps.tabId !== newProps.tabId) return false;
-  if (oldProps.excludeKeys?.length !== newProps.excludeKeys?.length) return false;
-
-  const result = newProps.disabledKeys?.every((key, index) => key === oldProps.disabledKeys?.[index]);
-
-  return result || false;
-}
-
-const ContextMenu: FC<ContextMenuProps> = memo(({ children, disabledKeys = [], excludeKeys = [], tabId }) => {
+const ContextMenu = ({ children, disabledKeys = [], excludeKeys = [], tabId }: ContextMenuProps) => {
   const { t } = useTranslation();
-
-  const dispatch = useAppDispatch();
 
   const options = () => {
     const opts: DropdownOption[] = [
@@ -100,19 +80,19 @@ const ContextMenu: FC<ContextMenuProps> = memo(({ children, disabledKeys = [], e
 
   const dropdownAction: Record<App.Global.DropdownKey, () => void> = {
     closeAll() {
-      dispatch(clearTabs());
+      console.log('closeAll', tabId);
     },
     closeCurrent() {
-      dispatch(removeTab(tabId));
+      console.log('closeCurrent', tabId);
     },
     closeLeft() {
-      dispatch(clearLeftTabs(tabId));
+      console.log('closeLeft', tabId);
     },
     closeOther() {
-      dispatch(clearTabs([tabId]));
+      console.log('closeOther', tabId);
     },
     closeRight() {
-      dispatch(clearRightTabs(tabId));
+      console.log('closeRight', tabId);
     }
   };
 
@@ -128,6 +108,6 @@ const ContextMenu: FC<ContextMenuProps> = memo(({ children, disabledKeys = [], e
       {children}
     </Dropdown>
   );
-}, arePropsEqual);
+};
 
 export default ContextMenu;

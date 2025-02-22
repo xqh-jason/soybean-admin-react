@@ -5,7 +5,6 @@ import type { RoutePath } from '@soybean-react/vite-plugin-react-router';
 interface InitialStateType {
   activeFirstLevelMenuKey: string;
   activeTabId: string;
-  homeTab: App.Global.Tab | null;
   removeCacheKey: RoutePath | null;
   tabs: App.Global.Tab[];
 }
@@ -15,8 +14,6 @@ const initialState: InitialStateType = {
   activeFirstLevelMenuKey: '',
   /** - 当前标签页 */
   activeTabId: '',
-  /** - 首页标签页 */
-  homeTab: null,
   /** - 需要删除的缓存页面 */
   removeCacheKey: null,
   /** - 标签页 */
@@ -27,8 +24,13 @@ export const tabSlice = createSlice({
   initialState,
   name: 'tab',
   reducers: {
-    initHomeTab(state, { payload }: PayloadAction<Rou>) {
-      state.homeTab = payload;
+    addTab: (state, { payload }: PayloadAction<App.Global.Tab>) => {
+      const { fixedIndex } = payload;
+      if (fixedIndex || fixedIndex === 0) {
+        state.tabs.splice(fixedIndex, 0, payload);
+      } else {
+        state.tabs = [...state.tabs, payload];
+      }
     },
     setActiveFirstLevelMenuKey: (state, action: PayloadAction<string>) => {
       state.activeFirstLevelMenuKey = action.payload;
@@ -43,11 +45,10 @@ export const tabSlice = createSlice({
   selectors: {
     selectActiveFirstLevelMenuKey: tab => tab.activeFirstLevelMenuKey,
     selectActiveTabId: tab => tab.activeTabId,
-    selectHomeTab: tab => tab.homeTab,
     selectTabs: tab => tab.tabs
   }
 });
 
-export const { setActiveFirstLevelMenuKey, setActiveTabId, setTabs } = tabSlice.actions;
+export const { addTab, setActiveFirstLevelMenuKey, setActiveTabId, setTabs } = tabSlice.actions;
 
-export const { selectActiveFirstLevelMenuKey, selectActiveTabId, selectHomeTab, selectTabs } = tabSlice.selectors;
+export const { selectActiveFirstLevelMenuKey, selectActiveTabId, selectTabs } = tabSlice.selectors;

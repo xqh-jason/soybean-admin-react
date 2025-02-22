@@ -5,9 +5,8 @@ import DarkModeContainer from '@/components/DarkModeContainer';
 import PinToggler from '@/components/PinToggler';
 import { GLOBAL_SIDER_MENU_ID } from '@/constants/app';
 import { useMixMenuContext } from '@/features/menu';
-import { ThemeContext } from '@/features/themeSchema';
-import { getMixSiderFixed, toggleMixSiderFixed } from '@/store/slice/app';
-import { getThemeSettings } from '@/store/slice/theme';
+import { ThemeContext, getThemeSettings } from '@/features/theme';
+import { getMixSiderFixed, toggleMixSiderFixed } from '@/layouts/appStore';
 
 import GlobalLogo from '../../GlobalLogo';
 import FirstLevelMenu from '../components/FirstLevelMenu';

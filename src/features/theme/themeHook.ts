@@ -1,4 +1,4 @@
-import { getThemeSettings } from '@/store/slice/theme';
+import { getThemeSettings } from '@/features/theme';
 
 export function useThemeSettings() {
   const themeSettings = useAppSelector(getThemeSettings);

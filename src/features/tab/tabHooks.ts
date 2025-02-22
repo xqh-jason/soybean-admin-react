@@ -1,26 +1,38 @@
-import { useRouter } from '@/features/router';
-import { selectActiveTabId, selectHomeTab, selectTabs, setActiveTabId, setTabs } from '@/features/tab/tabStore';
+import { useArray } from '@sa/hooks';
 
-import { filterTabsById } from './shared';
+import { routeMap } from '@/router/elegant/transform';
+import { localStg } from '@/utils/storage';
+
+import { useRoute, useRouter } from '../router';
+import { useThemeSettings } from '../theme';
+
+import { extractTabsByAllRoutes, filterTabsById, getFixedTabIds, getTabByRoute, isTabInTabs } from './shared';
+import { selectActiveTabId, setActiveTabId, setTabs } from './tabStore';
 
 export function useTabActions() {
   const dispatch = useAppDispatch();
 
-  const tabs = useAppSelector(selectTabs);
+  const route = useRoute();
+
+  const update = useUpdate();
+
+  const themeSettings = useThemeSettings();
+
+  const tabs = useRef<App.Global.Tab[]>([]);
 
   const { navigate } = useRouter();
 
   const activeTabId = useAppSelector(selectActiveTabId);
 
-  const homeTab = useAppSelector(selectHomeTab);
-
-  /**
-   * 更新标签页
-   *
-   * @param newTabs
-   */
   function updateTabs(newTabs: App.Global.Tab[]) {
-    dispatch(setTabs(newTabs));
+    tabs.current = newTabs;
+    update();
+  }
+
+  function isTabRetain(tabId: string) {
+    if (tabId.includes(import.meta.env.VITE_ROUTE_HOME)) return true;
+
+    return getFixedTabIds(tabs.current).includes(tabId);
   }
 
   /**
@@ -51,14 +63,21 @@ export function useTabActions() {
    * @param tabId
    */
   function clearLeftTabs(tabId: string) {
-    const tabIndex = tabs.findIndex(tab => tab.id === tabId);
+    const tabIndex = tabs.current.findIndex(tab => tab.id === tabId);
 
     if (tabIndex === -1) return;
 
-    const restTabs = tabs.slice(tabIndex);
+    const restTabs = tabs.current.slice(tabIndex);
 
     updateTabs(restTabs);
   }
+
+  /**
+   * 清除右侧标签页
+   *
+   * @param tabId
+   */
+  function clearRightTabs(tabId: string) {}
 
   /**
    * 删除标签页
@@ -68,14 +87,14 @@ export function useTabActions() {
   function removeTab(tabId: string) {
     const isRemoveActiveTab = activeTabId === tabId;
 
-    const updatedTabs = filterTabsById(tabId, tabs);
+    const updatedTabs = filterTabsById(tabId, tabs.current);
 
     if (!isRemoveActiveTab) {
       // 如果删除的不是激活的标签页，则更新标签页
       updateTabs(updatedTabs);
     } else {
       // 如果删除的是激活的标签页，则切换到最后一个标签页或者首页标签页
-      const activeTab = updatedTabs.at(-1) || homeTab;
+      const activeTab = updatedTabs.at(-1);
 
       if (activeTab) {
         switchRouteByTab(activeTab);
@@ -85,15 +104,66 @@ export function useTabActions() {
     }
   }
 
+  function _addTab() {
+    if (route.fullPath) {
+      if (!isTabInTabs(route.fullPath, tabs.current)) {
+        const tab = getTabByRoute(route);
+
+        const { fixedIndex } = tab;
+        if (fixedIndex || fixedIndex === 0) {
+          tabs.current.splice(fixedIndex, 0, tab);
+        } else {
+          tabs.current.push(tab);
+        }
+      }
+      dispatch(setActiveTabId(route.fullPath));
+    }
+  }
+
+  function _initTabs() {
+    const storageTabs = localStg.get('globalTabs');
+
+    if (themeSettings.tab.cache && storageTabs) {
+      // const initTabs = extractTabsByAllRoutes(Object.keys(routeMap), storageTabs);
+
+      updateTabs(storageTabs);
+    }
+  }
+
+  function _cacheTabs() {
+    if (!themeSettings.tab.cache) return;
+
+    localStg.set('globalTabs', tabs.current);
+  }
+
+  useMount(() => {
+    window.addEventListener('beforeunload', () => {
+      _cacheTabs();
+    });
+
+    return () => {
+      window.removeEventListener('beforeunload', () => {
+        _cacheTabs();
+      });
+    };
+  });
+
+  useLayoutEffect(() => {
+    _initTabs();
+  }, []);
+
+  useEffect(() => {
+    _addTab();
+  }, [route.fullPath]);
+
   return {
+    activeTabId,
     clearLeftTabs,
+    clearRightTabs,
+    clearTabs,
+    isTabRetain,
     removeTab,
+    tabs: tabs.current,
     updateTabs
   };
-}
-
-export function useAddTab(tab: App.Global.Tab) {
-  const { updateTabs } = useTabActions();
-
-  updateTabs([...tabs, tab]);
 }

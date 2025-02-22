@@ -1,6 +1,6 @@
 import Clipboard from 'clipboard';
 
-import { resetTheme, settingsJson } from '@/store/slice/theme';
+import { resetTheme, settingsJson } from '@/features/theme';
 
 const ConfigOperation = () => {
   const { t } = useTranslation();

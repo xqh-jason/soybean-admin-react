@@ -39,5 +39,11 @@ export function toggleCssDarkMode(darkMode = false) {
 }
 
 export function useTheme() {
-  return useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
+
+  if (!theme) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+
+  return theme;
 }

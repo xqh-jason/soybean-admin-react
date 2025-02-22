@@ -1,7 +1,7 @@
 import FlipText from '@/components/FilpText';
 import SystemLogo from '@/components/SystemLogo';
 import { LangSwitch } from '@/features/lang';
-import { ThemeSchemaSwitch } from '@/features/themeSchema';
+import { ThemeSchemaSwitch } from '@/features/theme';
 
 const Header = memo(() => {
   const { t } = useTranslation();

@@ -3,7 +3,7 @@ import FullScreen from '@/components/FullScreen';
 import { GLOBAL_HEADER_MENU_ID } from '@/constants/app';
 import { LangSwitch } from '@/features/lang';
 import { MenuToggler } from '@/features/menu';
-import { ThemeSchemaSwitch } from '@/features/themeSchema';
+import { ThemeSchemaSwitch } from '@/features/theme';
 
 import GlobalLogo from '../GlobalLogo';
 // import GlobalBreadcrumb from '../global-breadcrumb';

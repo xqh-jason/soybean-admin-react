@@ -1,6 +1,6 @@
 import DarkModeContainer from '@/components/DarkModeContainer.tsx';
 import { GLOBAL_SIDER_MENU_ID } from '@/constants/app';
-import { ThemeContext } from '@/features/themeSchema';
+import { ThemeContext } from '@/features/theme';
 
 import GlobalLogo from './GlobalLogo';
 

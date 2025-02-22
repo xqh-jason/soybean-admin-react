@@ -1,8 +1,14 @@
 import { useBoolean } from 'ahooks';
 import { Skeleton } from 'antd';
 
+import { useRoute } from '@/features/router';
+
 const IframePage = () => {
   const [loading, { setFalse: endLoading }] = useBoolean(true);
+
+  const {
+    handle: { url }
+  } = useRoute();
 
   return (
     <>
@@ -11,7 +17,7 @@ const IframePage = () => {
         <iframe
           className="size-full"
           id="iframePage"
-          src={url}
+          src={url || ''}
           onLoad={endLoading}
         />
       </div>

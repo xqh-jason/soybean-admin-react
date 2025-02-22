@@ -1,12 +1,12 @@
 import { Switch } from 'antd';
 
-import { ThemeSchemaSegmented } from '@/features/themeSchema';
 import {
+  ThemeSchemaSegmented,
   getThemeSettings,
   setColourWeakness,
   setGrayscale,
   setIsOnlyExpandCurrentParentMenu
-} from '@/store/slice/theme';
+} from '@/features/theme';
 
 import SettingItem from '../components/SettingItem';
 import '@/styles/css/darkMode.css';

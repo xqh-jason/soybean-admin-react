@@ -1,6 +1,6 @@
 import type { CheckboxProps, ColorPickerProps } from 'antd';
 
-import { setIsInfoFollowPrimary, updateThemeColors } from '@/store/slice/theme';
+import { setIsInfoFollowPrimary, updateThemeColors } from '@/features/theme';
 
 import SettingItem from '../components/SettingItem';
 

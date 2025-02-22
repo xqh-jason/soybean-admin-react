@@ -68,9 +68,14 @@ declare namespace Router {
      * It can be used in document title
      */
     title: string;
+    /** 内嵌外联地址 */
+    url?: string | null;
   };
 
   type Route<T = unknown> = UIMatch<T, RouteHandle> & {
+    fullPath: string;
+    hash: string;
     matched: UIMatch<T, RouteHandle>[];
+    search: string;
   };
 }

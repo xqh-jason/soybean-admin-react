@@ -20,6 +20,8 @@ export function useInitAuthRoutes() {
         reactAuthRoutes.forEach(route => {
           if (route.parent?.includes('base')) {
             emitter.emit('ADD_MENUS', filterRoutesToMenus(route.route));
+
+            console.log('route.route', route.route);
           }
 
           addRoutes(route.route, route.parent);

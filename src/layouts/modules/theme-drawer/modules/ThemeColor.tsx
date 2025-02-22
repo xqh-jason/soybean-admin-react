@@ -1,6 +1,6 @@
 import { Button, Switch, Tooltip } from 'antd';
 
-import { getThemeSettings, setRecommendColor, themeColors } from '@/store/slice/theme';
+import { getThemeSettings, setRecommendColor, themeColors } from '@/features/theme';
 
 import SettingItem from '../components/SettingItem';
 

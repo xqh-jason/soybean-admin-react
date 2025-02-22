@@ -3,8 +3,8 @@ import { Tooltip } from 'antd';
 import clsx from 'clsx';
 
 import { themeLayoutModeRecord } from '@/constants/app';
-import { getIsMobile } from '@/store/slice/app';
-import { setLayoutMode } from '@/store/slice/theme';
+import { setLayoutMode } from '@/features/theme';
+import { getIsMobile } from '@/layouts/appStore';
 
 type LayoutConfig = Record<
   UnionKey.ThemeLayoutMode,

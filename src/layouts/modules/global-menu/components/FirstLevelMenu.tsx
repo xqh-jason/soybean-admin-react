@@ -5,9 +5,8 @@ import { cloneElement } from 'react';
 
 import { MenuToggler, useMixMenuContext } from '@/features/menu';
 import { useRouter } from '@/features/router';
-import { ThemeContext } from '@/features/themeSchema';
-import { getSiderCollapse } from '@/store/slice/app';
-import { getThemeSettings } from '@/store/slice/theme';
+import { ThemeContext, getThemeSettings } from '@/features/theme';
+import { getSiderCollapse } from '@/layouts/appStore';
 
 interface Props {
   children?: React.ReactNode;
