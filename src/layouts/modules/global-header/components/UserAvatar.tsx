@@ -1,8 +1,8 @@
 import type { MenuProps } from 'antd';
 import { useSubmit } from 'react-router-dom';
 
-import { useRouter } from '@/features/router';
 import { selectToken, selectUserInfo } from '@/features/auth/authStore';
+import { useRouter } from '@/features/router';
 
 const UserAvatar = memo(() => {
   const token = useAppSelector(selectToken);

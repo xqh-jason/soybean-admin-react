@@ -6,10 +6,9 @@ import { MenuToggler } from '@/features/menu';
 import { ThemeSchemaSwitch } from '@/features/theme';
 
 import GlobalLogo from '../GlobalLogo';
-// import GlobalBreadcrumb from '../global-breadcrumb';
-
 import GlobalSearch from '../global-search/GlobalSearch';
 
+import GlobalBreadcrumb from './components/Breadcrumb';
 import ThemeButton from './components/ThemeButton';
 import UserAvatar from './components/UserAvatar';
 
@@ -66,7 +65,7 @@ const GlobalHeader: FC<Props> = memo(({ isMobile, mode, reverse, siderWidth }) =
         className="h-full flex-y-center flex-1-hidden"
         id={GLOBAL_HEADER_MENU_ID}
       >
-        {/* {!isMobile && !showMenu && <GlobalBreadcrumb className="ml-12px" />} */}
+        <GlobalBreadcrumb className="ml-12px" />
       </div>
 
       <div className="h-full flex-y-center justify-end">
