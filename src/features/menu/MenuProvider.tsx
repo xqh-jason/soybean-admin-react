@@ -1,4 +1,3 @@
-import { useCreation } from 'ahooks';
 import type { FC, PropsWithChildren } from 'react';
 
 import { selectActiveFirstLevelMenuKey, setActiveFirstLevelMenuKey } from '@/features/tab/tabStore';
@@ -54,19 +53,16 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
     dispatch(setActiveFirstLevelMenuKey(routeKey || ''));
   }
 
-  const mixMenuContext = useCreation(
-    () => ({
-      activeFirstLevelMenuKey,
-      allMenus: menus,
-      childLevelMenus: childLevelMenus || [],
-      firstLevelMenu,
-      isActiveFirstLevelMenuHasChildren: activeFirstLevelMenuKey ? Boolean(childLevelMenus) : false,
-      route,
-      selectKey,
-      setActiveFirstLevelMenuKey: changeActiveFirstLevelMenuKey
-    }),
-    [activeFirstLevelMenuKey, route.fullPath]
-  );
+  const mixMenuContext = {
+    activeFirstLevelMenuKey,
+    allMenus: menus,
+    childLevelMenus: childLevelMenus || [],
+    firstLevelMenu,
+    isActiveFirstLevelMenuHasChildren: activeFirstLevelMenuKey ? Boolean(childLevelMenus) : false,
+    route,
+    selectKey,
+    setActiveFirstLevelMenuKey: changeActiveFirstLevelMenuKey
+  };
 
   return <MixMenuContext value={mixMenuContext}>{children}</MixMenuContext>;
 };
