@@ -154,7 +154,7 @@ export function useTabActions() {
 
       const initTabs = _initTabs();
 
-      if (initTabs.length > 0 && !isTabInTabs(tab.id, initTabs)) {
+      if (!initTabs || initTabs.length === 0 || (initTabs.length > 0 && !isTabInTabs(tab.id, initTabs))) {
         dispatch(addTab(tab));
       }
     } else if (!isTabInTabs(tab.id, tabs)) {

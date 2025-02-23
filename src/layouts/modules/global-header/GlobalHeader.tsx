@@ -65,7 +65,7 @@ const GlobalHeader: FC<Props> = memo(({ isMobile, mode, reverse, siderWidth }) =
         className="h-full flex-y-center flex-1-hidden"
         id={GLOBAL_HEADER_MENU_ID}
       >
-        <GlobalBreadcrumb className="ml-12px" />
+        {!isMobile && !showMenu && <GlobalBreadcrumb className="ml-12px" />}
       </div>
 
       <div className="h-full flex-y-center justify-end">
