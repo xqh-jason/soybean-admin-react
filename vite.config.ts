@@ -18,6 +18,38 @@ export default defineConfig(configEnv => {
   const enableProxy = configEnv.command === 'serve' && !configEnv.isPreview;
   return {
     base: viteEnv.VITE_BASE_URL,
+    build: {
+      rollupOptions: {
+        output: {
+          assetFileNames: chunkInfo => {
+            const name = chunkInfo.name;
+
+            if (name?.endsWith('.css')) {
+              return 'css/[name]-[hash].css';
+            }
+
+            const imgExts = ['png', 'jpg', 'jpeg', 'gif', 'svg', 'webp'];
+
+            if (imgExts.some(ext => name?.endsWith(`.${ext}`))) {
+              return 'images/[name]-[hash].[ext]';
+            }
+
+            return 'assets/[name]-[hash].[ext]';
+          },
+          chunkFileNames: 'js/[name]-[hash].js',
+          entryFileNames: 'js/[name]-[hash].js',
+          manualChunks: {
+            animate: ['motion'],
+            antd: ['antd', '@ant-design/v5-patch-for-react-19'],
+            axios: ['axios'],
+            react: ['react', 'react-dom', 'react-error-boundary'],
+            reactRouter: ['react-router-dom'],
+            redux: ['react-redux', '@reduxjs/toolkit'],
+            sa: ['@sa/axios', '@sa/color', '@sa/hooks', '@sa/materials', '@sa/utils']
+          }
+        }
+      }
+    },
     css: {
       preprocessorOptions: {
         scss: {
