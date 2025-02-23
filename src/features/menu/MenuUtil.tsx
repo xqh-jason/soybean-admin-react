@@ -120,3 +120,13 @@ export function mergeMenus(menus: App.Global.Menu[], newMenus: App.Global.Menu[]
 
   return menus;
 }
+
+export function getSelectKey(route: Router.Route) {
+  const { activeMenu, hideInMenu } = route.handle;
+
+  const name = route.pathname as string;
+
+  const routeName = (hideInMenu ? activeMenu : name) || name;
+
+  return [routeName];
+}
