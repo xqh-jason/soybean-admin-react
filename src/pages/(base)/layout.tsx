@@ -1,4 +1,4 @@
-import BaseLayout from '@/layouts/base-layout/BaseLayout';
+import BaseLayout from '@/layouts/base-layout';
 
 const BlankLayout = () => {
   return <BaseLayout />;

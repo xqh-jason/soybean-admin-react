@@ -10,7 +10,7 @@ import {
   LAYOUT_MODE_VERTICAL,
   LAYOUT_MODE_VERTICAL_MIX
 } from '@/constants/common';
-import { MenuProvider, useMixMenuContext } from '@/features/menu';
+import { useMixMenuContext } from '@/features/menu';
 import GlobalTab from '@/features/tab/GlobalTab';
 import { getThemeSettings, setLayoutMode } from '@/features/theme';
 
@@ -101,58 +101,56 @@ const BaseLayout = () => {
   }, [isMobile, dispatch]);
 
   return (
-    <MenuProvider>
-      <AdminLayout
-        fixedFooter={themeSettings.footer.fixed}
-        fixedTop={themeSettings.fixedHeaderAndTab}
-        Footer={<GlobalFooter />}
-        footerHeight={themeSettings.footer.height}
-        footerVisible={themeSettings.footer.visible}
-        fullContent={fullContent}
-        headerHeight={themeSettings.header.height}
-        isMobile={isMobile}
-        mode={layoutMode as LayoutMode}
-        rightFooter={themeSettings.footer.right}
-        scrollElId={LAYOUT_SCROLL_EL_ID}
-        scrollMode={themeSettings.layout.scrollMode}
-        siderCollapse={siderCollapse}
-        siderCollapsedWidth={siderCollapsedWidth}
-        siderVisible={siderVisible}
-        siderWidth={siderWidth}
-        Tab={<GlobalTab />}
-        tabHeight={themeSettings.tab.height}
-        tabVisible={themeSettings.tab.visible}
-        updateSiderCollapse={updateSiderCollapse}
-        Header={
-          <GlobalHeader
-            isMobile={isMobile}
-            mode={themeSettings.layout.mode}
-            reverse={themeSettings.layout.reverseHorizontalMix}
-            siderWidth={themeSettings.sider.width}
-          />
-        }
-        Sider={
-          <GlobalSider
-            headerHeight={themeSettings.header.height}
-            inverted={themeSettings.sider.inverted}
-            isHorizontalMix={isHorizontalMix}
-            isVerticalMix={isVerticalMix}
-            siderCollapse={siderCollapse}
-          />
-        }
-      >
-        <GlobalContent />
-
-        <GlobalMenu
+    <AdminLayout
+      fixedFooter={themeSettings.footer.fixed}
+      fixedTop={themeSettings.fixedHeaderAndTab}
+      Footer={<GlobalFooter />}
+      footerHeight={themeSettings.footer.height}
+      footerVisible={themeSettings.footer.visible}
+      fullContent={fullContent}
+      headerHeight={themeSettings.header.height}
+      isMobile={isMobile}
+      mode={layoutMode as LayoutMode}
+      rightFooter={themeSettings.footer.right}
+      scrollElId={LAYOUT_SCROLL_EL_ID}
+      scrollMode={themeSettings.layout.scrollMode}
+      siderCollapse={siderCollapse}
+      siderCollapsedWidth={siderCollapsedWidth}
+      siderVisible={siderVisible}
+      siderWidth={siderWidth}
+      Tab={<GlobalTab />}
+      tabHeight={themeSettings.tab.height}
+      tabVisible={themeSettings.tab.visible}
+      updateSiderCollapse={updateSiderCollapse}
+      Header={
+        <GlobalHeader
+          isMobile={isMobile}
           mode={themeSettings.layout.mode}
           reverse={themeSettings.layout.reverseHorizontalMix}
+          siderWidth={themeSettings.sider.width}
         />
+      }
+      Sider={
+        <GlobalSider
+          headerHeight={themeSettings.header.height}
+          inverted={themeSettings.sider.inverted}
+          isHorizontalMix={isHorizontalMix}
+          isVerticalMix={isVerticalMix}
+          siderCollapse={siderCollapse}
+        />
+      }
+    >
+      <GlobalContent />
 
-        <Suspense fallback={null}>
-          <ThemeDrawer />
-        </Suspense>
-      </AdminLayout>
-    </MenuProvider>
+      <GlobalMenu
+        mode={themeSettings.layout.mode}
+        reverse={themeSettings.layout.reverseHorizontalMix}
+      />
+
+      <Suspense fallback={null}>
+        <ThemeDrawer />
+      </Suspense>
+    </AdminLayout>
   );
 };
 

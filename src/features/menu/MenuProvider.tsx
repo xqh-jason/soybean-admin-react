@@ -53,6 +53,8 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
     dispatch(setActiveFirstLevelMenuKey(routeKey || ''));
   }
 
+  console.log('menus', menus, childLevelMenus, activeFirstLevelMenuKey);
+
   const mixMenuContext = {
     activeFirstLevelMenuKey,
     allMenus: menus,

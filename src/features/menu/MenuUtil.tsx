@@ -76,9 +76,9 @@ export function getActiveFirstLevelMenuKey(route: App.Global.TabRoute) {
 
   const routeName = (hideInMenu ? activeMenu : name) || name;
 
-  const [firstLevelRouteName] = routeName;
+  const [_, firstLevelRouteName] = routeName.split('/');
 
-  return firstLevelRouteName;
+  return `/${firstLevelRouteName}`;
 }
 
 export function mergeMenus(menus: App.Global.Menu[], newMenus: App.Global.Menu[]) {
