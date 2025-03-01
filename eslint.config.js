@@ -81,7 +81,10 @@ export default defineConfig(
         }
       ],
 
-      'react-refresh/only-export-components': ['warn', { allowExportNames: ['loader', 'action'] }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowExportNames: ['loader', 'action', 'handle', 'shouldRevalidate'] }
+      ],
 
       'sort/import-members': ['error', { caseSensitive: true, natural: true }],
       'sort/imports': ['off'],
