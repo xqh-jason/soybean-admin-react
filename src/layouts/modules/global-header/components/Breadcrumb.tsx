@@ -8,7 +8,7 @@ import { cloneElement } from 'react';
 import { useMixMenuContext } from '@/features/menu';
 import { useRouter } from '@/features/router';
 
-import { getBreadcrumbsByRoute } from './BreadcrumbShared';
+import { getBreadcrumbsByRoute } from './breadcrumbShared';
 
 function BreadcrumbContent({ icon, label }: { readonly icon: ReactElement; readonly label: ReactElement }) {
   return (
