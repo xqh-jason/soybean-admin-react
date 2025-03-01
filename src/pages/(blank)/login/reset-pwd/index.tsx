@@ -27,6 +27,8 @@ const ResetPwd = () => {
     window.$message?.success(t('page.login.common.validateSuccess'));
   }
 
+  console.log('reset-pwd');
+
   return (
     <>
       <h3 className="text-18px text-primary font-medium">{t('page.login.register.title')}</h3>
@@ -91,6 +93,12 @@ const ResetPwd = () => {
       </Form>
     </>
   );
+};
+
+export const handle = {
+  constant: true,
+  i18nKey: 'route.login_reset-pwd',
+  title: 'login_reset-pwd'
 };
 
 export default ResetPwd;

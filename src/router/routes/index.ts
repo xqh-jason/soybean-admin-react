@@ -1,7 +1,6 @@
 import type { ElegantConstRoute } from '@soybean-react/vite-plugin-react-router';
 import type { RouteObject } from 'react-router-dom';
 
-import { configs, errors, layouts, pages } from '../elegant/imports';
 import { generatedRoutes } from '../elegant/routes';
 import { transformElegantRoutesToReactRoutes } from '../elegant/transform';
 
@@ -18,7 +17,7 @@ export type AuthRoute = {
  * @param routes Elegant routes
  */
 function getReactRoutes(route: ElegantConstRoute[]) {
-  return transformElegantRoutesToReactRoutes(route, layouts, pages, errors, configs);
+  return transformElegantRoutesToReactRoutes(route);
 }
 
 /**
@@ -106,7 +105,7 @@ function initRoutes() {
   const customRoutes = getReactRoutes(generatedRoutes);
 
   // 获取基础路由
-  const baseRoute = customRoutes.find(route => route.id === '(base)');
+  const baseRoute = customRoutes[0]?.children?.find(route => route.id === '(base)');
   // 添加自定义复用路由至基础路由
   baseRoute?.children?.push(...BaseChildrenRoutes);
 
@@ -120,3 +119,5 @@ function initRoutes() {
 }
 
 export const { authRoutes, cacheRoutes, constantRoutes } = initRoutes();
+
+console.log('authRoutes, cacheRoutes, constantRoutes', authRoutes, cacheRoutes, constantRoutes);

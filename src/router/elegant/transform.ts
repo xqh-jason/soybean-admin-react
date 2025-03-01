@@ -8,229 +8,114 @@
 // 这是自动生成的文件，请不要手动修改
 
 
-import type { ElegantConstRoute, RouteKey, RouteMap, RoutePath } from '@soybean-react/vite-plugin-react-router';
-import type { ReactElement } from 'react';
+import type { ElegantConstRoute } from '@soybean-react/vite-plugin-react-router';
 import type { RouteObject } from 'react-router-dom';
-import {configs} from './imports'
 
-type LazyRouteComponent = Record<string, () => Promise<{ default: () => ReactElement }>>;
-
-type RouteConfig = Pick<RouteObject, 'action' | 'caseSensitive' | 'loader' | 'shouldRevalidate'> & { config?: any };
-
-type LazyRouteConfig = Record<string, () => Promise<RouteConfig>>;
+import { errors, layouts, pages as views } from './imports';
 
 const loadings = import.meta.glob(`/src/pages/**/loading.tsx`, { eager: true, import: 'default' });
 
-const commonHandles = import.meta.glob(`/src/pages/**/config.ts`, { eager: true, import: 'config' });
+const handles = import.meta.glob([`/src/pages/**/index.tsx`, `/src/pages/**/[[]*[]].tsx`,'!**/module/index.tsx','!**/components/index.tsx'], { eager: true, import: 'handle' });
 
-const specHandles = import.meta.glob(`/src/pages/**/[[]*[]].config.ts`, { eager: true, import: 'config' });
-
-
-const handles = Object.assign({}, commonHandles, specHandles);
 /**
- * transform elegant const routes to react routes
- *
- * @param routes elegant const routes
- * @param layouts layout components
- * @param views view components
- */
-export function transformElegantRoutesToReactRoutes(
-  routes: ElegantConstRoute[],
-  layouts: LazyRouteComponent,
-  views: LazyRouteComponent,
-  errors: LazyRouteComponent,
-  configs: LazyRouteConfig
-) {
-  return routes.flatMap(route => transformElegantRouteToReactRoute(route, layouts, views, errors, configs));
+* transform elegant const routes to react routes
+*
+* @param routes elegant const routes
+* @param layouts layout components
+* @param views view components
+*/
+export function transformElegantRoutesToReactRoutes(routes: ElegantConstRoute[]) {
+ return routes.flatMap(route => transformElegantRouteToReactRoute(route));
 }
 
 /**
- * transform elegant route to react route
- *
- * @param route elegant const route
- * @param layouts layout components
- * @param views view components
- */
-export function transformElegantRouteToReactRoute(
-  route: ElegantConstRoute,
-  layouts: LazyRouteComponent,
-  views: LazyRouteComponent,
-  errors: LazyRouteComponent,
-  configs: LazyRouteConfig
-): RouteObject {
-  const ROUTE_DEGREE_SPLITTER = '_';
+* transform elegant route to react route
+*
+* @param route elegant const route
+* @param layouts layout components
+* @param views view components
+*/
+export function transformElegantRouteToReactRoute(route: ElegantConstRoute): RouteObject {
+ const ROUTE_DEGREE_SPLITTER = '_';
 
-  function isRouteGroup(name: string) {
-    const lastName = name.split(ROUTE_DEGREE_SPLITTER).at(-1);
-    return lastName?.startsWith('(') && lastName?.endsWith(')');
-  }
+ function isRouteGroup(name: string) {
+   const lastName = name.split(ROUTE_DEGREE_SPLITTER).at(-1);
+   return lastName?.startsWith('(') && lastName?.endsWith(')');
+ }
 
-  const { children, matchedFiles, name, path } = route;
+ const { children, matchedFiles, name, path } = route;
 
-  function getComPonent(routeName: string) {
-    if (matchedFiles[0]) {
-      return layouts[matchedFiles[0]]();
-    }
+ // Get the error boundary component
+ const getErrorComponent = () => (matchedFiles[3] ? errors[matchedFiles[3]]() : errors.root());
 
-    if (!isRouteGroup(routeName) && matchedFiles[1]) {
-      return views[matchedFiles[1]]();
-    }
+ // Convert route config, simplifying the logic for actions, loader, etc.
+ function convertConfig(m: any) {
+   const { action, loader, shouldRevalidate, default: Component } = m;
+   return {
+     action, // always use action
+     loader, // always use loader
+     shouldRevalidate,
+     Component
+   };
+ }
 
-    return null;
-  }
+ // Get config for the route if available
+ async function getConfig(index: boolean = false) {
+   if (matchedFiles[0] && !index) {
+     const config = await layouts[matchedFiles[0]]();
+     return convertConfig(config);
+   }
 
-  // Get the error boundary component
-  function getErrorComponent() {
-    return matchedFiles[3] ? errors[matchedFiles[3]]() : null;
-  }
+   let pageName = name;
 
-  // Convert route config, simplifying the logic for actions, loader, etc.
-   function convertConfig(m: RouteConfig) {
-    const { action,config,loader, shouldRevalidate, ...rest } = m;
-    return {
-      ...rest,
-      action, // always use action
-      loader, // always use loader
-      shouldRevalidate
-    };
-  }
+   if (pageName==='notFound') {
+         pageName = '404'
+   };
 
-  // Get config for the route if available
-  async function getConfig(index:boolean=false) {
-    if ((matchedFiles[0] && matchedFiles[1] && !index) || (!isRouteGroup(name) && handles?.[getPathFromKey(name)] && !index)) return null
+   if (matchedFiles[1] && (!children?.length||index)) {
+     const config = await views[pageName]();
 
-    if (configs?.[name]) {
-      const config = await configs[name]();
-      return convertConfig(config);
-    }
+     return convertConfig(config);
+   }
 
-    return null;
-  }
-
-  const loaderModule = [getComPonent(name), getErrorComponent()];
+   return null;
+ }
 
 
-  const reactRoute = {
-    children: [],
-    HydrateFallback: matchedFiles[2] ? loadings[`/src/pages${matchedFiles[2]==='/root'?'':matchedFiles[2]}/loading.tsx`] : loadings[`/src/pages/loading.tsx`] ,
-    id: name,
-    handle: handles?.[getPathFromKey(name)]||'',
-    lazy: async () => {
-      const [Component, ErrorBoundary] = await Promise.all(loaderModule);
+ const reactRoute = {
+   children: [],
+   HydrateFallback: matchedFiles[2] ? loadings[matchedFiles[2]] : loadings[`/src/pages/loading.tsx`] ,
+   id: name,
+   handle: matchedFiles[1] ? handles[matchedFiles[1]] : null,
+   lazy: async () => {
+     const ErrorBoundary = await getErrorComponent();
 
-      return {
-        Component: Component?.default,
-        ErrorBoundary: ErrorBoundary?.default,
-        ...(await getConfig())
-      };
-    },
-    path
-  } as RouteObject;
+     return {
+       ErrorBoundary: ErrorBoundary?.default,
+       ...(await getConfig())
+     };
+   },
+   path
+ } as RouteObject;
 
-  if (children?.length) {
-    reactRoute.children = children.flatMap(child =>
-      transformElegantRouteToReactRoute(child, layouts, views, errors, configs)
-    );
+ if (children?.length) {
+   reactRoute.children = children.flatMap(child => transformElegantRouteToReactRoute(child));
 
-     if ((matchedFiles[0] && matchedFiles[1] && !isRouteGroup(name))||(!isRouteGroup(name)&&handles?.[getPathFromKey(name)])) {
-      reactRoute.children.unshift({
-        index: true,
-        handle:handles?.[getPathFromKey(name)]||'',
-        lazy: async () => {
-          const [Component, ErrorBoundary] = await Promise.all([matchedFiles[1]?views[matchedFiles[1]]():null, getErrorComponent()]);
+   if (matchedFiles[1] && !isRouteGroup(name)) {
+     reactRoute.children.unshift({
+       handle: matchedFiles[1] ? handles[matchedFiles[1]] : null,
+       index: true,
+       lazy: async () => {
+         const ErrorBoundary = await getErrorComponent();
 
-          return {
-            Component: Component?.default as any,
-            ErrorBoundary: ErrorBoundary?.default,
-            ...(await getConfig(true))
-          };
-        }
-      });
-    }
-  }
+         return {
+           ErrorBoundary: ErrorBoundary?.default,
+           ...(await getConfig(true))
+         };
+       }
+     });
+   }
+ }
 
-  return reactRoute;
+ return reactRoute;
 }
-
-
-/**
- * map of route name and route path
- */
-export const routeMap: RouteMap = {
-  "not-found": "*",
-  "exception": "/exception",
-  "exception_403": "/exception/403",
-  "exception_404": "/exception/404",
-  "exception_500": "/exception/500",
-  "document": "/document",
-  "document_project": "/document/project",
-  "document_project-link": "/document/project-link",
-  "document_react": "/document/react",
-  "document_vite": "/document/vite",
-  "document_unocss": "/document/unocss",
-  "document_procomponents": "/document/procomponents",
-  "document_antd": "/document/antd",
-  "logout": "/logout",
-  "(base)_home": "/home",
-  "(base)_manage": "/manage",
-  "(base)_manage_menu": "/manage/menu",
-  "(base)_multi-menu": "/multi-menu",
-  "(base)_multi-menu_first": "/multi-menu/first",
-  "(base)_multi-menu_first_child": "/multi-menu/first/child",
-  "(base)_multi-menu_second": "/multi-menu/second",
-  "(base)_multi-menu_second_child": "/multi-menu/second/child",
-  "(base)_multi-menu_second_child_home": "/multi-menu/second/child/home",
-  "(base)_user-center": "/user-center",
-  "(blank)_login": "/login",
-  "(blank)_login_code-login": "/login/code-login",
-  "(blank)_login_register": "/login/register",
-  "(blank)_login_reset-pwd": "/login/reset-pwd",
-  "403": "/403",
-  "404": "/404",
-  "500": "/500",
-  "iframe-page": "/iframe-page",
-  "iframe-page_[url]": "/iframe-page/:url",
-  "root": "/"
-};
-
-/**
- * get route path by route name
- * @param name route name
- */
-export function getRoutePath<T extends RouteKey>(name: T) {
-  return routeMap[name];
-}
-
-function getPathFromKey(key: string,) {
-
-  if(key==='notFound') key='404'
-
-  // 将 "iframe-page" 对应的函数转换成字符串
-  const fnStr = configs?.[key as keyof typeof configs]?.toString();
-
-  // 使用正则匹配 import("...") 中的路径
-  const match = fnStr?.match(/import\(["']([^"']+)["']\)/);
-
-  // 如果匹配到，就获取第一个捕获组中的内容
-  let importPath = match ? match[1].replace(/@/g, '/src') : null;
-
-  if (importPath?.includes('?')) {
-    // 去掉 query 参数
-    importPath = importPath.split('?')[0];
-  }
-
-  return importPath||'';
-}
-
-/**
- * get route name by route path
- * @param path route path
- */
-export function getRouteName(path: RoutePath) {
-  const routeEntries = Object.entries(routeMap) as [RouteKey, RoutePath][];
-
-  const routeName: RouteKey | null = routeEntries.find(([, routePath]) => routePath === path)?.[0] || null;
-
-  return routeName;
-}
-

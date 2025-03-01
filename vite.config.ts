@@ -4,7 +4,6 @@ import { URL, fileURLToPath } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 
 import { createViteProxy, getBuildTime } from './build/config';
-import { include } from './build/optimize';
 import { setupVitePlugins } from './build/plugins';
 
 // https://vitejs.dev/config/
@@ -22,7 +21,7 @@ export default defineConfig(configEnv => {
       rollupOptions: {
         output: {
           assetFileNames: chunkInfo => {
-            const name = chunkInfo.name;
+            const name = chunkInfo.names[0];
 
             if (name?.endsWith('.css')) {
               return 'css/[name]-[hash].css';
@@ -36,12 +35,35 @@ export default defineConfig(configEnv => {
 
             return 'assets/[name]-[hash].[ext]';
           },
-          chunkFileNames: 'js/[name]-[hash].js',
-          entryFileNames: 'js/[name]-[hash].js',
+          chunkFileNames: chunkInfo => {
+            // 检查文件路径，如果是 pages 目录下的文件，则修改文件名和路径
+            const filePath = chunkInfo.facadeModuleId;
+
+            console.log(chunkInfo.name, 'filePath');
+
+            if (filePath) {
+              // 提取文件的父文件夹作为文件名
+              if (filePath.includes('/src/pages/')) {
+                // 提取文件的父文件夹作为文件名
+                const pageName = filePath.split('/src/pages/')[1];
+                // 替换 [name] 为  name 因为vite不支持
+                const newPath = pageName.replace(/\[([^\]]+)\]/g, '$1');
+
+                const path = newPath.slice(0, newPath.lastIndexOf('/'));
+
+                return `js/pages/${path}/[name]-[hash].js`;
+              } else if (filePath.includes('/src/components/')) {
+                return `js/components/[name]-[hash].js`;
+              }
+            }
+
+            return 'js/[name]-[hash].js'; // 默认处理方式
+          },
           manualChunks: {
             animate: ['motion'],
             antd: ['antd', '@ant-design/v5-patch-for-react-19'],
             axios: ['axios'],
+            il8n: ['react-i18next', 'i18next'],
             react: ['react', 'react-dom', 'react-error-boundary'],
             reactRouter: ['react-router-dom'],
             redux: ['react-redux', '@reduxjs/toolkit'],
@@ -61,7 +83,6 @@ export default defineConfig(configEnv => {
     define: {
       BUILD_TIME: JSON.stringify(buildTime)
     },
-    optimizeDeps: { include },
     plugins: setupVitePlugins(viteEnv, buildTime),
     preview: {
       port: 9725

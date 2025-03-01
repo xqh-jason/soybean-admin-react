@@ -88,4 +88,9 @@ const CodeLogin = () => {
   );
 };
 
+export const handle = {
+  i18nKey: 'route.login_code-login',
+  title: 'login_code-login'
+};
+
 export default CodeLogin;
