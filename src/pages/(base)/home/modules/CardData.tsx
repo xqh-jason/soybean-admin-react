@@ -103,9 +103,9 @@ const CardData = () => {
 
   return (
     <ACard
-      bordered={false}
       className="card-wrapper"
       size="small"
+      variant="borderless"
     >
       <ARow gutter={[16, 16]}>{data.map(CardItem)}</ARow>
     </ACard>

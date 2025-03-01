@@ -135,8 +135,8 @@ const LineChart = () => {
   }, [locale]);
   return (
     <ACard
-      bordered={false}
       className="card-wrapper"
+      variant="borderless"
     >
       <div
         className="h-360px overflow-hidden"

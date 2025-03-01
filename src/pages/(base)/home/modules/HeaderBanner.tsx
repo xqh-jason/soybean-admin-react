@@ -31,8 +31,8 @@ const HeaderBanner = () => {
   ];
   return (
     <ACard
-      bordered={false}
       className="card-wrapper"
+      variant="borderless"
     >
       <ARow gutter={[16, 16]}>
         <ACol

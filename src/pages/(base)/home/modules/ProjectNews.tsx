@@ -26,10 +26,10 @@ const ProjectNews = () => {
 
   return (
     <ACard
-      bordered={false}
       className="card-wrapper"
       size="small"
       title={t('page.home.projectNews.title')}
+      variant="borderless"
       extra={[
         <AButton
           key="reset"
