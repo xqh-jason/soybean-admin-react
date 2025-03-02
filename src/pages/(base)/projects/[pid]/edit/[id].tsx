@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useRoute } from '@/features/router';
 
 const ProjectsEditId = () => {

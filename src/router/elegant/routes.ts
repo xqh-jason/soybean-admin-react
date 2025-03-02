@@ -74,17 +74,17 @@ export const generatedRoutes = [
             ]
           },
           {
-            matchedFiles: [null, null, null, null],
+            matchedFiles: [null, '/src/pages/(base)/projects/index.tsx', null, null],
             name: '(base)_projects',
             path: '/projects',
             children: [
               {
-                matchedFiles: [null, null, null, null],
+                matchedFiles: [null, '/src/pages/(base)/projects/[pid]/index.tsx', null, null],
                 name: '(base)_projects_[pid]',
                 path: '/projects/:pid',
                 children: [
                   {
-                    matchedFiles: [null, null, null, null],
+                    matchedFiles: [null, '/src/pages/(base)/projects/[pid]/edit/index.tsx', null, null],
                     name: '(base)_projects_[pid]_edit',
                     path: '/projects/:pid/edit',
                     children: [

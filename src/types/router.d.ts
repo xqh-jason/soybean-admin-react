@@ -1,6 +1,8 @@
 declare namespace Router {
   type UIMatch<Data = unknown, Handle = unknown> = import('react-router-dom').UIMatch<Data, Handle>;
 
+  type RouteObject = import('react-router-dom').RouteObject;
+
   type RouteHandle = {
     /**
      * The menu key will be activated when entering the route
@@ -77,5 +79,15 @@ declare namespace Router {
     hash: string;
     matched: UIMatch<T, RouteHandle>[];
     search: string;
+  };
+
+  type SingleAuthRoute = {
+    parent: string | null;
+    route: RouteObject;
+  };
+
+  type AuthRoute = {
+    parent: string | null;
+    route: RouteObject[];
   };
 }
