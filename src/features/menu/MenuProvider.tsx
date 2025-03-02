@@ -20,7 +20,7 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
   const activeFirstLevelMenuKey = useAppSelector(selectActiveFirstLevelMenuKey);
 
   const menus = useMemo(
-    () => filterRoutesToMenus(router.reactRouter.routes.find(r => r.id === '(base)')?.children || []),
+    () => filterRoutesToMenus(router.reactRouter.routes[0]?.children?.find(r => r.id === '(base)')?.children || []),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.reactRouter.routes, locale]
   );
