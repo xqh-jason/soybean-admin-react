@@ -13,6 +13,7 @@ const Home = () => {
       size={[16, 16]}
     >
       <HeaderBanner />
+
       <CardData />
 
       <ARow gutter={[16, 16]}>
@@ -29,7 +30,6 @@ const Home = () => {
           <PieChart />
         </ACol>
       </ARow>
-
       <ARow gutter={[16, 16]}>
         <ACol
           lg={14}

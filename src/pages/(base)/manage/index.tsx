@@ -7,7 +7,7 @@ const Manage = () => {
 export const handle = {
   constant: true,
   i18nKey: 'route.manage',
-  order: 2,
+  order: 3,
   title: 'manage'
 };
 

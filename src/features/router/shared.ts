@@ -1,7 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
 
-import type { AuthRoute } from '@/router/routes';
-
 export function filterCacheRoutes(routes: RouteObject[]) {
   const cacheRoutes: string[] = [];
 
@@ -32,8 +30,8 @@ export function filterCacheRoutes(routes: RouteObject[]) {
  * @param data Auth routes
  * @returns Merged routes
  */
-export function mergeValuesByParent(data: AuthRoute[]) {
-  const merged: Record<string, { parent: string | null; route: RouteObject[] }> = {};
+export function mergeValuesByParent(data: Router.SingleAuthRoute[]) {
+  const merged: Record<string, Router.AuthRoute> = {};
   data.forEach(item => {
     // 使用一个变量作为 key，若 parent 为 null，则转换为字符串 "null"
     const key = item.parent === null ? 'null' : item.parent;

@@ -6,11 +6,6 @@ import { transformElegantRoutesToReactRoutes } from '../elegant/transform';
 
 import { BaseChildrenRoutes } from './builtin';
 
-export type AuthRoute = {
-  parent: string | null;
-  route: RouteObject;
-};
-
 /**
  * Get auth react routes
  *
@@ -32,7 +27,7 @@ function getReactRoutes(route: ElegantConstRoute[]) {
 function filterRoutes(
   routes: RouteObject[],
   parent: string | null = null,
-  authRoutes: AuthRoute[] = [],
+  authRoutes: Router.SingleAuthRoute[] = [],
   cacheRoutes: string[] = []
 ) {
   return routes.reduce((acc, route) => {
@@ -109,7 +104,7 @@ function initRoutes() {
   // 添加自定义复用路由至基础路由
   baseRoute?.children?.push(...BaseChildrenRoutes);
 
-  const authRoutes: AuthRoute[] = [];
+  const authRoutes: Router.SingleAuthRoute[] = [];
 
   const cacheRoutes: string[] = [];
 
@@ -119,5 +114,3 @@ function initRoutes() {
 }
 
 export const { authRoutes, cacheRoutes, constantRoutes } = initRoutes();
-
-console.log('authRoutes, cacheRoutes, constantRoutes', authRoutes, cacheRoutes, constantRoutes);

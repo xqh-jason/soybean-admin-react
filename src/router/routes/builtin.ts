@@ -55,7 +55,7 @@ export const BaseChildrenRoutes = [
     handle: {
       i18nKey: 'route.exception',
       icon: 'ant-design:exception-outlined',
-      order: 7,
+      order: 4,
       title: 'exception'
     },
     id: '(base)_exception',

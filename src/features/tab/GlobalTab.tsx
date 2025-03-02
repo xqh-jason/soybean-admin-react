@@ -6,7 +6,7 @@ import { useTheme } from '@/features/theme';
 import { getFullContent, toggleFullContent } from '@/layouts/appStore';
 import { isPC } from '@/utils/agent';
 
-import { setRemoveCacheKey } from '../router';
+import { setRemoveCacheKey } from '../router/routeStore';
 
 import ContextMenu from './TabContextMenu';
 import TabReloadButton from './TabReloadButton';

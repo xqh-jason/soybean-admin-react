@@ -9,9 +9,12 @@ import { $t } from '@/locales';
  * @param routes Auth routes
  */
 export function filterRoutesToMenus(routes: RouteObject[]) {
+  // 先根据 handle?.order 对路由做排序
+  const sortedRoutes = sortRoutesByOrder(routes);
+
   const menus: App.Global.Menu[] = [];
 
-  for (const route of routes) {
+  for (const route of sortedRoutes) {
     // 如果节点存在 path（注意：这里假设空字符串或 undefined 均视为无 path）
 
     if (route.path && !route.handle?.hideInMenu) {
@@ -34,6 +37,32 @@ export function filterRoutesToMenus(routes: RouteObject[]) {
   }
 
   return menus;
+}
+
+/**
+ * sort routes by order
+ *
+ * @param routes routes
+ */
+export function sortRoutesByOrder(routes: RouteObject[]) {
+  routes.sort((next, prev) => (Number(next.handle?.order) || 0) - (Number(prev.handle?.order) || 0));
+  routes.forEach(sortRouteByOrder);
+
+  return routes;
+}
+
+/**
+ * sort route by order
+ *
+ * @param route route
+ */
+function sortRouteByOrder(route: RouteObject) {
+  if (route.children?.length) {
+    route.children.sort((next, prev) => (Number(next.handle?.order) || 0) - (Number(prev.handle?.order) || 0));
+    route.children.forEach(sortRouteByOrder);
+  }
+
+  return route;
 }
 
 /**

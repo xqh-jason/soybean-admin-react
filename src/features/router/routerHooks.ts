@@ -1,49 +1,43 @@
-import { emitter } from '@sa/hooks';
+import type { RouteObject } from 'react-router-dom';
 
 import { authRoutes } from '@/router';
+import { store } from '@/store';
 
-import { filterRoutesToMenus } from '../menu/MenuUtil';
+import { isStaticSuper, selectUserInfo } from '../auth/authStore';
 
-import type { RouterContextType } from './router';
 import { filterAuthRoutesByRoles, mergeValuesByParent } from './shared';
 
-export function useInitAuthRoutes() {
+export function initAuthRoutes(addRoutes: (parent: string | null, route: RouteObject[]) => void) {
   const authRouteMode = import.meta.env.VITE_AUTH_ROUTE_MODE;
 
   const reactAuthRoutes = mergeValuesByParent(authRoutes).reverse();
 
-  function initAuthRoutes(isStaticSuper: boolean, roles: string[], addRoutes: RouterContextType['addRoutes']) {
-    // 静态模式
-    if (authRouteMode === 'static') {
-      // 超级管理员
-      if (isStaticSuper) {
-        reactAuthRoutes.forEach(route => {
-          if (route.parent?.includes('base')) {
-            emitter.emit('ADD_MENUS', filterRoutesToMenus(route.route));
+  const isSuper = isStaticSuper(store.getState());
 
-            console.log('route.route', route.route);
-          }
+  const { roles } = selectUserInfo(store.getState());
 
-          addRoutes(route.route, route.parent);
-        });
-      } else {
-        // 非超级管理员
-        const filteredRoutes = filterAuthRoutesByRoles(reactAuthRoutes, roles);
-        filteredRoutes.forEach((route, index) => {
-          addRoutes(route, reactAuthRoutes[index].parent);
-        });
-      }
+  // 静态模式
+  if (authRouteMode === 'static') {
+    // 超级管理员
+    if (isSuper) {
+      reactAuthRoutes.forEach(route => {
+        addRoutes(route.parent, route.route);
+      });
     } else {
-      // 动态模式
-      // await dispatch(initDynamicAuthRoute());
+      // 非超级管理员
+      const filteredRoutes = filterAuthRoutesByRoles(reactAuthRoutes, roles);
+      filteredRoutes.forEach((route, index) => {
+        addRoutes(reactAuthRoutes[index].parent, route);
+      });
     }
-
-    // const routeHomeName = getRouteHome(getState());
-
-    // const homeRoute = router.getRouteByName(routeHomeName);
-
-    // if (homeRoute) dispatch(initHomeTab({ homeRouteName: routeHomeName as LastLevelRouteKey, route: homeRoute }));
+  } else {
+    // 动态模式
+    // await dispatch(initDynamicAuthRoute());
   }
 
-  return initAuthRoutes;
+  // const routeHomeName = getRouteHome(getState());
+
+  // const homeRoute = router.getRouteByName(routeHomeName);
+
+  // if (homeRoute) dispatch(initHomeTab({ homeRouteName: routeHomeName as LastLevelRouteKey, route: homeRoute }));
 }
