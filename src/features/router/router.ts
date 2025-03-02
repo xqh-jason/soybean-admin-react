@@ -1,14 +1,14 @@
-import { emitter } from '@sa/hooks';
-import type { RouteObject, RouterNavigateOptions, To } from 'react-router-dom';
+import type { RouterNavigateOptions, To } from 'react-router-dom';
 import { createBrowserRouter, matchRoutes } from 'react-router-dom';
 
-import { authRoutes, routes } from '@/router';
+import { routes } from '@/router';
+import { store } from '@/store';
 
-import { filterRoutesToMenus } from '../menu/MenuUtil';
+import { getIsLogin } from '../auth/authStore';
 
-import { mergeValuesByParent } from './shared';
+import { initAuthRoutes } from './routerHooks';
 
-export function navigator() {
+function initRouter() {
   const authRouteMode = import.meta.env.VITE_AUTH_ROUTE_MODE;
 
   const isStaticSuper = true;
@@ -23,12 +23,11 @@ export function navigator() {
     if (!matchRoute) return true;
 
     if (matchRoute) {
-      return matchRoute[0].route.path === '*';
+      return matchRoute[1].route.path === '*';
     }
+
     return false;
   }
-
-  const reactAuthRoutes = mergeValuesByParent(authRoutes).reverse();
 
   const reactRouter = createBrowserRouter(routes, {
     basename: import.meta.env.VITE_BASE_URL,
@@ -37,20 +36,25 @@ export function navigator() {
         if (authRouteMode === 'static') {
           // 超级管理员
           if (isStaticSuper) {
-            reactAuthRoutes.forEach(route => {
-              if (route.parent?.includes('base')) {
-                emitter.emit('ADD_MENUS', filterRoutesToMenus(route.route));
-              }
-
-              patch(route.parent, route.route);
-            });
+            initAuthRoutes(patch);
           }
         }
-
         isAlreadyPatch = true;
       }
     }
   });
+
+  if (getIsLogin(store.getState())) {
+    initAuthRoutes(reactRouter.patchRoutes);
+
+    isAlreadyPatch = true;
+  }
+
+  return reactRouter;
+}
+
+export function navigator() {
+  const reactRouter = initRouter();
 
   async function navigate(path: To | null, options?: RouterNavigateOptions) {
     reactRouter.navigate(path, options);
@@ -84,12 +88,7 @@ export function navigator() {
     reactRouter.navigate('/');
   }
 
-  function addRoutes(newRoutes: RouteObject[], parent: string | null = null) {
-    reactRouter.patchRoutes(parent, newRoutes);
-  }
-
   return {
-    addRoutes,
     back,
     forward,
     go,
