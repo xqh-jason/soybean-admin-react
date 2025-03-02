@@ -7,8 +7,6 @@ import { createViteProxy, getBuildTime } from './build/config';
 import { setupVitePlugins } from './build/plugins';
 
 // https://vitejs.dev/config/
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 export default defineConfig(configEnv => {
   const viteEnv = loadEnv(configEnv.mode, process.cwd()) as unknown as Env.ImportMeta;
 
@@ -38,8 +36,6 @@ export default defineConfig(configEnv => {
           chunkFileNames: chunkInfo => {
             // 检查文件路径，如果是 pages 目录下的文件，则修改文件名和路径
             const filePath = chunkInfo.facadeModuleId;
-
-            console.log(chunkInfo.name, 'filePath');
 
             if (filePath) {
               // 提取文件的父文件夹作为文件名
@@ -94,9 +90,6 @@ export default defineConfig(configEnv => {
       }
     },
     server: {
-      fs: {
-        cachedChecks: false
-      },
       host: '0.0.0.0',
       open: true,
       port: 9527,
