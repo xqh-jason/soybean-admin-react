@@ -1,7 +1,5 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 
-import { initCacheRoutes } from '@/router';
-
 import { createAppSlice } from '../../store/createAppSlice';
 
 interface InitialStateType {
@@ -12,7 +10,7 @@ interface InitialStateType {
 
 const initialState: InitialStateType = {
   /** - 需要进行缓存的页面 */
-  cacheRoutes: initCacheRoutes,
+  cacheRoutes: [],
   /** - 需要删除的缓存页面 */
   removeCacheKey: null,
   /** - 首页路由 */
