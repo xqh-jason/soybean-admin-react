@@ -11,12 +11,12 @@
     "url": "https://github.com/mufeng889"
   },
   "license": "MIT",
-  "homepage": "https://github.com/mufeng889/react-soybean-admin",
+  "homepage": "https://github.com/soybeanjs/soybean-admin-react",
   "repository": {
-    "url": "https://github.com/mufeng889/react-soybean-admin.git"
+    "url": "https://github.com/soybeanjs/soybean-admin-react.git"
   },
   "bugs": {
-    "url": "https://github.com/mufeng889/react-soybean-admin/issues"
+    "url": "https://github.com/soybeanjs/soybean-admin-react/issues"
   },
   "keywords": [
     "React admin",
@@ -123,5 +123,5 @@
   "lint-staged": {
     "*": "eslint --fix"
   },
-  "website": "https://react-soybean.ohh-889.com/"
+  "website": "https://react.soybeanjs.cn/home/"
 }
