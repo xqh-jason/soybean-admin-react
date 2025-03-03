@@ -2,15 +2,15 @@ import { PageTab } from '@sa/materials';
 import clsx from 'clsx';
 
 import BetterScroll from '@/components/BetterScroll';
-import { useTheme } from '@/features/theme';
 import { getFullContent, toggleFullContent } from '@/layouts/appStore';
 import { isPC } from '@/utils/agent';
 
 import { setRemoveCacheKey } from '../router/routeStore';
+import { useTheme, useThemeSettings } from '../theme';
 
 import ContextMenu from './TabContextMenu';
 import TabReloadButton from './TabReloadButton';
-import { useTabActions } from './tabHooks';
+import { useTabActions, useTabManager } from './tabHooks';
 import { useTabScroll } from './useTabScroll';
 
 const GlobalTab = () => {
@@ -20,9 +20,13 @@ const GlobalTab = () => {
 
   const { darkMode } = useTheme();
 
-  const { activeTabId, dispatch, isTabRetain, navigate, removeTabById, tabs, themeSettings } = useTabActions();
+  const themeSettings = useThemeSettings();
+
+  const { activeTabId, dispatch, isTabRetain, navigate, removeTabById, tabs } = useTabActions();
 
   const { bsWrapper, setBsScroll, tabRef } = useTabScroll(activeTabId);
+
+  useTabManager();
 
   const fullContent = useAppSelector(getFullContent);
 

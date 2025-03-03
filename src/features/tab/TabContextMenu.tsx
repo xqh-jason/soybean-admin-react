@@ -1,8 +1,6 @@
-import { useEmit } from '@sa/hooks';
-import { Dropdown } from 'antd';
 import type { MenuProps } from 'antd';
 
-import { TabEvent } from './tabEnum';
+import { useTabController } from './tabHooks';
 
 interface ContextMenuProps {
   active: boolean;
@@ -39,6 +37,7 @@ function getMenu(options: DropdownOption[]) {
 
 const ContextMenu = ({ children, disabledKeys = [], excludeKeys = [], tabId }: ContextMenuProps) => {
   const { t } = useTranslation();
+  const { clearLeftTabs, clearRightTabs, closeAllTabs, closeCurrentTab, closeOtherTabs } = useTabController();
 
   const options = () => {
     const opts: DropdownOption[] = [
@@ -79,25 +78,23 @@ const ContextMenu = ({ children, disabledKeys = [], excludeKeys = [], tabId }: C
       });
   };
 
-  const emit = useEmit();
-
   const menu = getMenu(options());
 
   const dropdownAction: Record<App.Global.DropdownKey, () => void> = {
     closeAll() {
-      emit(TabEvent.UPDATE_TABS, TabEvent.CLOSE_ALL);
+      closeAllTabs();
     },
     closeCurrent() {
-      emit(TabEvent.UPDATE_TABS, TabEvent.CLOSE_CURRENT, tabId);
+      closeCurrentTab(tabId);
     },
     closeLeft() {
-      emit(TabEvent.UPDATE_TABS, TabEvent.CLEAR_LEFT_TABS, tabId);
+      clearLeftTabs(tabId);
     },
     closeOther() {
-      emit(TabEvent.UPDATE_TABS, TabEvent.CLOSE_OTHER, tabId);
+      closeOtherTabs(tabId);
     },
     closeRight() {
-      emit(TabEvent.UPDATE_TABS, TabEvent.CLEAR_RIGHT_TABS, tabId);
+      clearRightTabs(tabId);
     }
   };
 
@@ -106,12 +103,12 @@ const ContextMenu = ({ children, disabledKeys = [], excludeKeys = [], tabId }: C
   };
 
   return (
-    <Dropdown
+    <ADropdown
       menu={{ items: menu, onClick: handleClick }}
       trigger={['contextMenu']}
     >
       {children}
-    </Dropdown>
+    </ADropdown>
   );
 };
 
