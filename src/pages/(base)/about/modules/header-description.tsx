@@ -3,11 +3,11 @@ import type { CardInfo } from './shared';
 const HeaderDescription = (item: CardInfo) => {
   return (
     <ACard
-      bordered={false}
       className="card-wrapper"
       key={item.title}
       size="small"
       title={item.title}
+      variant="borderless"
     >
       <ADescriptions
         bordered

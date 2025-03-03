@@ -32,6 +32,15 @@ export const tabSlice = createSlice({
         state.tabs = [...state.tabs, payload];
       }
     },
+    changeTabLabel(state, { payload }: PayloadAction<{ index: number; label?: string }>) {
+      const { index, label } = payload;
+
+      if (label) {
+        state.tabs[index].i18nKey = label;
+      } else {
+        state.tabs[index].i18nKey = state.tabs[index].oldLabel;
+      }
+    },
     setActiveFirstLevelMenuKey: (state, action: PayloadAction<string>) => {
       state.activeFirstLevelMenuKey = action.payload;
     },
@@ -49,6 +58,6 @@ export const tabSlice = createSlice({
   }
 });
 
-export const { addTab, setActiveFirstLevelMenuKey, setActiveTabId, setTabs } = tabSlice.actions;
+export const { addTab, changeTabLabel, setActiveFirstLevelMenuKey, setActiveTabId, setTabs } = tabSlice.actions;
 
 export const { selectActiveFirstLevelMenuKey, selectActiveTabId, selectTabs } = tabSlice.selectors;
