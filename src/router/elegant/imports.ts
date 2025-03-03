@@ -17,6 +17,9 @@ export const layouts: Record<string, () => Promise<any>> = {
 };
 
 export const pages: Record<string, () => Promise<any>> = {
+"(base)_about": () => import("@/pages/(base)/about/index.tsx"),
+"(base)_function_event-bus": () => import("@/pages/(base)/function/event-bus/index.tsx"),
+"(base)_function": () => import("@/pages/(base)/function/index.tsx"),
 "(base)_home": () => import("@/pages/(base)/home/index.tsx"),
 "(base)_manage": () => import("@/pages/(base)/manage/index.tsx"),
 "(base)_manage_menu": () => import("@/pages/(base)/manage/menu/index.tsx"),
@@ -25,6 +28,8 @@ export const pages: Record<string, () => Promise<any>> = {
 "(base)_multi-menu_first": () => import("@/pages/(base)/multi-menu/first/index.tsx"),
 "(base)_multi-menu": () => import("@/pages/(base)/multi-menu/index.tsx"),
 "(base)_multi-menu_second_child_home": () => import("@/pages/(base)/multi-menu/second/child/home/index.tsx"),
+"(base)_multi-menu_second_child": () => import("@/pages/(base)/multi-menu/second/child/index.tsx"),
+"(base)_multi-menu_second": () => import("@/pages/(base)/multi-menu/second/index.tsx"),
 "(base)_projects_[pid]_edit_[id]": () => import("@/pages/(base)/projects/[pid]/edit/[id].tsx"),
 "(base)_projects_[pid]_edit": () => import("@/pages/(base)/projects/[pid]/edit/index.tsx"),
 "(base)_projects_[pid]": () => import("@/pages/(base)/projects/[pid]/index.tsx"),

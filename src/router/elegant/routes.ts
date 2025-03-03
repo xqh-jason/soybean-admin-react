@@ -17,6 +17,23 @@ export const generatedRoutes = [
         name: '(base)',
         path: null,
         children: [
+          {
+            matchedFiles: [null, '/src/pages/(base)/about/index.tsx', null, null],
+            name: '(base)_about',
+            path: '/about'
+          },
+          {
+            matchedFiles: [null, '/src/pages/(base)/function/index.tsx', null, null],
+            name: '(base)_function',
+            path: '/function',
+            children: [
+              {
+                matchedFiles: [null, '/src/pages/(base)/function/event-bus/index.tsx', null, null],
+                name: '(base)_function_event-bus',
+                path: '/function/event-bus'
+              }
+            ]
+          },
           { matchedFiles: [null, '/src/pages/(base)/home/index.tsx', null, null], name: '(base)_home', path: '/home' },
           {
             matchedFiles: [null, '/src/pages/(base)/manage/index.tsx', null, null],
@@ -53,12 +70,12 @@ export const generatedRoutes = [
                 ]
               },
               {
-                matchedFiles: [null, null, null, null],
+                matchedFiles: [null, '/src/pages/(base)/multi-menu/second/index.tsx', null, null],
                 name: '(base)_multi-menu_second',
                 path: '/multi-menu/second',
                 children: [
                   {
-                    matchedFiles: [null, null, null, null],
+                    matchedFiles: [null, '/src/pages/(base)/multi-menu/second/child/index.tsx', null, null],
                     name: '(base)_multi-menu_second_child',
                     path: '/multi-menu/second/child',
                     children: [

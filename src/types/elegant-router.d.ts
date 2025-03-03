@@ -29,6 +29,9 @@ declare module "@soybean-react/vite-plugin-react-router" {
     "document_procomponents": "/document/procomponents";
     "document_antd": "/document/antd";
     "logout": "/logout";
+    "(base)_about": "/about";
+    "(base)_function": "/function";
+    "(base)_function_event-bus": "/function/event-bus";
     "(base)_home": "/home";
     "(base)_manage": "/manage";
     "(base)_manage_menu": "/manage/menu";
@@ -121,6 +124,9 @@ declare module "@soybean-react/vite-plugin-react-router" {
    */
   export type LastLevelRouteKey = Extract<
     RouteKey,
+    | "(base)_about"
+    | "(base)_function_event-bus"
+    | "(base)_function"
     | "(base)_home"
     | "(base)"
     | "(base)_manage"
@@ -130,6 +136,8 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "(base)_multi-menu_first"
     | "(base)_multi-menu"
     | "(base)_multi-menu_second_child_home"
+    | "(base)_multi-menu_second_child"
+    | "(base)_multi-menu_second"
     | "(base)_projects_[pid]_edit_[id]"
     | "(base)_projects_[pid]_edit"
     | "(base)_projects_[pid]"
