@@ -6,6 +6,7 @@ import { store } from '@/store';
 
 import { getIsLogin } from '../auth/authStore';
 
+import { type LocationQueryRaw, stringifyQuery } from './query';
 import { initAuthRoutes } from './routerHooks';
 
 function initRouter() {
@@ -88,6 +89,18 @@ export function navigator() {
     reactRouter.navigate('/');
   }
 
+  function push(path: string, query?: LocationQueryRaw, state?: any) {
+    let _path = path;
+
+    if (query) {
+      const search = stringifyQuery(query);
+
+      _path = `${path}?${search}`;
+    }
+
+    reactRouter.navigate(_path, { state });
+  }
+
   return {
     back,
     forward,
@@ -95,6 +108,7 @@ export function navigator() {
     goHome,
     navigate,
     navigateUp,
+    push,
     reactRouter,
     reload,
     replace
