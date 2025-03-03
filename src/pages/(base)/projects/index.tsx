@@ -4,7 +4,7 @@ const Projects = () => {
 
 export const handle = {
   i18nKey: 'route.(base)_projects',
-  order: 6,
+  order: 10,
   title: '(base)_projects'
 };
 
