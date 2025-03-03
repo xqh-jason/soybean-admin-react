@@ -5,7 +5,7 @@ const HideChildOne = () => {
 };
 
 export const handle = {
-  activeMenu: 'function_hide-child',
+  activeMenu: '/function/hide-child',
   hideInMenu: true,
   i18nKey: 'route.function_hide-child_one',
   icon: 'material-symbols:filter-list-off',

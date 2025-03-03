@@ -12,7 +12,7 @@ export const handle = {
 };
 
 export const loader = () => {
-  redirect('one');
+  return redirect('one');
 };
 
 export default HideChild;
