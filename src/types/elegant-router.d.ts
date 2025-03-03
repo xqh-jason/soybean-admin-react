@@ -32,6 +32,14 @@ declare module "@soybean-react/vite-plugin-react-router" {
     "(base)_about": "/about";
     "(base)_function": "/function";
     "(base)_function_event-bus": "/function/event-bus";
+    "(base)_function_hide-child": "/function/hide-child";
+    "(base)_function_hide-child_one": "/function/hide-child/one";
+    "(base)_function_hide-child_three": "/function/hide-child/three";
+    "(base)_function_hide-child_two": "/function/hide-child/two";
+    "(base)_function_multi-tab": "/function/multi-tab";
+    "(base)_function_request": "/function/request";
+    "(base)_function_super-page": "/function/super-page";
+    "(base)_function_tab": "/function/tab";
     "(base)_home": "/home";
     "(base)_manage": "/manage";
     "(base)_manage_menu": "/manage/menu";
@@ -126,7 +134,15 @@ declare module "@soybean-react/vite-plugin-react-router" {
     RouteKey,
     | "(base)_about"
     | "(base)_function_event-bus"
+    | "(base)_function_hide-child"
+    | "(base)_function_hide-child_one"
+    | "(base)_function_hide-child_three"
+    | "(base)_function_hide-child_two"
     | "(base)_function"
+    | "(base)_function_multi-tab"
+    | "(base)_function_request"
+    | "(base)_function_super-page"
+    | "(base)_function_tab"
     | "(base)_home"
     | "(base)"
     | "(base)_manage"

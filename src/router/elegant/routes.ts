@@ -31,6 +31,48 @@ export const generatedRoutes = [
                 matchedFiles: [null, '/src/pages/(base)/function/event-bus/index.tsx', null, null],
                 name: '(base)_function_event-bus',
                 path: '/function/event-bus'
+              },
+              {
+                matchedFiles: [null, '/src/pages/(base)/function/hide-child/index.tsx', null, null],
+                name: '(base)_function_hide-child',
+                path: '/function/hide-child',
+                children: [
+                  {
+                    matchedFiles: [null, '/src/pages/(base)/function/hide-child/one/index.tsx', null, null],
+                    name: '(base)_function_hide-child_one',
+                    path: '/function/hide-child/one'
+                  },
+                  {
+                    matchedFiles: [null, '/src/pages/(base)/function/hide-child/three/index.tsx', null, null],
+                    name: '(base)_function_hide-child_three',
+                    path: '/function/hide-child/three'
+                  },
+                  {
+                    matchedFiles: [null, '/src/pages/(base)/function/hide-child/two/index.tsx', null, null],
+                    name: '(base)_function_hide-child_two',
+                    path: '/function/hide-child/two'
+                  }
+                ]
+              },
+              {
+                matchedFiles: [null, '/src/pages/(base)/function/multi-tab/index.tsx', null, null],
+                name: '(base)_function_multi-tab',
+                path: '/function/multi-tab'
+              },
+              {
+                matchedFiles: [null, '/src/pages/(base)/function/request/index.tsx', null, null],
+                name: '(base)_function_request',
+                path: '/function/request'
+              },
+              {
+                matchedFiles: [null, '/src/pages/(base)/function/super-page/index.tsx', null, null],
+                name: '(base)_function_super-page',
+                path: '/function/super-page'
+              },
+              {
+                matchedFiles: [null, '/src/pages/(base)/function/tab/index.tsx', null, null],
+                name: '(base)_function_tab',
+                path: '/function/tab'
               }
             ]
           },

@@ -18,7 +18,6 @@ const loadings = import.meta.glob(`/src/pages/**/loading.tsx`, { eager: true, im
 const handles = import.meta.glob([`/src/pages/**/index.tsx`, `/src/pages/**/[[]*[]].tsx`, '!**/module/index.tsx', '!**/components/index.tsx'], { eager: true, import: 'handle' });
 
 
-
 /**
 * transform elegant const routes to react routes
 *
