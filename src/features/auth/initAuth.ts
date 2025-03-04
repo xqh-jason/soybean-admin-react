@@ -24,10 +24,12 @@ export function useInitAuth() {
     const info = res.payload as Api.Auth.Info;
 
     if (info.token) {
-      if (redirectUrl && redirect) {
-        await navigate(redirectUrl);
-      } else {
-        navigate('/');
+      if (redirect) {
+        if (redirectUrl) {
+          await navigate(redirectUrl);
+        } else {
+          navigate('/');
+        }
       }
 
       window.$notification?.success({
