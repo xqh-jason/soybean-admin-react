@@ -1,4 +1,8 @@
 const route: App.I18n.Schema['translation']['route'] = {
+  '(base)_projects': 'Multi-level Dynamic Route',
+  '(base)_projects_[pid]': 'Multi-level Dynamic Route Details',
+  '(base)_projects_[pid]_edit': 'Multi-level Dynamic Route Edit',
+  '(base)_projects_[pid]_edit_[id]': 'Multi-level Dynamic Route Edit Details',
   403: 'No Permission',
   404: 'Page Not Found',
   500: 'Server Error',

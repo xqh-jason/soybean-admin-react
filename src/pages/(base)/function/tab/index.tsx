@@ -31,6 +31,14 @@ const Tab = () => {
     navigate('/about');
   }
 
+  function goProjects() {
+    navigate('/projects/123');
+  }
+
+  function goProjectsEdit() {
+    navigate('/projects/123/edit/456');
+  }
+
   return (
     <ASpace
       className="w-full"
@@ -51,6 +59,17 @@ const Tab = () => {
           <AButton onClick={removeActiveTab}>{t('page.function.tab.tabOperate.closeCurrentTab')}</AButton>
 
           <AButton onClick={removeAboutTab}>{t('page.function.tab.tabOperate.closeAboutTab')}</AButton>
+        </ASpace>
+
+        <ADivider orientation="left">跳转多级动态路由</ADivider>
+        <ASpace
+          wrap
+          className="m-0!"
+          size={16}
+        >
+          <AButton onClick={goProjects}>跳转一级动态路由</AButton>
+
+          <AButton onClick={goProjectsEdit}>跳转级动态路由</AButton>
         </ASpace>
 
         <ADivider orientation="left">{t('page.function.tab.tabOperate.addMultiTab')}</ADivider>

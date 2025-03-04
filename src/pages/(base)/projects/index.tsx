@@ -1,10 +1,11 @@
 const Projects = () => {
-  return null;
+  return <div>Projects</div>;
 };
 
 export const handle = {
   i18nKey: 'route.(base)_projects',
-  order: 10,
+  icon: 'hugeicons:align-box-top-center',
+  order: 7,
   title: '(base)_projects'
 };
 

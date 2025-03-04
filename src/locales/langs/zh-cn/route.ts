@@ -1,4 +1,8 @@
 const route: App.I18n.Schema['translation']['route'] = {
+  '(base)_projects': '多级动态路由',
+  '(base)_projects_[pid]': '多级动态路由详情',
+  '(base)_projects_[pid]_edit': '多级动态路由编辑',
+  '(base)_projects_[pid]_edit_[id]': '多级动态路由编辑详情',
   403: '无权限',
   404: '页面不存在',
   500: '服务器错误',

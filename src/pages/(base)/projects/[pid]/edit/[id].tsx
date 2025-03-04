@@ -2,14 +2,18 @@ import { useRoute } from '@/features/router';
 
 const ProjectsEditId = () => {
   const route = useRoute();
-  console.log(route, 'route');
 
-  return <div>ProjectsEditId</div>;
+  return (
+    <div>
+      <div>{route.params.pid}</div>
+      <div>{route.params.id}</div>
+    </div>
+  );
 };
 
 export const handle = {
-  i18nKey: 'route.projects_[pid]_[id]',
-  title: 'projects_[pid]_[id]'
+  i18nKey: 'route.(base)_projects_[pid]_edit_[id]',
+  title: '(base)_projects_[pid]_edit_[id]'
 };
 
 export default ProjectsEditId;

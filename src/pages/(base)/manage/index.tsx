@@ -5,9 +5,10 @@ const Manage = () => {
 };
 
 export const handle = {
-  constant: true,
   i18nKey: 'route.manage',
-  order: 3,
+  icon: 'carbon:cloud-service-management',
+  order: 8,
+  roles: ['R_ADMIN'],
   title: 'manage'
 };
 
