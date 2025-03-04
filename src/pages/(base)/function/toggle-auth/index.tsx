@@ -2,8 +2,8 @@ import { useLoading } from '@sa/hooks';
 import type { DescriptionsProps } from 'antd';
 
 import { useAuth } from '@/features/auth';
+import { useInitAuth } from '@/features/auth/auth';
 import { selectUserInfo } from '@/features/auth/authStore';
-import { useInitAuth } from '@/features/auth/initAuth';
 import { useRouter } from '@/features/router';
 import { initTab, useUpdateTabs } from '@/features/tab/tabHooks';
 import { useThemeSettings } from '@/features/theme';

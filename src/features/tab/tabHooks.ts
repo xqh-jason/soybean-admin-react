@@ -246,10 +246,26 @@ export function initTab(cache: boolean, updateTabs: (tabs: App.Global.Tab[]) => 
   return [];
 }
 
+export function useCacheTabs() {
+  const themeSettings = useThemeSettings();
+
+  const tabs = useAppSelector(selectTabs);
+
+  function cacheTabs() {
+    if (!themeSettings.tab.cache) return;
+
+    localStg.set('globalTabs', tabs);
+  }
+
+  return cacheTabs;
+}
+
 export function useTabManager() {
   const isInit = useRef(false);
 
   const themeSettings = useThemeSettings();
+
+  const cacheTabs = useCacheTabs();
 
   const tabs = useAppSelector(selectTabs);
 
@@ -258,12 +274,6 @@ export function useTabManager() {
   const _route = useRoute();
 
   const updateTabs = useUpdateTabs();
-
-  function _cacheTabs() {
-    if (!themeSettings.tab.cache) return;
-
-    localStg.set('globalTabs', tabs);
-  }
 
   function _addTab(route: Router.Route) {
     const tab = getTabByRoute(route);
@@ -293,7 +303,7 @@ export function useTabManager() {
   useEventListener(
     'beforeunload',
     () => {
-      _cacheTabs();
+      cacheTabs();
     },
     { target: window }
   );

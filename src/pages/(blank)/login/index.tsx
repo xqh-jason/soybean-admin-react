@@ -1,7 +1,7 @@
 import { Button, Checkbox, Divider, Input, Space } from 'antd';
 
 import { loginModuleRecord } from '@/constants/app';
-import { useInitAuth } from '@/features/auth/initAuth';
+import { useInitAuth } from '@/features/auth/auth';
 import { SubmitEnterButton, useFormRules } from '@/features/form';
 
 type AccountKey = 'admin' | 'super' | 'user';
