@@ -5,7 +5,7 @@ const Function = () => {
 };
 
 export const handle = {
-  i18nKey: 'route.function',
+  i18nKey: 'route.(base)_function',
   icon: 'icon-park-outline:all-application',
   order: 6,
   title: 'function'

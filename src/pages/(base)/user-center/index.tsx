@@ -6,7 +6,7 @@ const UserLogin = () => {
 
 export const handle = {
   hideInMenu: true,
-  i18nKey: 'route.user-center',
+  i18nKey: 'route.(base)_user-center',
   title: 'user-center'
 };
 

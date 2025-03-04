@@ -5,7 +5,7 @@ const Child = () => {
 };
 
 export const handle = {
-  i18nKey: 'route.multi-menu_second_child',
+  i18nKey: 'route.(base)_multi-menu_second_child',
   title: 'multi-menu_second_child'
 };
 

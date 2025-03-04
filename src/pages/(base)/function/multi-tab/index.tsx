@@ -3,9 +3,9 @@ const MultiTab = () => {
 };
 
 export const handle = {
-  activeMenu: 'function_tab',
+  activeMenu: '/function/tab',
   hideInMenu: true,
-  i18nKey: 'route.function_multi-tab',
+  i18nKey: 'route.(base)_function_multi-tab',
   icon: 'ic:round-tab',
   multiTab: true,
   title: 'function_multi-tab'

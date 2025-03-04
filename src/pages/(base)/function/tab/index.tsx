@@ -113,7 +113,7 @@ const Tab = () => {
 };
 
 export const handle = {
-  i18nKey: 'route.function_tab',
+  i18nKey: 'route.(base)_function_tab',
   icon: 'ic:round-tab',
   keepAlive: true,
   order: 1,

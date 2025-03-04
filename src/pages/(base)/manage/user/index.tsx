@@ -3,7 +3,7 @@ const UserManage = () => {
 };
 
 export const handle = {
-  i18nKey: 'route.manage_user',
+  i18nKey: 'route.(base)_manage_user',
   icon: 'ic:round-manage-accounts',
   order: 1,
   roles: ['R_ADMIN'],

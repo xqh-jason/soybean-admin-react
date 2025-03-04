@@ -112,7 +112,7 @@ const EventBusDemo = () => {
 };
 
 export const handle = {
-  i18nKey: 'route.function_event-bus',
+  i18nKey: 'route.(base)_function_event-bus',
   icon: 'ant-design:send-outlined',
   title: 'function_event-bus'
 };

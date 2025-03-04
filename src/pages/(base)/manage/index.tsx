@@ -5,7 +5,7 @@ const Manage = () => {
 };
 
 export const handle = {
-  i18nKey: 'route.manage',
+  i18nKey: 'route.(base)_manage',
   icon: 'carbon:cloud-service-management',
   order: 8,
   roles: ['R_ADMIN'],

@@ -5,7 +5,7 @@ const HideChild = () => {
 };
 
 export const handle = {
-  i18nKey: 'route.function_hide-child',
+  i18nKey: 'route.(base)_function_hide-child',
   icon: 'material-symbols:filter-list-off',
   order: 2,
   title: 'function_hide-child'

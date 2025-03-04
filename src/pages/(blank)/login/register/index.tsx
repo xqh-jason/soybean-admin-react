@@ -105,7 +105,7 @@ const Register = () => {
 
 export const handle = {
   constant: true,
-  i18nKey: 'route.login_register',
+  i18nKey: 'route.(blank)_login_register',
   title: 'login_register'
 };
 

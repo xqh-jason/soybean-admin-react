@@ -5,9 +5,9 @@ const HideChildTwo = () => {
 };
 
 export const handle = {
-  activeMenu: 'function_hide-child',
+  activeMenu: '/function/hide-child',
   hideInMenu: true,
-  i18nKey: 'route.function_hide-child_two',
+  i18nKey: 'route.(base)_function_hide-child_two',
   title: 'function_hide-child_two'
 };
 export default HideChildTwo;

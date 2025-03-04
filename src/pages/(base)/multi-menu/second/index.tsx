@@ -5,7 +5,7 @@ const Second = () => {
 };
 
 export const handle = {
-  i18nKey: 'route.multi-menu_second',
+  i18nKey: 'route.(base)_multi-menu_second',
   title: 'multi-menu_second'
 };
 
