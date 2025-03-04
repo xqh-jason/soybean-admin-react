@@ -93,9 +93,21 @@ export const generatedRoutes = [
                 path: '/manage/menu'
               },
               {
+                matchedFiles: [null, '/src/pages/(base)/manage/role/index.tsx', null, null],
+                name: '(base)_manage_role',
+                path: '/manage/role'
+              },
+              {
                 matchedFiles: [null, '/src/pages/(base)/manage/user/index.tsx', null, null],
                 name: '(base)_manage_user',
-                path: '/manage/user'
+                path: '/manage/user',
+                children: [
+                  {
+                    matchedFiles: [null, '/src/pages/(base)/manage/user/[id].tsx', null, null],
+                    name: '(base)_manage_user_[id]',
+                    path: '/manage/user/:id'
+                  }
+                ]
               }
             ]
           },

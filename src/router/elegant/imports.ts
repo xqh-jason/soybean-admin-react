@@ -32,6 +32,8 @@ export const pages: Record<string, () => Promise<any>> = {
 "(base)_home": () => import("@/pages/(base)/home/index.tsx"),
 "(base)_manage": () => import("@/pages/(base)/manage/index.tsx"),
 "(base)_manage_menu": () => import("@/pages/(base)/manage/menu/index.tsx"),
+"(base)_manage_role": () => import("@/pages/(base)/manage/role/index.tsx"),
+"(base)_manage_user_[id]": () => import("@/pages/(base)/manage/user/[id].tsx"),
 "(base)_manage_user": () => import("@/pages/(base)/manage/user/index.tsx"),
 "(base)_multi-menu_first_child": () => import("@/pages/(base)/multi-menu/first/child/index.tsx"),
 "(base)_multi-menu_first": () => import("@/pages/(base)/multi-menu/first/index.tsx"),

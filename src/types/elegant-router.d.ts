@@ -28,7 +28,6 @@ declare module "@soybean-react/vite-plugin-react-router" {
     "document_unocss": "/document/unocss";
     "document_procomponents": "/document/procomponents";
     "document_antd": "/document/antd";
-    "logout": "/logout";
     "(base)_about": "/about";
     "(base)_function": "/function";
     "(base)_function_event-bus": "/function/event-bus";
@@ -44,7 +43,9 @@ declare module "@soybean-react/vite-plugin-react-router" {
     "(base)_home": "/home";
     "(base)_manage": "/manage";
     "(base)_manage_menu": "/manage/menu";
+    "(base)_manage_role": "/manage/role";
     "(base)_manage_user": "/manage/user";
+    "(base)_manage_user_[id]": "/manage/user/:id";
     "(base)_multi-menu": "/multi-menu";
     "(base)_multi-menu_first": "/multi-menu/first";
     "(base)_multi-menu_first_child": "/multi-menu/first/child";
@@ -95,7 +96,6 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "document_unocss"
     | "document_procomponents"
     | "document_antd"
-    | "logout"
   >;
 
   /**
@@ -125,7 +125,6 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "not-found"
     | "exception"
     | "document"
-    | "logout"
   >;
 
   /**
@@ -149,6 +148,8 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "(base)"
     | "(base)_manage"
     | "(base)_manage_menu"
+    | "(base)_manage_role"
+    | "(base)_manage_user_[id]"
     | "(base)_manage_user"
     | "(base)_multi-menu_first_child"
     | "(base)_multi-menu_first"
@@ -193,6 +194,5 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "document_unocss"
     | "document_procomponents"
     | "document_antd"
-    | "logout"
   >;
 }
