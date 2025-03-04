@@ -73,6 +73,11 @@ export const generatedRoutes = [
                 matchedFiles: [null, '/src/pages/(base)/function/tab/index.tsx', null, null],
                 name: '(base)_function_tab',
                 path: '/function/tab'
+              },
+              {
+                matchedFiles: [null, '/src/pages/(base)/function/toggle-auth/index.tsx', null, null],
+                name: '(base)_function_toggle-auth',
+                path: '/function/toggle-auth'
               }
             ]
           },

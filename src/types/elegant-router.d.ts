@@ -40,6 +40,7 @@ declare module "@soybean-react/vite-plugin-react-router" {
     "(base)_function_request": "/function/request";
     "(base)_function_super-page": "/function/super-page";
     "(base)_function_tab": "/function/tab";
+    "(base)_function_toggle-auth": "/function/toggle-auth";
     "(base)_home": "/home";
     "(base)_manage": "/manage";
     "(base)_manage_menu": "/manage/menu";
@@ -143,6 +144,7 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "(base)_function_request"
     | "(base)_function_super-page"
     | "(base)_function_tab"
+    | "(base)_function_toggle-auth"
     | "(base)_home"
     | "(base)"
     | "(base)_manage"

@@ -64,6 +64,7 @@ declare global {
   const SoybeanAvatar: typeof import('../components/SoybeanAvatar')['default']
   const SvgIcon: typeof import('../components/SvgIcon')['default']
   const SystemLogo: typeof import('../components/SystemLogo')['default']
+  const TypingAnimation: typeof import('../components/TypingAnimation')['TypingAnimation']
   const WaveBg: typeof import('../components/WaveBg')['default']
   const createRef: typeof import('react')['createRef']
   const forwardRef: typeof import('react')['forwardRef']
