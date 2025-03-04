@@ -17,8 +17,7 @@ export function setupElegantRouter() {
         'document_vite',
         'document_unocss',
         'document_proComponents',
-        'document_antd',
-        'logout'
+        'document_antd'
       ]
     },
     onRouteMetaGen(routeName) {
