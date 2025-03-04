@@ -1,12 +1,13 @@
 import type { RouterNavigateOptions, To } from 'react-router-dom';
 import { createBrowserRouter, matchRoutes } from 'react-router-dom';
 
-import { routes } from '@/router';
+import { initCacheRoutes, routes } from '@/router';
 import { store } from '@/store';
 
 import { getIsLogin } from '../auth/authStore';
 
 import { type LocationQueryRaw, stringifyQuery } from './query';
+import { setCacheRoutes } from './routeStore';
 import { initAuthRoutes } from './routerHooks';
 
 function initRouter() {
@@ -45,17 +46,27 @@ function initRouter() {
     }
   });
 
+  store.dispatch(setCacheRoutes(initCacheRoutes));
+
   if (getIsLogin(store.getState())) {
     initAuthRoutes(reactRouter.patchRoutes);
 
     isAlreadyPatch = true;
   }
 
-  return reactRouter;
+  function resetRoutes() {
+    isAlreadyPatch = false;
+    reactRouter._internalSetRoutes(routes);
+  }
+
+  return {
+    reactRouter,
+    resetRoutes
+  };
 }
 
 export function navigator() {
-  const reactRouter = initRouter();
+  const { reactRouter, resetRoutes } = initRouter();
 
   async function navigate(path: To | null, options?: RouterNavigateOptions) {
     reactRouter.navigate(path, options);
@@ -111,7 +122,8 @@ export function navigator() {
     push,
     reactRouter,
     reload,
-    replace
+    replace,
+    resetRoutes
   };
 }
 
