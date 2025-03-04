@@ -1,6 +1,6 @@
 import type { MenuProps } from 'antd';
-import { useSubmit } from 'react-router-dom';
 
+import { useResetAuth } from '@/features/auth';
 import { selectToken, selectUserInfo } from '@/features/auth/authStore';
 import { useRouter } from '@/features/router';
 
@@ -11,7 +11,7 @@ const UserAvatar = memo(() => {
 
   const userInfo = useAppSelector(selectUserInfo);
 
-  const submit = useSubmit();
+  const resetAuth = useResetAuth();
 
   const { navigate } = useRouter();
 
@@ -21,9 +21,7 @@ const UserAvatar = memo(() => {
       content: t('common.logoutConfirm'),
       okText: t('common.confirm'),
       onOk: () => {
-        const needRedirect = false;
-        // if (!route.meta?.constant) needRedirect = true;
-        // submit({ needRedirect, redirectFullPath: route.fullPath }, { action: '/logout', method: 'post' });
+        resetAuth();
       },
       title: t('common.tip')
     });
