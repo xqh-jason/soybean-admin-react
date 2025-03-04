@@ -54,7 +54,12 @@ export function mergeValuesByParent(data: Router.SingleAuthRoute[]) {
  */
 export function filterAuthRoutesByRoles(routes: { parent: string | null; route: RouteObject[] }[], roles: string[]) {
   return routes.flatMap(route => {
-    const filteredRoutes = route.route.map(item => filterAuthRouteByRoles(item, roles));
+    const filteredRoutes = route.route.map(item => {
+      return {
+        parent: route.parent,
+        route: filterAuthRouteByRoles(item, roles)
+      };
+    });
 
     return filteredRoutes;
   });

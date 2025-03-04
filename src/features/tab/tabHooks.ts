@@ -233,6 +233,19 @@ export function useTabController() {
   };
 }
 
+export function initTab(cache: boolean, updateTabs: (tabs: App.Global.Tab[]) => void) {
+  const storageTabs = localStg.get('globalTabs');
+
+  if (cache && storageTabs) {
+    // const tabs = extractTabsByAllRoutes(router.getAllRouteNames(), storageTabs);
+    // dispatch(setTabs(tabs));
+    updateTabs(storageTabs);
+    return storageTabs;
+  }
+
+  return [];
+}
+
 export function useTabManager() {
   const isInit = useRef(false);
 
@@ -246,19 +259,6 @@ export function useTabManager() {
 
   const updateTabs = useUpdateTabs();
 
-  function _initTabs() {
-    const storageTabs = localStg.get('globalTabs');
-
-    if (themeSettings.tab.cache && storageTabs) {
-      // const tabs = extractTabsByAllRoutes(router.getAllRouteNames(), storageTabs);
-      // dispatch(setTabs(tabs));
-      updateTabs(storageTabs);
-      return storageTabs;
-    }
-
-    return [];
-  }
-
   function _cacheTabs() {
     if (!themeSettings.tab.cache) return;
 
@@ -271,7 +271,7 @@ export function useTabManager() {
     if (!isInit.current) {
       isInit.current = true;
 
-      const initTabs = _initTabs();
+      const initTabs = initTab(themeSettings.tab.cache, updateTabs);
 
       if (!initTabs || initTabs.length === 0 || (initTabs.length > 0 && !isTabInTabs(tab.id, initTabs))) {
         dispatch(addTab(tab));

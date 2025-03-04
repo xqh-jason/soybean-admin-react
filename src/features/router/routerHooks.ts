@@ -26,8 +26,9 @@ export function initAuthRoutes(addRoutes: (parent: string | null, route: RouteOb
     } else {
       // 非超级管理员
       const filteredRoutes = filterAuthRoutesByRoles(reactAuthRoutes, roles);
-      filteredRoutes.forEach((route, index) => {
-        addRoutes(reactAuthRoutes[index].parent, route);
+
+      filteredRoutes.forEach(({ parent, route }) => {
+        addRoutes(parent, route);
       });
     }
   } else {
