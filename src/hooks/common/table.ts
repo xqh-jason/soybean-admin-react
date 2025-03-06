@@ -2,6 +2,7 @@ import { useBoolean, useHookTable } from '@sa/hooks';
 import type { TablePaginationConfig, TableProps } from 'antd';
 import { Form } from 'antd';
 
+import { parseQuery } from '@/features/router/query';
 import { getIsMobile } from '@/layouts/appStore';
 
 type TableData = AntDesign.TableData;
@@ -14,11 +15,13 @@ export function useTable<A extends AntDesign.TableApiFn>(
 ) {
   const isMobile = useAppSelector(getIsMobile);
 
-  const [total, setTotal] = useState<TablePaginationConfig['total']>(0);
-
   const { apiFn, apiParams, immediate, rowKey = 'id' } = config;
 
   const [form] = Form.useForm<AntDesign.AntDesignTableConfig<A>['apiParams']>();
+
+  const { search } = useLocation();
+
+  const query = parseQuery(search) as unknown as Parameters<A>[0];
 
   const {
     columnChecks,
@@ -26,13 +29,16 @@ export function useTable<A extends AntDesign.TableApiFn>(
     data,
     empty,
     loading,
+    pageNum,
+    pageSize,
     resetSearchParams,
     searchParams,
     setColumnChecks,
+    total,
     updateSearchParams
   } = useHookTable<A, GetTableData<A>, TableColumn<AntDesign.TableDataWithIndex<GetTableData<A>>>>({
     apiFn,
-    apiParams,
+    apiParams: { ...apiParams, ...query },
     columns: config.columns,
     getColumnChecks: cols => {
       const checks: AntDesign.TableColumnCheck[] = [];
@@ -63,11 +69,6 @@ export function useTable<A extends AntDesign.TableApiFn>(
       return filteredColumns as TableColumn<AntDesign.TableDataWithIndex<GetTableData<A>>>[];
     },
     immediate,
-    onFetched: async transformed => {
-      const { total: totalNum } = transformed;
-
-      setTotal(totalNum);
-    },
     transformer: res => {
       const { current = 1, records = [], size = 10, total: totalNum = 0 } = res.data || {};
 
@@ -89,14 +90,14 @@ export function useTable<A extends AntDesign.TableApiFn>(
 
   // this is for mobile, if the system does not support mobile, you can use `pagination` directly
   const pagination: TablePaginationConfig = {
-    current: searchParams.current.current,
+    current: pageNum,
     onChange: async (current: number, size: number) => {
       updateSearchParams({
         current,
         size
       });
     },
-    pageSize: searchParams.current.size,
+    pageSize,
     pageSizeOptions: ['10', '15', '20', '25', '30'],
     showSizeChanger: true,
     simple: isMobile,
@@ -106,6 +107,7 @@ export function useTable<A extends AntDesign.TableApiFn>(
 
   function reset() {
     form.resetFields();
+
     resetSearchParams();
   }
 
@@ -131,7 +133,8 @@ export function useTable<A extends AntDesign.TableApiFn>(
     searchProps: {
       form,
       reset,
-      search: run
+      search: run,
+      searchParams
     },
     setColumnChecks,
     tableProps: {

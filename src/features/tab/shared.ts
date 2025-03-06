@@ -86,7 +86,7 @@ export function getTabByRoute(route: Router.Route) {
     fullPath,
     i18nKey,
     icon,
-    id: fullPath,
+    id: handle.multiTab ? fullPath : pathname,
     label: title,
     localIcon,
     newLabel: '',

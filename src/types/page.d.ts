@@ -5,6 +5,7 @@ declare namespace Page {
     form: FormInstance;
     reset: () => void;
     search: () => void;
+    searchParams: Record<string, any>;
   }
 
   interface OperateDrawerProps {

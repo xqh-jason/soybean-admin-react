@@ -8,7 +8,8 @@ import {
   selectTabs,
   setActiveFirstLevelMenuKey,
   setActiveTabId,
-  setTabs
+  setTabs,
+  updateTab
 } from '@/features/tab/tabStore';
 import { localStg } from '@/utils/storage';
 
@@ -275,7 +276,7 @@ export function useTabManager() {
 
   const updateTabs = useUpdateTabs();
 
-  function _addTab(route: Router.Route) {
+  function _addTab(route: Router.Route<unknown, unknown>) {
     const tab = getTabByRoute(route);
 
     if (!isInit.current) {
@@ -288,6 +289,10 @@ export function useTabManager() {
       }
     } else if (!isTabInTabs(tab.id, tabs)) {
       dispatch(addTab(tab));
+    } else {
+      const index = tabs.findIndex(item => item.id === tab.id);
+
+      dispatch(updateTab({ index, tab }));
     }
 
     dispatch(setActiveTabId(tab.id));
