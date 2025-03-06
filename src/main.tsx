@@ -9,20 +9,10 @@ import FallbackRender from '../ErrorBoundary.tsx';
 import App from './App.tsx';
 import './plugins/assets';
 import { setupI18n } from './locales';
-import { setupAppVersionNotification, setupDayjs, setupIconifyOffline, setupLoading, setupNProgress } from './plugins';
+import { setupAppVersionNotification, setupDayjs, setupIconifyOffline, setupNProgress } from './plugins';
 
-async function setupApp() {
-  await setupI18n();
-
-  setupLoading();
-
-  setupNProgress();
-
-  setupIconifyOffline();
-
-  setupDayjs();
-
-  setupAppVersionNotification();
+function setupApp() {
+  setupI18n();
 
   const container = document.getElementById('root');
 
@@ -39,6 +29,14 @@ async function setupApp() {
       </Provider>
     </ErrorBoundary>
   );
+
+  setupNProgress();
+
+  setupIconifyOffline();
+
+  setupDayjs();
+
+  setupAppVersionNotification();
 }
 
 setupApp();
