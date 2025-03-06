@@ -2,11 +2,19 @@
 import { getRgb } from '@sa/color';
 
 import systemLogo from '@/assets/svg-icon/logo.svg?raw';
+import { DARK_CLASS } from '@/constants/app';
 import { $t } from '@/locales';
+import { toggleHtmlClass } from '@/utils/common';
 import { localStg } from '@/utils/storage';
 
 export function setupLoading() {
   const themeColor = localStg.get('themeColor') || '#646cff';
+
+  const darkMode = localStg.get('darkMode') || false;
+
+  if (darkMode) {
+    toggleHtmlClass(DARK_CLASS).add();
+  }
 
   const { b, g, r } = getRgb(themeColor);
 
@@ -28,14 +36,14 @@ export function setupLoading() {
     .join('\n');
 
   const loading = `
-<div class="fixed-center flex-col" style="${primaryColor}">
+<div class="fixed-center  bg-layout flex-col" style="${primaryColor}">
   ${logoWithClass}
   <div class="w-56px h-56px my-36px">
     <div class="relative h-full animate-spin">
       ${dot}
     </div>
   </div>
-  <h2 class="text-28px font-500 text-#646464">${$t('system.title')}</h2>
+  <h2 class="text-28px font-500 text-primary">${$t('system.title')}</h2>
 </div>`;
 
   const app = document.getElementById('root');

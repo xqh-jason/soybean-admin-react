@@ -15,6 +15,8 @@ declare namespace StorageType {
       layout: UnionKey.ThemeLayoutMode;
       siderCollapse: boolean;
     };
+    /** The dark mode */
+    darkMode: boolean;
     /** The global tabs */
     globalTabs: App.Global.Tab[];
     /** The i18n language */

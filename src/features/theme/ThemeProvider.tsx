@@ -28,6 +28,7 @@ const ThemeProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     toggleCssDarkMode(darkMode);
+    localStg.set('darkMode', darkMode);
   }, [darkMode]);
 
   useMount(() => {

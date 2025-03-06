@@ -13,7 +13,7 @@ const GlobalLoading = memo(() => {
   ];
 
   return (
-    <div className="fixed-center flex-col">
+    <div className="fixed-center flex-col bg-layout">
       <SystemLogo className="size-128px text-primary" />
       <div className="my-36px h-56px w-56px">
         <div className="relative h-full animate-spin">
@@ -27,7 +27,7 @@ const GlobalLoading = memo(() => {
           })}
         </div>
       </div>
-      <h2 className="text-28px text-#646464 font-500">{t('system.title')}</h2>
+      <h2 className="text-28px text-primary font-500">{t('system.title')}</h2>
     </div>
   );
 });

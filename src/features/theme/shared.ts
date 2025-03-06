@@ -2,7 +2,7 @@ import { getColorPalette, getRgb, transformColorWithOpacity } from '@sa/color';
 import type { ConfigProviderProps } from 'antd';
 import { theme as antdTheme } from 'antd';
 
-import { DARK_CLASS } from '@/constants/common';
+import { DARK_CLASS } from '@/constants/app';
 import { overrideThemeSettings, themeSettings } from '@/theme/settings';
 import { themeVars } from '@/theme/vars';
 import { toggleHtmlClass } from '@/utils/common';
