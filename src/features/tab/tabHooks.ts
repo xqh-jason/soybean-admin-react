@@ -276,7 +276,7 @@ export function useTabManager() {
 
   const updateTabs = useUpdateTabs();
 
-  function _addTab(route: Router.Route<unknown, unknown>) {
+  function _addTab(route: Router.Route) {
     const tab = getTabByRoute(route);
 
     if (!isInit.current) {

@@ -134,7 +134,7 @@ export function useTable<A extends AntDesign.TableApiFn>(
       form,
       reset,
       search: run,
-      searchParams
+      searchParams: searchParams as NonNullable<Parameters<A>[0]>
     },
     setColumnChecks,
     tableProps: {
