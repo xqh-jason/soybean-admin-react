@@ -35,20 +35,20 @@ function initRouter() {
     basename: import.meta.env.VITE_BASE_URL,
     patchRoutesOnNavigation: ({ patch, path }) => {
       if (getIsNeedPatch(path)) {
+        isAlreadyPatch = true;
         if (authRouteMode === 'static') {
           // 超级管理员
           if (isStaticSuper) {
             initAuthRoutes(patch);
           }
         }
-        isAlreadyPatch = true;
       }
     }
   });
 
   store.dispatch(setCacheRoutes(initCacheRoutes));
 
-  if (getIsLogin(store.getState())) {
+  if (getIsLogin(store.getState()) && !isAlreadyPatch) {
     initAuthRoutes(reactRouter.patchRoutes);
 
     isAlreadyPatch = true;
