@@ -1,3 +1,3 @@
-import { authRoutes, cacheRoutes as initCacheRoutes, constantRoutes as routes } from './routes';
+import { allRoutes, authRoutes, cacheRoutes as initCacheRoutes, constantRoutes as routes } from './routes';
 
-export { authRoutes, initCacheRoutes, routes };
+export { allRoutes, authRoutes, initCacheRoutes, routes };

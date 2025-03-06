@@ -1,16 +1,11 @@
 import type { RoutePath } from '@soybean-react/vite-plugin-react-router';
 import { Outlet, matchRoutes } from 'react-router-dom';
+import type { ShouldRevalidateFunctionArgs } from 'react-router-dom';
 
 import { isStaticSuper, selectUserInfo } from '@/features/auth/authStore';
 import { useRoute } from '@/features/router';
-import { routeMap } from '@/router/elegant/routeMap';
+import { allRoutes } from '@/router';
 import { localStg } from '@/utils/storage';
-
-const allRoutes = Object.values(routeMap)
-  .slice(1)
-  .map(route => ({
-    path: route
-  }));
 
 /**
  * initialize route
@@ -114,7 +109,7 @@ const RootLayout = () => {
 
   const inInit = useRef(false);
 
-  const { fullPath, handle } = route;
+  const { handle, pathname } = route;
 
   const { roles } = useAppSelector(selectUserInfo);
 
@@ -130,7 +125,7 @@ const RootLayout = () => {
     window.NProgress?.done?.();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [fullPath]);
+  }, [pathname]);
 
   if (!inInit.current) {
     inInit.current = true;
@@ -168,7 +163,10 @@ export const loader = () => {
   return null;
 };
 
-export const shouldRevalidate = () => {
+export const shouldRevalidate = ({ currentUrl, nextUrl }: ShouldRevalidateFunctionArgs) => {
+  if (currentUrl.pathname === nextUrl.pathname) {
+    return false;
+  }
   return true;
 };
 

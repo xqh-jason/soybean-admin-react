@@ -110,7 +110,7 @@ function initRoutes() {
 
   const constantRoutes = filterRoutes(customRoutes, null, authRoutes, cacheRoutes);
 
-  return { authRoutes, cacheRoutes, constantRoutes };
+  return { allRoutes: customRoutes, authRoutes, cacheRoutes, constantRoutes };
 }
 
-export const { authRoutes, cacheRoutes, constantRoutes } = initRoutes();
+export const { allRoutes, authRoutes, cacheRoutes, constantRoutes } = initRoutes();
