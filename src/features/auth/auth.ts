@@ -44,6 +44,8 @@ export function useInitAuth() {
   const redirectUrl = searchParams.get('redirect');
 
   async function toLogin(params: { password: string; userName: string }, redirect = true) {
+    if (loading) return;
+
     startLoading();
     const res = await dispatch(login(params));
 
@@ -52,7 +54,7 @@ export function useInitAuth() {
     if (info.token) {
       if (redirect) {
         if (redirectUrl) {
-          await navigate(redirectUrl);
+          navigate(redirectUrl);
         } else {
           navigate('/');
         }
