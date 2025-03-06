@@ -74,10 +74,14 @@ declare namespace Router {
     url?: string | null;
   };
 
-  type Route<T = unknown> = UIMatch<T, RouteHandle> & {
+  type Route<T = unknown, Q extends Record<string, string> = Record<string, string>> = UIMatch<T, RouteHandle> & {
+    error: Error | null;
     fullPath: string;
     hash: string;
     matched: UIMatch<T, RouteHandle>[];
+    pathname: string;
+    query: Q;
+    redirect: Route<T, Q> | null;
     search: string;
   };
 
