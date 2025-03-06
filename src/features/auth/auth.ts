@@ -92,11 +92,11 @@ export function useResetAuth() {
 
     resetRoutes();
 
+    cacheTabs();
+
     if (!constant) {
       push('/login', { redirect: fullPath });
     }
-
-    cacheTabs();
   }
 
   return resetAuth;
