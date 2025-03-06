@@ -4,7 +4,7 @@ import { createElement } from 'react';
 import { $t } from '../locales';
 
 export function setupAppVersionNotification() {
-  const canAutoUpdateApp = import.meta.env.VITE_AUTOMATICALLY_DETECT_UPDATE === 'Y';
+  const canAutoUpdateApp = import.meta.env.VITE_AUTOMATICALLY_DETECT_UPDATE === 'Y' && import.meta.env.PROD;
 
   if (!canAutoUpdateApp) return;
 

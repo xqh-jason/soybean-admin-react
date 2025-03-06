@@ -36,7 +36,7 @@ export function setupLoading() {
     .join('\n');
 
   const loading = `
-<div class="fixed-center  bg-layout flex-col" style="${primaryColor}">
+<div class="fixed-center flex-col" style="${primaryColor}">
   ${logoWithClass}
   <div class="w-56px h-56px my-36px">
     <div class="relative h-full animate-spin">
