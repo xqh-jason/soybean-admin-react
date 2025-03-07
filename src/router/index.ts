@@ -24,7 +24,7 @@ function initRoutes() {
 
   const constantRoutes = filterRoutes(customRoutes, null, authRoutes, cacheRoutes);
 
-  return { allRoutes: customRoutes, authRoutes, routes: constantRoutes };
+  return { allRoutes: customRoutes, authRoutes, cacheRoutes, routes: constantRoutes };
 }
 
-export const { allRoutes, authRoutes, routes } = initRoutes();
+export const { allRoutes, authRoutes, cacheRoutes: initCacheRoutes, routes } = initRoutes();

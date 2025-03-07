@@ -12,6 +12,12 @@ export function getReactRoutes(route: ElegantConstRoute[]) {
   return transformElegantRoutesToReactRoutes(route);
 }
 
+function isGroup(id?: string) {
+  if (!id) return false;
+
+  return id.startsWith('(') && id.endsWith(')');
+}
+
 /**
  * 过滤路由并收集需要权限的路由
  *
@@ -33,40 +39,30 @@ export function filterRoutes(
 
     const isRouteGroup = route.id?.startsWith('(') && route.id.endsWith(')');
 
+    if (route.handle?.keepAlive) {
+      cacheRoutes.push(route.path || '');
+    }
+
     // 递归处理子路由：注意，此处传递当前路由作为父级
     if (route.children && route.children.length > 0) {
       route.children = filterRoutes(route.children, route.id, authRoutes, cacheRoutes);
     }
 
-    if (route.handle?.keepAlive) {
-      cacheRoutes.push(route.path || '');
-    }
-
     if (!noPermission) {
       // 将当前路由及其父级（如果没有父级，则为 null）记录到 authRoutes 数组中
-      if (isRouteGroup) {
+      if (isRouteGroup || route.children?.[0]?.index) {
         const children = route.children
           ?.map(item => {
-            if (item.handle?.constant) {
+            if (item.handle?.constant || isGroup(item.id) || item.children?.[0]?.index) {
               return item;
             }
-            authRoutes.push({
-              parent: parent || null,
-              route
-            });
             return null;
           })
           .filter(Boolean) as RouteObject[];
 
-        if (children && children.length > 0) {
-          route.children = children;
-          acc.push(route);
-        } else {
-          authRoutes.push({
-            parent: parent || null,
-            route
-          });
-        }
+        route.children = children;
+
+        acc.push(route);
       } else {
         authRoutes.push({
           parent: parent || null,
@@ -75,6 +71,7 @@ export function filterRoutes(
       }
     } else {
       // 放入结果数组
+
       acc.push(route);
     }
 
