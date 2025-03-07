@@ -18,6 +18,8 @@ function initRouter() {
   let isAlreadyPatch = false;
 
   function getIsNeedPatch(path: string) {
+    if (!getIsLogin(store.getState())) return false;
+
     if (isAlreadyPatch) return false;
 
     const matchRoute = matchRoutes(routes, { pathname: path }, import.meta.env.VITE_BASE_URL);

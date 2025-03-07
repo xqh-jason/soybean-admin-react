@@ -26,45 +26,55 @@ export const generatedRoutes: ElegantConstRoute[] = [
             matchedFiles: [null, '/src/pages/(base)/about/index.tsx', null, null],
             name: '(base)_about',
             path: '/about',
-            handle: {   i18nKey: 'route.(base)_about',
+            handle: {
+              i18nKey: 'route.(base)_about',
               icon: 'fluent:book-information-24-regular',
               order: 9,
-              title: 'about'}
+              title: 'about'
+            }
           },
           {
             matchedFiles: [null, '/src/pages/(base)/function/index.tsx', null, null],
             name: '(base)_function',
             path: '/function',
-            handle: {  i18nKey: 'route.(base)_function',
+            handle: {
+              i18nKey: 'route.(base)_function',
               icon: 'icon-park-outline:all-application',
               order: 6,
-              title: 'function'},
+              title: 'function'
+            },
             children: [
               {
                 matchedFiles: [null, '/src/pages/(base)/function/event-bus/index.tsx', null, null],
                 name: '(base)_function_event-bus',
                 path: '/function/event-bus',
-                handle: {   i18nKey: 'route.(base)_function_event-bus',
+                handle: {
+                  i18nKey: 'route.(base)_function_event-bus',
                   icon: 'ant-design:send-outlined',
-                  title: 'function_event-bus' }
+                  title: 'function_event-bus'
+                }
               },
               {
                 matchedFiles: [null, '/src/pages/(base)/function/hide-child/index.tsx', null, null],
                 name: '(base)_function_hide-child',
                 path: '/function/hide-child',
-                handle: { i18nKey: 'route.(base)_function_hide-child',
+                handle: {
+                  i18nKey: 'route.(base)_function_hide-child',
                   icon: 'material-symbols:filter-list-off',
                   order: 2,
-                  title: 'function_hide-child'},
+                  title: 'function_hide-child'
+                },
                 children: [
                   {
                     matchedFiles: [null, '/src/pages/(base)/function/hide-child/one/index.tsx', null, null],
                     name: '(base)_function_hide-child_one',
                     path: '/function/hide-child/one',
-                    handle: {   activeMenu: '/function/hide-child',
+                    handle: {
+                      activeMenu: '/function/hide-child',
                       hideInMenu: true,
                       i18nKey: 'route.(base)_function_hide-child_one',
-                      title: 'function_hide-child_one'}
+                      title: 'function_hide-child_one'
+                    }
                   },
                   {
                     matchedFiles: [null, '/src/pages/(base)/function/hide-child/three/index.tsx', null, null],
@@ -81,10 +91,12 @@ export const generatedRoutes: ElegantConstRoute[] = [
                     matchedFiles: [null, '/src/pages/(base)/function/hide-child/two/index.tsx', null, null],
                     name: '(base)_function_hide-child_two',
                     path: '/function/hide-child/two',
-                    handle: { activeMenu: '/function/hide-child',
+                    handle: {
+                      activeMenu: '/function/hide-child',
                       hideInMenu: true,
                       i18nKey: 'route.(base)_function_hide-child_two',
-                      title: 'function_hide-child_two' }
+                      title: 'function_hide-child_two'
+                    }
                   }
                 ]
               },
@@ -92,50 +104,60 @@ export const generatedRoutes: ElegantConstRoute[] = [
                 matchedFiles: [null, '/src/pages/(base)/function/multi-tab/index.tsx', null, null],
                 name: '(base)_function_multi-tab',
                 path: '/function/multi-tab',
-                handle: {   activeMenu: '/function/tab',
+                handle: {
+                  activeMenu: '/function/tab',
                   hideInMenu: true,
                   i18nKey: 'route.(base)_function_multi-tab',
                   icon: 'ic:round-tab',
                   multiTab: true,
-                  title: 'function_multi-tab' }
+                  title: 'function_multi-tab'
+                }
               },
               {
                 matchedFiles: [null, '/src/pages/(base)/function/request/index.tsx', null, null],
                 name: '(base)_function_request',
                 path: '/function/request',
-                handle: {  i18nKey: 'route.(base)_function_request',
+                handle: {
+                  i18nKey: 'route.(base)_function_request',
                   icon: 'carbon:network-overlay',
                   order: 3,
-                  title: 'function_request' }
+                  title: 'function_request'
+                }
               },
               {
                 matchedFiles: [null, '/src/pages/(base)/function/super-page/index.tsx', null, null],
                 name: '(base)_function_super-page',
                 path: '/function/super-page',
-                handle: { i18nKey: 'route.(base)_function_super-page',
+                handle: {
+                  i18nKey: 'route.(base)_function_super-page',
                   icon: 'ic:round-supervisor-account',
                   order: 5,
                   roles: ['R_SUPER'],
-                  title: 'function_super-page'}
+                  title: 'function_super-page'
+                }
               },
               {
                 matchedFiles: [null, '/src/pages/(base)/function/tab/index.tsx', null, null],
                 name: '(base)_function_tab',
                 path: '/function/tab',
-                handle: { i18nKey: 'route.(base)_function_tab',
+                handle: {
+                  i18nKey: 'route.(base)_function_tab',
                   icon: 'ic:round-tab',
                   keepAlive: true,
                   order: 1,
-                  title: 'function_tab' }
+                  title: 'function_tab'
+                }
               },
               {
                 matchedFiles: [null, '/src/pages/(base)/function/toggle-auth/index.tsx', null, null],
                 name: '(base)_function_toggle-auth',
                 path: '/function/toggle-auth',
-                handle: {  i18nKey: 'route.(base)_function_toggle-auth',
+                handle: {
+                  i18nKey: 'route.(base)_function_toggle-auth',
                   icon: 'ic:round-construction',
                   order: 4,
-                  title: 'function_toggle-auth' }
+                  title: 'function_toggle-auth'
+                }
               }
             ]
           },
@@ -143,32 +165,32 @@ export const generatedRoutes: ElegantConstRoute[] = [
             matchedFiles: [null, '/src/pages/(base)/home/index.tsx', null, null],
             name: '(base)_home',
             path: '/home',
-            handle: {  i18nKey: 'route.(base)_home',
-              icon: 'mdi:monitor-dashboard',
-              order: 1,
-              title: 'home'
-            }
+            handle: { i18nKey: 'route.(base)_home', icon: 'mdi:monitor-dashboard', order: 1, title: 'home' }
           },
           {
             matchedFiles: [null, '/src/pages/(base)/manage/index.tsx', null, null],
             name: '(base)_manage',
             path: '/manage',
-            handle: {  i18nKey: 'route.(base)_manage',
+            handle: {
+              i18nKey: 'route.(base)_manage',
               icon: 'carbon:cloud-service-management',
               order: 8,
               roles: ['R_ADMIN'],
-              title: 'manage' },
+              title: 'manage'
+            },
             children: [
               {
                 matchedFiles: [null, '/src/pages/(base)/manage/menu/index.tsx', null, null],
                 name: '(base)_manage_menu',
                 path: '/manage/menu',
-                handle: { i18nKey: 'route.(base)_manage_menu',
+                handle: {
+                  i18nKey: 'route.(base)_manage_menu',
                   icon: 'material-symbols:route',
                   keepAlive: true,
                   order: 3,
                   roles: ['R_ADMIN'],
-                  title: 'manage_menu'}
+                  title: 'manage_menu'
+                }
               },
               {
                 matchedFiles: [null, '/src/pages/(base)/manage/role/index.tsx', null, null],
@@ -180,21 +202,25 @@ export const generatedRoutes: ElegantConstRoute[] = [
                 matchedFiles: [null, '/src/pages/(base)/manage/user/index.tsx', null, null],
                 name: '(base)_manage_user',
                 path: '/manage/user',
-                handle: {  i18nKey: 'route.(base)_manage_user',
+                handle: {
+                  i18nKey: 'route.(base)_manage_user',
                   icon: 'ic:round-manage-accounts',
                   keepAlive: true,
                   order: 1,
                   roles: ['R_ADMIN'],
-                  title: 'manage_user' },
+                  title: 'manage_user'
+                },
                 children: [
                   {
                     matchedFiles: [null, '/src/pages/(base)/manage/user/[id].tsx', null, null],
                     name: '(base)_manage_user_[id]',
                     path: '/manage/user/:id',
-                    handle: {  activeMenu: '/manage/user',
+                    handle: {
+                      activeMenu: '/manage/user',
                       hideInMenu: true,
                       i18nKey: 'route.(base)_manage_user_[id]',
-                      title: '(base)_manage_user_[id]' }
+                      title: '(base)_manage_user_[id]'
+                    }
                   }
                 ]
               }
@@ -204,26 +230,23 @@ export const generatedRoutes: ElegantConstRoute[] = [
             matchedFiles: [null, '/src/pages/(base)/multi-menu/index.tsx', null, null],
             name: '(base)_multi-menu',
             path: '/multi-menu',
-            handle: { constant: true,
-              i18nKey: 'route.(base)_multi-menu',
-              order: 5,
-              title: 'multi-menu' },
+            handle: { constant: true, i18nKey: 'route.(base)_multi-menu', order: 5, title: 'multi-menu' },
             children: [
               {
                 matchedFiles: [null, '/src/pages/(base)/multi-menu/first/index.tsx', null, null],
                 name: '(base)_multi-menu_first',
                 path: '/multi-menu/first',
-                handle: { constant: true,
-                  i18nKey: 'route.(base)_multi-menu_first',
-                  title: 'multi-menu_first'},
+                handle: { constant: true, i18nKey: 'route.(base)_multi-menu_first', title: 'multi-menu_first' },
                 children: [
                   {
                     matchedFiles: [null, '/src/pages/(base)/multi-menu/first/child/index.tsx', null, null],
                     name: '(base)_multi-menu_first_child',
                     path: '/multi-menu/first/child',
-                    handle: { constant: true,
+                    handle: {
+                      constant: true,
                       i18nKey: 'route.(base)_multi-menu_first_child',
-                      title: 'multi-menu_first_child' }
+                      title: 'multi-menu_first_child'
+                    }
                   }
                 ]
               },
@@ -261,26 +284,32 @@ export const generatedRoutes: ElegantConstRoute[] = [
             matchedFiles: [null, '/src/pages/(base)/projects/index.tsx', null, null],
             name: '(base)_projects',
             path: '/projects',
-            handle: { i18nKey: 'route.(base)_projects',
+            handle: {
+              i18nKey: 'route.(base)_projects',
               icon: 'hugeicons:align-box-top-center',
               order: 7,
-              title: '(base)_projects' },
+              title: '(base)_projects'
+            },
             children: [
               {
                 matchedFiles: [null, '/src/pages/(base)/projects/[pid]/index.tsx', null, null],
                 name: '(base)_projects_[pid]',
                 path: '/projects/:pid',
-                handle: { i18nKey: 'route.(base)_projects_[pid]',
+                handle: {
+                  i18nKey: 'route.(base)_projects_[pid]',
                   icon: 'material-symbols-light:attachment',
-                  title: '(base)_projects_[pid]' },
+                  title: '(base)_projects_[pid]'
+                },
                 children: [
                   {
                     matchedFiles: [null, '/src/pages/(base)/projects/[pid]/edit/index.tsx', null, null],
                     name: '(base)_projects_[pid]_edit',
                     path: '/projects/:pid/edit',
-                    handle: {   i18nKey: 'route.(base)_projects_[pid]_edit',
+                    handle: {
+                      i18nKey: 'route.(base)_projects_[pid]_edit',
                       icon: 'material-symbols-light:assistant-on-hub-outline',
-                      title: '(base)_projects_[pid]_edit'},
+                      title: '(base)_projects_[pid]_edit'
+                    },
                     children: [
                       {
                         matchedFiles: [null, '/src/pages/(base)/projects/[pid]/edit/[id].tsx', null, null],
@@ -301,9 +330,7 @@ export const generatedRoutes: ElegantConstRoute[] = [
             matchedFiles: [null, '/src/pages/(base)/user-center/index.tsx', null, null],
             name: '(base)_user-center',
             path: '/user-center',
-            handle: { hideInMenu: true,
-              i18nKey: 'route.(base)_user-center',
-              title: 'user-center'}
+            handle: { hideInMenu: true, i18nKey: 'route.(base)_user-center', title: 'user-center' }
           }
         ],
         path: null
