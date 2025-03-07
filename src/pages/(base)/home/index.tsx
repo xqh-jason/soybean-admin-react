@@ -48,11 +48,4 @@ const Home = () => {
   );
 };
 
-export const handle = {
-  i18nKey: 'route.(base)_home',
-  icon: 'mdi:monitor-dashboard',
-  order: 1,
-  title: 'home'
-};
-
 export default Home;

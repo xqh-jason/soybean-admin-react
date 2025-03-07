@@ -83,11 +83,4 @@ const Request = () => {
   );
 };
 
-export const handle = {
-  i18nKey: 'route.(base)_function_request',
-  icon: 'carbon:network-overlay',
-  order: 3,
-  title: 'function_request'
-};
-
 export default Request;

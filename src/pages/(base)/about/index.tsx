@@ -103,11 +103,4 @@ const About = () => {
   );
 };
 
-export const handle = {
-  i18nKey: 'route.(base)_about',
-  icon: 'fluent:book-information-24-regular',
-  order: 9,
-  title: 'about'
-};
-
 export default About;

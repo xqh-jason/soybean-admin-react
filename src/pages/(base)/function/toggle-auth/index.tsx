@@ -134,11 +134,4 @@ const ToggleAuth = () => {
   );
 };
 
-export const handle = {
-  i18nKey: 'route.(base)_function_toggle-auth',
-  icon: 'ic:round-construction',
-  order: 4,
-  title: 'function_toggle-auth'
-};
-
 export default ToggleAuth;

@@ -4,14 +4,6 @@ const Manage = () => {
   return null;
 };
 
-export const handle = {
-  i18nKey: 'route.(base)_manage',
-  icon: 'carbon:cloud-service-management',
-  order: 8,
-  roles: ['R_ADMIN'],
-  title: 'manage'
-};
-
 export const loader = () => {
   return redirect('user');
 };

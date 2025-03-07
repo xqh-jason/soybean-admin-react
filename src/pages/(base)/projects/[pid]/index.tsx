@@ -6,10 +6,4 @@ const Pid = () => {
   return <div>{route.params.pid}</div>;
 };
 
-export const handle = {
-  i18nKey: 'route.(base)_projects_[pid]',
-  icon: 'material-symbols-light:attachment',
-  title: '(base)_projects_[pid]'
-};
-
 export default Pid;
