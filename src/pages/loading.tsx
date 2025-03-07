@@ -20,8 +20,6 @@ const GlobalLoading = memo(() => {
 
   const { b, g, r } = getRgb(themeColor);
 
-  const primaryColor = `--primary-color: ${r} ${g} ${b}`;
-
   const loadingClasses = [
     'left-0 top-0',
     'left-0 bottom-0 animate-delay-500',
@@ -32,7 +30,7 @@ const GlobalLoading = memo(() => {
   return (
     <div
       className="fixed-center flex-col bg-layout"
-      style={primaryColor as React.CSSProperties}
+      style={{ '--primary-color': `${r} ${g} ${b}` } as React.CSSProperties}
     >
       <SystemLogo className="size-128px text-primary" />
       <div className="my-36px h-56px w-56px">

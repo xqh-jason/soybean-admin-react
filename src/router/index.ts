@@ -1,3 +1,30 @@
-import { allRoutes, authRoutes, cacheRoutes as initCacheRoutes, constantRoutes as routes } from './routes';
+import { generatedRoutes } from './elegant/routes';
+import { filterRoutes, getReactRoutes } from './routes';
+import { BaseChildrenRoutes } from './routes/builtin';
+/**
+ * - 初始化路由
+ * - 生成所有路由ex
+ * - 生成权限路由
+ * - 生成常量路由
+ *
+ * @returns {Object} 返回路由对象
+ */
+function initRoutes() {
+  // 获取所有文件夹生成的路由并转换成 react-router 路由
+  const customRoutes = getReactRoutes(generatedRoutes);
 
-export { allRoutes, authRoutes, initCacheRoutes, routes };
+  // 获取基础路由
+  const baseRoute = customRoutes[0]?.children?.find(route => route.id === '(base)');
+  // 添加自定义复用路由至基础路由
+  baseRoute?.children?.push(...BaseChildrenRoutes);
+
+  const authRoutes: Router.SingleAuthRoute[] = [];
+
+  const cacheRoutes: string[] = [];
+
+  const constantRoutes = filterRoutes(customRoutes, null, authRoutes, cacheRoutes);
+
+  return { allRoutes: customRoutes, authRoutes, routes: constantRoutes };
+}
+
+export const { allRoutes, authRoutes, routes } = initRoutes();

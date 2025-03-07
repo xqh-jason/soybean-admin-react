@@ -15,9 +15,6 @@ import { errors, layouts, pages as views } from './imports';
 
 const loadings = import.meta.glob(`/src/pages/**/loading.tsx`, { eager: true, import: 'default' });
 
-const handles = import.meta.glob([`/src/pages/**/index.tsx`, `/src/pages/**/[[]*[]].tsx`, '!**/module/index.tsx', '!**/components/index.tsx'], { eager: true, import: 'handle' });
-
-
 /**
 * transform elegant const routes to react routes
 *
@@ -44,7 +41,7 @@ export function transformElegantRouteToReactRoute(route: ElegantConstRoute): Rou
    return lastName?.startsWith('(') && lastName?.endsWith(')');
  }
 
- const { children, matchedFiles, name, path } = route;
+ const { children, matchedFiles, name, path, handle } = route;
 
  // Get the error boundary component
  const getErrorComponent = () => (matchedFiles[3] ? errors[matchedFiles[3]]() : errors.root());
@@ -82,12 +79,21 @@ export function transformElegantRouteToReactRoute(route: ElegantConstRoute): Rou
    return null;
  }
 
+ function getHandle(index: boolean = false) {
+   if ((matchedFiles[0]||isRouteGroup(name))&&!index) {
+     return null
+   }
+
+   return handle
+ }
+
+
 
  const reactRoute = {
    children: [],
    HydrateFallback: matchedFiles[2] ? loadings[matchedFiles[2]] : loadings[`/src/pages/loading.tsx`] ,
    id: name,
-   handle: matchedFiles[1] ? handles[matchedFiles[1]] : null,
+   handle: getHandle(),
    lazy: async () => {
      const ErrorBoundary = await getErrorComponent();
 
@@ -104,7 +110,7 @@ export function transformElegantRouteToReactRoute(route: ElegantConstRoute): Rou
 
    if (matchedFiles[1] && !isRouteGroup(name)) {
      reactRoute.children.unshift({
-       handle: matchedFiles[1] ? handles[matchedFiles[1]] : null,
+       handle: getHandle(true),
        index: true,
        lazy: async () => {
          const ErrorBoundary = await getErrorComponent();

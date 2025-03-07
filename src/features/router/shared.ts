@@ -32,6 +32,7 @@ export function filterCacheRoutes(routes: RouteObject[]) {
  */
 export function mergeValuesByParent(data: Router.SingleAuthRoute[]) {
   const merged: Record<string, Router.AuthRoute> = {};
+
   data.forEach(item => {
     // 使用一个变量作为 key，若 parent 为 null，则转换为字符串 "null"
     const key = item.parent === null ? 'null' : item.parent;
@@ -43,7 +44,7 @@ export function mergeValuesByParent(data: Router.SingleAuthRoute[]) {
     }
     merged[key].route.push(item.route);
   });
-  return Object.values(merged);
+  return Object.values(merged).sort((a, b) => a.parent?.localeCompare(b.parent || '') || 0);
 }
 
 /**

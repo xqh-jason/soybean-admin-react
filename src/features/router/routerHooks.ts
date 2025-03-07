@@ -10,7 +10,7 @@ import { filterAuthRoutesByRoles, mergeValuesByParent } from './shared';
 export function initAuthRoutes(addRoutes: (parent: string | null, route: RouteObject[]) => void) {
   const authRouteMode = import.meta.env.VITE_AUTH_ROUTE_MODE;
 
-  const reactAuthRoutes = mergeValuesByParent(authRoutes).reverse();
+  const reactAuthRoutes = mergeValuesByParent(authRoutes);
 
   const isSuper = isStaticSuper(store.getState());
 
