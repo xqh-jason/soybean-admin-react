@@ -31,6 +31,10 @@ export default defineConfig(configEnv => {
               return 'images/[name]-[hash].[ext]';
             }
 
+            if (name?.endsWith('.js')) {
+              return 'js/[name]-[hash].js';
+            }
+
             return 'assets/[name]-[hash].[ext]';
           },
           chunkFileNames: chunkInfo => {
