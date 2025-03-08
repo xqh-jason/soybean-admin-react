@@ -180,23 +180,16 @@ export const generatedRoutes: ElegantConstRoute[] = [
             },
             children: [
               {
-                matchedFiles: [null, '/src/pages/(base)/manage/menu/index.tsx', null, null],
-                name: '(base)_manage_menu',
-                path: '/manage/menu',
-                handle: {
-                  i18nKey: 'route.(base)_manage_menu',
-                  icon: 'material-symbols:route',
-                  keepAlive: true,
-                  order: 3,
-                  roles: ['R_ADMIN'],
-                  title: 'manage_menu'
-                }
-              },
-              {
                 matchedFiles: [null, '/src/pages/(base)/manage/role/index.tsx', null, null],
                 name: '(base)_manage_role',
                 path: '/manage/role',
-                handle: { i18nKey: 'route.(base)_manage_role', title: '(base)_manage_role' }
+                handle: {
+                  i18nKey: 'route.(base)_manage_role',
+                  icon: 'carbon:user-role',
+                  order: 2,
+                  roles: ['R_SUPER'],
+                  title: 'manage_role'
+                }
               },
               {
                 matchedFiles: [null, '/src/pages/(base)/manage/user/index.tsx', null, null],
