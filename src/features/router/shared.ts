@@ -39,6 +39,7 @@ export function mergeValuesByParent(data: Router.SingleAuthRoute[]) {
     if (!merged[key]) {
       merged[key] = {
         parent: item.parent, // 保持原始 parent 值，包括 null
+        parentPath: item.parentPath,
         route: []
       };
     }
@@ -54,38 +55,59 @@ export function mergeValuesByParent(data: Router.SingleAuthRoute[]) {
  * @param roles Roles
  */
 export function filterAuthRoutesByRoles(routes: { parent: string | null; route: RouteObject[] }[], roles: string[]) {
-  return routes.flatMap(route => {
-    const filteredRoutes = route.route.map(item => {
-      return {
-        parent: route.parent,
-        route: filterAuthRouteByRoles(item, roles)
-      };
-    });
+  return routes
+    .map(item => {
+      // 过滤 route 数组
+      if (item.route[0]?.index) {
+        const routeRoles: string[] = (item.route[0].handle && item.route[0].handle.roles) || [];
+        const hasPermission = routeRoles.some(role => roles.includes(role));
+        const isEmptyRoles = !routeRoles.length;
 
-    return filteredRoutes;
-  });
+        if (!isEmptyRoles && !hasPermission) {
+          return {
+            parent: item.parent,
+            route: []
+          };
+        }
+      }
+
+      const filteredRoute = item.route.filter(routeObj => {
+        const routeRoles: string[] = (routeObj.handle && routeObj.handle.roles) || [];
+
+        // if the route's "roles" is empty, then it is allowed to access
+        const isEmptyRoles = !routeRoles.length;
+
+        // if the user's role is included in the route's "roles", then it is allowed to access
+        const hasPermission = routeRoles.some(role => roles.includes(role));
+
+        return hasPermission || isEmptyRoles;
+      });
+
+      // 返回结构与原始一致，但 route 已经过滤过
+      return {
+        parent: item.parent,
+        route: filteredRoute
+      };
+    })
+    .filter(item => item.route.length >= 1);
 }
 
-/**
- * Filter auth route by roles
- *
- * @param route Auth route
- * @param roles Roles
- */
-function filterAuthRouteByRoles(route: RouteObject, roles: string[]) {
-  const routeRoles: string[] = (route.handle && route.handle.roles) || [];
+export function filterAuthRoutesByDynamic(routes: Router.AuthRoute[], hasRoutes: string[]) {
+  return routes
+    .map(item => {
+      // 过滤 route 数组
+      const filteredRoute = item.route.filter(routeObj => {
+        if (routeObj?.index && hasRoutes.includes(item?.parentPath || '')) {
+          return true;
+        }
+        return hasRoutes.includes(routeObj.path || '');
+      });
 
-  // if the route's "roles" is empty, then it is allowed to access
-  const isEmptyRoles = !routeRoles.length;
-
-  // if the user's role is included in the route's "roles", then it is allowed to access
-  const hasPermission = routeRoles.some(role => roles.includes(role));
-
-  const filterRoute = { ...route };
-
-  if (filterRoute.children?.length) {
-    filterRoute.children = filterRoute.children.flatMap(item => filterAuthRouteByRoles(item, roles));
-  }
-
-  return hasPermission || isEmptyRoles ? [filterRoute] : [];
+      // 返回结构与原始一致，但 route 已经过滤过
+      return {
+        parent: item.parent,
+        route: filteredRoute
+      };
+    })
+    .filter(item => item.route.length >= 1);
 }

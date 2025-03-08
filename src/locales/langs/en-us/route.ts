@@ -13,7 +13,6 @@ const route: App.I18n.Schema['translation']['route'] = {
   '(base)_function_toggle-auth': 'Toggle Auth',
   '(base)_home': 'Home',
   '(base)_manage': 'System Manage',
-  '(base)_manage_menu': 'Menu Manage',
   '(base)_manage_role': 'Role Manage',
   '(base)_manage_user': 'User Manage',
   '(base)_manage_user_[id]': 'User Detail',
