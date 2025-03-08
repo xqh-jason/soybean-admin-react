@@ -3,7 +3,6 @@ import { useCreation, useLatest, useMemoizedFn, useMount, useUnmount, useUpdate 
 
 import Fetch from './Fetch';
 import type { Options, Plugin, Result, Service } from './type';
-import { isDev } from './utils';
 
 function useRequestImplement<
   TData extends FlatResponseData<T, ResponseData>,
@@ -17,12 +16,6 @@ function useRequestImplement<
 ): Result<TData, TParams> {
   const { manual = false, ready = true, ...rest } = options;
 
-  if (isDev) {
-    if (options.defaultParams && !Array.isArray(options.defaultParams)) {
-      console.warn(`expected defaultParams is array, got ${typeof options.defaultParams}`);
-    }
-  }
-
   const fetchOptions = {
     manual,
     ready,
@@ -34,11 +27,9 @@ function useRequestImplement<
   const update = useUpdate();
 
   const fetchInstance = useCreation(() => {
-    const initState = plugins.map(p => p?.onInit?.(fetchOptions)).filter(Boolean);
-
-    return new Fetch<TData, TParams>(serviceRef, fetchOptions, update, Object.assign({}, ...initState));
+    return new Fetch<TData, TParams>(serviceRef, fetchOptions, update);
   }, []);
-  fetchInstance.options = fetchOptions;
+
   // run all plugins hooks
   fetchInstance.pluginImpls = plugins.map(p => p(fetchInstance, fetchOptions));
 

@@ -9,8 +9,8 @@ const usePollingPlugin: Plugin<any, any[]> = (
   fetchInstance,
   { pollingErrorRetryCount = -1, pollingInterval, pollingWhenHidden = true }
 ) => {
-  const timerRef = useRef<Timeout>();
-  const unsubscribeRef = useRef<() => void>();
+  const timerRef = useRef<Timeout>(null);
+  const unsubscribeRef = useRef<() => void>(null);
   const countRef = useRef<number>(0);
 
   const stopPolling = () => {

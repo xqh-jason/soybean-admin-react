@@ -11,9 +11,9 @@ const useCachePlugin: Plugin<any, any[]> = (
   fetchInstance,
   { cacheKey, cacheTime = 5 * 60 * 1000, getCache: customGetCache, setCache: customSetCache, staleTime = 0 }
 ) => {
-  const unSubscribeRef = useRef<() => void>();
+  const unSubscribeRef = useRef<() => void>(null);
 
-  const currentPromiseRef = useRef<Promise<any>>();
+  const currentPromiseRef = useRef<Promise<any>>(null);
 
   const _setCache = (key: string, cachedData: CachedData) => {
     if (customSetCache) {

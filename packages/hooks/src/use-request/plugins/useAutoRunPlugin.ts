@@ -1,36 +1,21 @@
-import { useUpdateEffect } from 'ahooks';
-import { useRef } from 'react';
+import { useEffect } from 'react';
 
 import type { Plugin } from '../type';
 
 // support refreshDeps & ready
 const useAutoRunPlugin: Plugin<any, any[]> = (
   fetchInstance,
-  { defaultParams = [], manual, ready = true, refreshDeps = [], refreshDepsAction }
+  { manual, params = {}, ready = true, refreshDepsAction }
 ) => {
-  const hasAutoRun = useRef(false);
-  hasAutoRun.current = false;
-
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (!manual && ready) {
-      hasAutoRun.current = true;
-      fetchInstance.run(...defaultParams);
-    }
-  }, [ready]);
-
-  useUpdateEffect(() => {
-    if (hasAutoRun.current) {
-      return;
-    }
-    if (!manual) {
-      hasAutoRun.current = true;
       if (refreshDepsAction) {
         refreshDepsAction();
       } else {
-        fetchInstance.refresh();
+        fetchInstance.runAsync(params);
       }
     }
-  }, [...refreshDeps]);
+  }, [JSON.stringify(params), ready]);
 
   return {
     onBefore: () => {

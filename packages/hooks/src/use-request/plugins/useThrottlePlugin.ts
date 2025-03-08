@@ -1,11 +1,11 @@
-import type { DebouncedFunc, ThrottleSettings } from 'lodash';
-import throttle from 'lodash/throttle';
+import type { DebouncedFunc, ThrottleSettings } from 'lodash-es';
+import { throttle } from 'lodash-es';
 import { useEffect, useRef } from 'react';
 
 import type { Plugin } from '../type';
 
 const useThrottlePlugin: Plugin<any, any[]> = (fetchInstance, { throttleLeading, throttleTrailing, throttleWait }) => {
-  const throttledRef = useRef<DebouncedFunc<any>>();
+  const throttledRef = useRef<DebouncedFunc<any>>(null);
 
   const options: ThrottleSettings = {};
   if (throttleLeading !== undefined) {

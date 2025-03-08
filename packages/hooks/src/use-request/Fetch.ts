@@ -13,6 +13,8 @@ export default class Fetch<TData extends FlatResponseData, TParams extends any[]
 
   count: number = 0;
 
+  options: Options<TData, TParams>;
+
   state: FetchState<TData, TParams> = {
     data: undefined,
     error: null,
@@ -21,18 +23,17 @@ export default class Fetch<TData extends FlatResponseData, TParams extends any[]
     response: null
   };
 
-  // eslint-disable-next-line max-params
   constructor(
     public serviceRef: MutableRefObject<Service<TData, TParams>>,
     public options: Options<TData, TParams>,
-    public subscribe: Subscribe,
-    public initState: Partial<FetchState<TData, TParams>> = {}
+    public subscribe: Subscribe
   ) {
     this.state = {
       ...this.state,
-      loading: !options.manual,
-      ...initState
+      loading: !options.manual
     };
+
+    this.options = options;
   }
 
   setState(s: Partial<FetchState<TData, TParams>> = {}) {
@@ -40,6 +41,7 @@ export default class Fetch<TData extends FlatResponseData, TParams extends any[]
       ...this.state,
       ...s
     };
+
     this.subscribe();
   }
 
@@ -143,6 +145,7 @@ export default class Fetch<TData extends FlatResponseData, TParams extends any[]
 
   cancel() {
     this.count += 1;
+
     this.setState({
       loading: false
     });

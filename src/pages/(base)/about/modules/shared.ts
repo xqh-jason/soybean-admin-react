@@ -1,7 +1,7 @@
 export interface PkgVersionInfo {
   label: string;
   nameOrHref: string;
-  render?: (record: PkgVersionInfo) => JSX.Element;
+  render?: (record: PkgVersionInfo) => React.ReactNode;
 }
 
 export interface CardInfo {
