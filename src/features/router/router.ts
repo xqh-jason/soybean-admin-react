@@ -11,10 +11,6 @@ import { setCacheRoutes } from './routeStore';
 import { initAuthRoutes } from './routerHooks';
 
 function initRouter() {
-  const authRouteMode = import.meta.env.VITE_AUTH_ROUTE_MODE;
-
-  const isStaticSuper = true;
-
   let isAlreadyPatch = false;
 
   function getIsNeedPatch(path: string) {
@@ -38,12 +34,8 @@ function initRouter() {
     patchRoutesOnNavigation: ({ patch, path }) => {
       if (getIsNeedPatch(path)) {
         isAlreadyPatch = true;
-        if (authRouteMode === 'static') {
-          // 超级管理员
-          if (isStaticSuper) {
-            initAuthRoutes(patch);
-          }
-        }
+
+        initAuthRoutes(patch);
       }
     }
   });

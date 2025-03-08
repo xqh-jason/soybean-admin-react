@@ -5,7 +5,9 @@ import { store } from '@/store';
 
 import { isStaticSuper, selectUserInfo } from '../auth/authStore';
 
-import { filterAuthRoutesByRoles, mergeValuesByParent } from './shared';
+import { filterAuthRoutesByDynamic, filterAuthRoutesByRoles, mergeValuesByParent } from './shared';
+
+const hasRoutes = ['/manage/user', '/manage/user/:id', '/home', '/about'];
 
 export function initAuthRoutes(addRoutes: (parent: string | null, route: RouteObject[]) => void) {
   const authRouteMode = import.meta.env.VITE_AUTH_ROUTE_MODE;
@@ -33,12 +35,10 @@ export function initAuthRoutes(addRoutes: (parent: string | null, route: RouteOb
     }
   } else {
     // 动态模式
-    // await dispatch(initDynamicAuthRoute());
+    const filteredRoutes = filterAuthRoutesByDynamic(reactAuthRoutes, hasRoutes);
+
+    filteredRoutes.forEach(({ parent, route }) => {
+      addRoutes(parent, route);
+    });
   }
-
-  // const routeHomeName = getRouteHome(getState());
-
-  // const homeRoute = router.getRouteByName(routeHomeName);
-
-  // if (homeRoute) dispatch(initHomeTab({ homeRouteName: routeHomeName as LastLevelRouteKey, route: homeRoute }));
 }
