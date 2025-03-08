@@ -87,11 +87,13 @@ declare namespace Router {
 
   type SingleAuthRoute = {
     parent: string | null;
+    parentPath: string;
     route: RouteObject;
   };
 
   type AuthRoute = {
     parent: string | null;
+    parentPath: string;
     route: RouteObject[];
   };
 }

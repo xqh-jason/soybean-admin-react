@@ -15,7 +15,7 @@ export function getReactRoutes(route: ElegantConstRoute[]) {
 function isGroup(id?: string) {
   if (!id) return false;
 
-  return id.startsWith('(') && id.endsWith(')');
+  return id.endsWith(')');
 }
 
 /**
@@ -31,27 +31,30 @@ export function filterRoutes(
   routes: RouteObject[],
   parent: string | null = null,
   authRoutes: Router.SingleAuthRoute[] = [],
-  cacheRoutes: string[] = []
+  cacheRoutes: string[] = [],
+  parentPath: string = ''
 ) {
   return routes.reduce((acc, route) => {
     // 判断是否需要权限：假设 handles.constant 为 true 表示有权限要求
     const noPermission = route.handle && route.handle.constant;
 
+    const newRoute = { ...route };
+
     const isRouteGroup = route.id?.startsWith('(') && route.id.endsWith(')');
 
-    if (route.handle?.keepAlive) {
+    if (newRoute.handle?.keepAlive) {
       cacheRoutes.push(route.path || '');
     }
 
     // 递归处理子路由：注意，此处传递当前路由作为父级
-    if (route.children && route.children.length > 0) {
-      route.children = filterRoutes(route.children, route.id, authRoutes, cacheRoutes);
+    if (newRoute.children && newRoute.children.length > 0) {
+      newRoute.children = filterRoutes(newRoute.children, route.id, authRoutes, cacheRoutes, route.path);
     }
 
     if (!noPermission) {
       // 将当前路由及其父级（如果没有父级，则为 null）记录到 authRoutes 数组中
-      if (isRouteGroup || route.children?.[0]?.index) {
-        const children = route.children
+      if (isRouteGroup || newRoute.children?.[0]?.index) {
+        const children = newRoute.children
           ?.map(item => {
             if (item.handle?.constant || isGroup(item.id) || item.children?.[0]?.index) {
               return item;
@@ -60,19 +63,20 @@ export function filterRoutes(
           })
           .filter(Boolean) as RouteObject[];
 
-        route.children = children;
+        newRoute.children = children;
 
-        acc.push(route);
+        acc.push(newRoute);
       } else {
         authRoutes.push({
           parent: parent || null,
-          route
+          parentPath,
+          route: newRoute
         });
       }
     } else {
       // 放入结果数组
 
-      acc.push(route);
+      acc.push(newRoute);
     }
 
     // 如果没有权限，则该路由不加入结果数组

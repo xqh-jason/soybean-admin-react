@@ -4,6 +4,7 @@ import { selectActiveFirstLevelMenuKey, setActiveFirstLevelMenuKey } from '@/fea
 
 import { useLang } from '../lang';
 import { useRoute, useRouter } from '../router';
+import { getBaseChildrenRoutes } from '../router/routes';
 
 import { filterRoutesToMenus, getActiveFirstLevelMenuKey, getSelectKey } from './MenuUtil';
 import { MixMenuContext } from './menuContext';
@@ -20,7 +21,7 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
   const activeFirstLevelMenuKey = useAppSelector(selectActiveFirstLevelMenuKey);
 
   const menus = useMemo(
-    () => filterRoutesToMenus(router.reactRouter.routes[0]?.children?.find(r => r.id === '(base)')?.children || []),
+    () => filterRoutesToMenus(getBaseChildrenRoutes(router.reactRouter.routes)),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.reactRouter.routes, locale]
   );

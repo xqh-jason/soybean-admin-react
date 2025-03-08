@@ -34,21 +34,14 @@ function initRoute(to: Router.Route) {
     return location;
   }
 
-  // the auth route is initialized
-  // it is not the "not-found" route, then it is allowed to access
-  if (!isNotFoundRoute) {
-    return null;
-  }
+  if (isNotFoundRoute) {
+    const exist = matchRoutes(allRoutes[0].children || [], to.pathname);
 
-  // it is captured by the "not-found" route, then check whether the route exists
-  const exist = matchRoutes(allRoutes, to.pathname);
-
-  const noPermissionRoute = '/403';
-
-  if (exist && exist.length > 0) {
-    const fullPath = noPermissionRoute;
-
-    return fullPath;
+    const noPermissionRoute = '/403';
+    if (exist && exist.length > 0) {
+      const fullPath = noPermissionRoute;
+      return fullPath;
+    }
   }
 
   return null;
@@ -84,7 +77,7 @@ function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean) {
   }
 
   if (to.id === 'notFound') {
-    const exist = matchRoutes(allRoutes, to.pathname);
+    const exist = matchRoutes(allRoutes[0].children || [], to.pathname);
 
     if (exist && exist.length > 0) {
       return noAuthorizationRoute;
@@ -99,7 +92,7 @@ function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean) {
   if (!isLogin) return `${loginRoute}?redirect=${to.fullPath}`;
 
   // if the user is logged in but does not have authorization, then switch to the 403 page
-  if (!hasAuth) return noAuthorizationRoute;
+  if (!hasAuth && import.meta.env.VITE_AUTH_ROUTE_MODE === 'static') return noAuthorizationRoute;
 
   return handleRouteSwitch(to, to.redirect);
 }
@@ -127,17 +120,7 @@ const RootLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  if (!inInit.current) {
-    inInit.current = true;
-
-    const location = initRoute(route);
-
-    if (location) {
-      return <Navigate to={location} />;
-    }
-  }
-
-  const location = createRouteGuard(route, roles, isSuper);
+  const location = inInit.current && createRouteGuard(route, roles, isSuper);
 
   if (location && inInit.current) {
     if (typeof location === 'string') {
@@ -151,6 +134,16 @@ const RootLayout = () => {
           to={location.path}
         />
       );
+    }
+  }
+
+  if (!inInit.current) {
+    inInit.current = true;
+
+    const loc = initRoute(route);
+
+    if (loc) {
+      return <Navigate to={loc} />;
     }
   }
 
