@@ -189,7 +189,19 @@ export const generatedRoutes: ElegantConstRoute[] = [
                   order: 2,
                   roles: ['R_SUPER'],
                   title: 'manage_role'
-                }
+                },
+                children: [
+                  {
+                    matchedFiles: [null, '/src/pages/(base)/manage/role/[...slug].tsx', null, null],
+                    name: '(base)_manage_role_[...slug]',
+                    path: '/manage/role/*',
+                    handle: {
+                      i18nKey: 'route.(base)_manage_role_[...slug]',
+                      hideInMenu: true,
+                      title: '(base)_manage_role_[...slug]'
+                    }
+                  }
+                ]
               },
               {
                 matchedFiles: [null, '/src/pages/(base)/manage/user/index.tsx', null, null],

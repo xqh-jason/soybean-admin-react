@@ -42,6 +42,7 @@ export const routeMap: RouteMap = {
  "(base)_home": "/home",
  "(base)_manage": "/manage",
  "(base)_manage_role": "/manage/role",
+ "(base)_manage_role_[...slug]": "/manage/role/*",
  "(base)_manage_user": "/manage/user",
  "(base)_manage_user_[id]": "/manage/user/:id",
  "(base)_multi-menu": "/multi-menu",

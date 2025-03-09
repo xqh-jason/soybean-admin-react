@@ -14,6 +14,7 @@ const route: App.I18n.Schema['translation']['route'] = {
   '(base)_home': 'Home',
   '(base)_manage': 'System Manage',
   '(base)_manage_role': 'Role Manage',
+  '(base)_manage_role_[...slug]': 'Role Manage Details',
   '(base)_manage_user': 'User Manage',
   '(base)_manage_user_[id]': 'User Detail',
   '(base)_multi-menu': 'Multi Menu',
@@ -46,7 +47,9 @@ const route: App.I18n.Schema['translation']['route'] = {
   exception_403: '403',
   exception_404: '404',
   exception_500: '500',
-  'iframe-page': 'Iframe'
+  'iframe-page': 'Iframe',
+  notFound: 'Page Not Found',
+  root: 'Home'
 };
 
 export default route;

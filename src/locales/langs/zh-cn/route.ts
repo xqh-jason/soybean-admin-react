@@ -14,6 +14,7 @@ const route: App.I18n.Schema['translation']['route'] = {
   '(base)_home': '首页',
   '(base)_manage': '系统管理',
   '(base)_manage_role': '角色管理',
+  '(base)_manage_role_[...slug]': '角色管理详情',
   '(base)_manage_user': '用户管理',
   '(base)_manage_user_[id]': '用户详情',
   '(base)_multi-menu': '多级菜单',
@@ -46,7 +47,9 @@ const route: App.I18n.Schema['translation']['route'] = {
   exception_403: '403',
   exception_404: '404',
   exception_500: '500',
-  'iframe-page': '外链页面'
+  'iframe-page': '外链页面',
+  notFound: '页面不存在',
+  root: '首页'
 };
 
 export default route;
