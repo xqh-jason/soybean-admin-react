@@ -6,9 +6,9 @@ import { store } from '@/store';
 
 import { getIsLogin } from '../auth/authStore';
 
+import { initAuthRoutes } from './initRouter';
 import { type LocationQueryRaw, stringifyQuery } from './query';
 import { setCacheRoutes } from './routeStore';
-import { initAuthRoutes } from './routerHooks';
 
 function initRouter() {
   let isAlreadyPatch = false;
