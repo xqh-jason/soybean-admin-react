@@ -7,46 +7,6 @@ import { useRoute } from '@/features/router';
 import { allRoutes } from '@/router';
 import { localStg } from '@/utils/storage';
 
-/**
- * initialize route
- *
- * @param to to route
- */
-function initRoute(to: Router.Route) {
-  const notFoundRoute = 'notFound';
-
-  const isNotFoundRoute = to.id === notFoundRoute;
-
-  const isLogin = Boolean(localStg.get('token'));
-
-  if (!isLogin) {
-    // if the user is not logged in and the route is a constant route but not the "not-found" route, then it is allowed to access.
-    if (to.handle.constant && !isNotFoundRoute) {
-      return null;
-    }
-
-    // if the user is not logged in, then switch to the login page
-    const loginRoute: RoutePath = '/login';
-    const query = to.fullPath;
-
-    const location = `${loginRoute}?redirect=${query}`;
-
-    return location;
-  }
-
-  if (isNotFoundRoute) {
-    const exist = matchRoutes(allRoutes[0].children || [], to.pathname);
-
-    const noPermissionRoute = '/403';
-    if (exist && exist.length > 0) {
-      const fullPath = noPermissionRoute;
-      return fullPath;
-    }
-  }
-
-  return null;
-}
-
 function handleRouteSwitch(to: Router.Route, from: Router.Route | null) {
   // route with href
   if (to.handle.href) {
@@ -59,11 +19,30 @@ function handleRouteSwitch(to: Router.Route, from: Router.Route | null) {
 }
 
 function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean) {
-  const rootRoute: RoutePath = '/';
   const loginRoute: RoutePath = '/login';
+  const isLogin = Boolean(localStg.get('token'));
+
+  const notFoundRoute = 'notFound';
+  const isNotFoundRoute = to.id === notFoundRoute;
+
+  if (!isLogin) {
+    // if the user is not logged in and the route is a constant route but not the "not-found" route, then it is allowed to access.
+    if (to.handle.constant && !isNotFoundRoute) {
+      return null;
+    }
+
+    // if the user is not logged in, then switch to the login page
+
+    const query = to.fullPath;
+
+    const location = `${loginRoute}?redirect=${query}`;
+
+    return location;
+  }
+
+  const rootRoute: RoutePath = '/';
   const noAuthorizationRoute: RoutePath = '/403';
 
-  const isLogin = Boolean(localStg.get('token'));
   const needLogin = !to.handle.constant;
   const routeRoles = to.handle.roles || [];
 
@@ -79,7 +58,7 @@ function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean) {
   if (to.id === 'notFound') {
     const exist = matchRoutes(allRoutes[0].children || [], to.pathname);
 
-    if (exist && exist.length > 0) {
+    if (exist && exist.length > 1) {
       return noAuthorizationRoute;
     }
 
@@ -87,9 +66,6 @@ function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean) {
   }
 
   if (!needLogin) return handleRouteSwitch(to, to.redirect);
-
-  // the route need login but the user is not logged in, then switch to the login page
-  if (!isLogin) return `${loginRoute}?redirect=${to.fullPath}`;
 
   // if the user is logged in but does not have authorization, then switch to the 403 page
   if (!hasAuth && import.meta.env.VITE_AUTH_ROUTE_MODE === 'static') return noAuthorizationRoute;
@@ -99,8 +75,6 @@ function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean) {
 
 const RootLayout = () => {
   const route = useRoute();
-
-  const inInit = useRef(false);
 
   const { handle, pathname } = route;
 
@@ -120,9 +94,9 @@ const RootLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const location = inInit.current && createRouteGuard(route, roles, isSuper);
+  const location = createRouteGuard(route, roles, isSuper);
 
-  if (location && inInit.current) {
+  if (location) {
     if (typeof location === 'string') {
       return <Navigate to={location} />;
     }
@@ -134,16 +108,6 @@ const RootLayout = () => {
           to={location.path}
         />
       );
-    }
-  }
-
-  if (!inInit.current) {
-    inInit.current = true;
-
-    const loc = initRoute(route);
-
-    if (loc) {
-      return <Navigate to={loc} />;
     }
   }
 
