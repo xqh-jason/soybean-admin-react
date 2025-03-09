@@ -17,11 +17,11 @@ This project is based on the outstanding open-source project [Soybean Admin](htt
 
 ## Introduction
 
-[`React SoybeanAdmin`](https://github.com/mufeng889/react-soybean-admin) is a fresh and elegant admin panel template built on the React18 stack. It adopts the latest frontend technologies, including:
+[`React SoybeanAdmin`](https://github.com/mufeng889/react-soybean-admin) is a fresh and elegant admin panel template built on the React19 stack. It adopts the latest frontend technologies, including:
 
-- 🚀 React 18 + ReactRouter V6 + Redux/toolkit
+- 🚀 React 19 + ReactRouter V7 + Redux/toolkit
 - 🎨 Ant Design + UnoCSS
-- 📦 Vite 5 + TypeScript
+- 📦 Vite 6 + TypeScript
 - 🔐 Role-based access control
 - 📱 Mobile-friendly adaptation
 - 🌍 Internationalization support
@@ -37,7 +37,7 @@ This project is based on the outstanding open-source project [Soybean Admin](htt
 - 🔧 Excellent type support
 - 📱 Responsive design, perfectly adapted for mobile
 - 🎨 Optimistic UI: Automatically captures and displays friendly error messages for debugging and monitoring purposes within components.
-- 🚀 Advanced routing features: Extends React-Router V6 API for a more Vue-like experience, making routing management more flexible and efficient.
+- 🚀 Advanced routing features: Extends React-Router V7 API ，Provide convention-based file routing similar to Next.js, while also allowing custom reusable routes..
 - ⚡️ CLI tools: Built-in tools for Git commits, file deletions, releases, and more.
 
 Whether you're learning the latest frontend technologies or developing enterprise-grade admin panels, React SoybeanAdmin is your ideal choice.
@@ -53,7 +53,7 @@ Both branches will continue to receive bug fixes. If you need the older version,
 
 ### React Version
 
-- **React18 Version:**
+- **React19 Version:**
   - [Preview](https://github.com/mufeng889/react-soybean-admin/)
   - [Faster Access in China](https://react-soybean-admin.pages.dev/)
   - [GitHub Repository](https://github.com/mufeng889/react-soybean-admin)
