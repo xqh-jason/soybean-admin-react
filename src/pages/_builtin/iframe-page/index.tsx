@@ -13,14 +13,16 @@ const IframePage = () => {
   return (
     <>
       {loading && <Skeleton active />}
-      <div className={loading ? 'h-0' : 'h-full'}>
-        <iframe
-          className="size-full"
-          id="iframePage"
-          src={url || ''}
-          onLoad={endLoading}
-        />
-      </div>
+      {url && (
+        <div className={loading ? 'h-0' : 'h-full'}>
+          <iframe
+            className="size-full"
+            id="iframePage"
+            src={url}
+            onLoad={endLoading}
+          />
+        </div>
+      )}
     </>
   );
 };
