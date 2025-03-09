@@ -1,6 +1,5 @@
-import type { AxiosError } from 'axios';
-
 import type { FlatResponseData } from '@sa/axios';
+import type { AxiosError } from 'axios';
 
 import type Fetch from './Fetch';
 import type { CachedData } from './utils/cache';
@@ -11,102 +10,91 @@ export type Subscribe = () => void;
 // for Fetch
 
 export interface FetchState<TData extends FlatResponseData, TParams extends any[]> {
-  loading: boolean;
-  params?: TParams;
-  response: TData['response'];
-  data: NonNullable<TData['data']>;
-  error: AxiosError | null;
+  data: NonNullable<TData['data']>;
+  error: AxiosError | null;
+  loading: boolean;
+  params?: TParams;
+  response: TData['response'];
 }
 
 export interface PluginReturn<TData extends FlatResponseData, TParams extends any[]> {
-  onBefore?: (params: TParams) =>
-    | ({
-        stopNow?: boolean;
-        returnNow?: boolean;
-      } & Partial<FetchState<FlatResponseData, TParams>>)
-    | null;
+  onBefore?: (params: TParams) =>
+    | ({
+        returnNow?: boolean;
+        stopNow?: boolean;
+      } & Partial<FetchState<FlatResponseData, TParams>>)
+    | null;
 
-  onRequest?: (
-    service: Service<TData, TParams>,
-    params: TParams
-  ) => {
-    servicePromise?: Promise<TData>;
-  };
+  onCancel?: () => void;
 
-  onSuccess?: (data: TData['data'], params: TParams) => void;
-  onError?: (e: AxiosError, params: TParams) => void;
-  onFinally?: (params: TParams, data?: TData, e?: AxiosError) => void;
-  onCancel?: () => void;
-  onMutate?: (data: TData['data']) => void;
+  onError?: (e: AxiosError, params: TParams) => void;
+  onFinally?: (params: TParams, data?: TData, e?: AxiosError) => void;
+  onMutate?: (data: TData['data']) => void;
+  onRequest?: (
+    service: Service<TData, TParams>,
+    params: TParams
+  ) => {
+    servicePromise?: Promise<TData>;
+  };
+  onSuccess?: (data: TData['data'], params: TParams) => void;
 }
 
 // for useRequestImplement
 
 export interface Options<TData extends FlatResponseData, TParams extends any[]> {
-  manual?: boolean;
-  onBefore?: (params: TParams) => void;
-  onSuccess?: (data: TData['data'], params: TParams) => void;
-  onError?: (e: Error, params: TParams) => void;
-  defaultData?: TData['data'];
-  onFinally?: (params: TParams, data: TData['data'] | null, e: Error | null) => void;
-  defaultParams?: TParams;
-  // refreshDeps
-  params?: TParams[0];
-  refreshDepsAction?: () => void;
+  // cache
+  cacheKey?: string;
+  cacheTime?: number;
+  debounceLeading?: boolean;
+  debounceMaxWait?: number;
+  debounceTrailing?: boolean; // debounce
+  debounceWait?: number;
+  defaultData?: TData['data'];
+  defaultParams?: TParams;
+  focusTimespan?: number;
 
-  // loading delay
-  loadingDelay?: number;
+  getCache?: (params: TParams) => CachedData<TData, TParams> | undefined; // loading delay
 
-  // polling
-  pollingInterval?: number;
-  pollingWhenHidden?: boolean;
-  pollingErrorRetryCount?: number;
+  loadingDelay?: number;
+  manual?: boolean;
+  onBefore?: (params: TParams) => void;
 
-  // refresh on window focus
-  refreshOnWindowFocus?: boolean;
-  focusTimespan?: number;
+  onError?: (e: Error, params: TParams) => void;
+  onFinally?: (params: TParams, data: TData['data'] | null, e: Error | null) => void;
 
-  // debounce
-  debounceWait?: number;
-  debounceLeading?: boolean;
-  debounceTrailing?: boolean;
-  debounceMaxWait?: number;
+  onSuccess?: (data: TData['data'], params: TParams) => void; // refreshDeps
+  params?: TParams[0];
+  pollingErrorRetryCount?: number; // polling
+  pollingInterval?: number;
 
-  // throttle
-  throttleWait?: number;
-  throttleLeading?: boolean;
-  throttleTrailing?: boolean;
+  pollingWhenHidden?: boolean; // ready
+  ready?: boolean;
+  refreshDepsAction?: () => void; // refresh on window focus
 
-  // cache
-  cacheKey?: string;
-  cacheTime?: number;
-  staleTime?: number;
-  setCache?: (data: CachedData<TData, TParams>) => void;
-  getCache?: (params: TParams) => CachedData<TData, TParams> | undefined;
+  refreshOnWindowFocus?: boolean; // retry
+  retryCount?: number;
+  retryInterval?: number;
+  setCache?: (data: CachedData<TData, TParams>) => void;
+  staleTime?: number;
 
-  // retry
-  retryCount?: number;
-  retryInterval?: number;
+  throttleLeading?: boolean;
+  throttleTrailing?: boolean; // throttle
 
-  // ready
-  ready?: boolean;
-
-  // [key: string]: any;
+  throttleWait?: number; // [key: string]: any;
 }
 
 export type Plugin<TData extends FlatResponseData, TParams extends any[]> = {
-  (fetchInstance: Fetch<TData, TParams>, options: Options<TData, TParams>): PluginReturn<TData, TParams>;
-  onInit?: (options: Options<TData, TParams>) => Partial<FetchState<TData, TParams>>;
+  (fetchInstance: Fetch<TData, TParams>, options: Options<TData, TParams>): PluginReturn<TData, TParams>;
+  onInit?: (options: Options<TData, TParams>) => Partial<FetchState<TData, TParams>>;
 };
 
 export interface Result<TData extends FlatResponseData, TParams extends any[]> extends FetchState<TData, TParams> {
-  cancel: Fetch<TData, TParams>['cancel'];
-  refresh: Fetch<TData, TParams>['refresh'];
-  refreshAsync: Fetch<TData, TParams>['refreshAsync'];
-  run: Fetch<TData, TParams>['run'];
-  runAsync: Fetch<TData, TParams>['runAsync'];
-  mutate: Fetch<TData['data'], TParams>['mutate'];
+  cancel: Fetch<TData, TParams>['cancel'];
+  mutate: Fetch<TData['data'], TParams>['mutate'];
+  refresh: Fetch<TData, TParams>['refresh'];
+  refreshAsync: Fetch<TData, TParams>['refreshAsync'];
+  run: Fetch<TData, TParams>['run'];
+  runAsync: Fetch<TData, TParams>['runAsync'];
 }
 
 export type Timeout = ReturnType<typeof setTimeout>;
-
