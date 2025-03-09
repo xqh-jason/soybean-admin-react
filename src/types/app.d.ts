@@ -614,7 +614,10 @@ declare namespace App {
           refreshToken: string;
           tokenExpired: string;
         };
-        route: Record<I18nRouteKey, string>;
+        route: Record<I18nRouteKey, string> & {
+          notFound: string;
+          root: string;
+        };
         system: {
           errorReason: string;
           reload: string;

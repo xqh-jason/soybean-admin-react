@@ -74,11 +74,16 @@ declare namespace Router {
     url?: string | null;
   };
 
-  type Route<T = unknown, Q extends Record<string, string> = Record<string, string>> = UIMatch<T, RouteHandle> & {
+  type Route<
+    T = unknown,
+    Q extends Record<string, string> | null = Record<string, string>,
+    P extends Record<string, string | string[]> = Record<string, string | string[]>
+  > = Omit<UIMatch<T, RouteHandle>, 'params'> & {
     error: Error | null;
     fullPath: string;
     hash: string;
     matched: UIMatch<T, RouteHandle>[];
+    params: P;
     pathname: string;
     query: Q;
     redirect: Route<T, Q> | null;
