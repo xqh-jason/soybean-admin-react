@@ -76,7 +76,11 @@ function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean) {
 const RootLayout = () => {
   const route = useRoute();
 
-  const { handle, pathname } = route;
+  const { handle, id, pathname } = route;
+
+  const routeId = useRef<string>(null);
+
+  const { i18nKey, title } = handle;
 
   const { roles } = useAppSelector(selectUserInfo);
 
@@ -85,29 +89,31 @@ const RootLayout = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    const { i18nKey, title } = handle;
-
     document.title = i18nKey ? t(i18nKey) : title;
+  }, [i18nKey, title, t]);
 
+  useEffect(() => {
     window.NProgress?.done?.();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
 
-  const location = createRouteGuard(route, roles, isSuper);
+  if (routeId.current !== id) {
+    routeId.current = id;
 
-  if (location) {
-    if (typeof location === 'string') {
-      return <Navigate to={location} />;
-    }
+    const location = createRouteGuard(route, roles, isSuper);
 
-    if (location.path) {
-      return (
-        <Navigate
-          replace={location.replace}
-          to={location.path}
-        />
-      );
+    if (location) {
+      if (typeof location === 'string') {
+        return <Navigate to={location} />;
+      }
+
+      if (location.path) {
+        return (
+          <Navigate
+            replace={location.replace}
+            to={location.path}
+          />
+        );
+      }
     }
   }
 
