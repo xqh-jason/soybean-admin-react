@@ -218,6 +218,11 @@ const page: App.I18n.Schema['translation']['page'] = {
       roleStatus: '角色状态',
       title: '角色列表'
     },
+    roleDetail: {
+      content: '这个页面仅仅是为了展示匹配到所有多级动态路由',
+      explain:
+        '[...slug] 是匹配所有多级动态路由的语法 以[...any]为格式,匹配到的数据会在useRoute的params中以数组的形式存在'
+    },
     user: {
       addUser: '新增用户',
       editUser: '编辑用户',

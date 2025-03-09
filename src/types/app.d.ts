@@ -575,6 +575,10 @@ declare namespace App {
               roleStatus: string;
               title: string;
             };
+            roleDetail: {
+              content: string;
+              explain: string;
+            };
             user: {
               addUser: string;
               editUser: string;

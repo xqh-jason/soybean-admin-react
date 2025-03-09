@@ -14,6 +14,8 @@ const Role = () => {
 
   const isMobile = useMobile();
 
+  const nav = useNavigate();
+
   const { scrollConfig, tableWrapperRef } = useTableScroll();
 
   const { columnChecks, data, run, searchProps, setColumnChecks, tableProps } = useTable({
@@ -80,7 +82,12 @@ const Role = () => {
             >
               {t('common.edit')}
             </AButton>
-
+            <AButton
+              size="small"
+              onClick={() => nav(`/manage/role/${record.id}/${record.roleName}/${record.status}`)}
+            >
+              详情
+            </AButton>
             <APopconfirm
               title={t('common.confirmDelete')}
               onConfirm={() => handleDelete(record.id)}

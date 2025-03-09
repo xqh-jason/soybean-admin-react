@@ -218,6 +218,11 @@ const page: App.I18n.Schema['translation']['page'] = {
       roleStatus: 'Role Status',
       title: 'Role List'
     },
+    roleDetail: {
+      content: 'This page is solely for displaying all matched multi-level dynamic routes.',
+      explain:
+        '[...slug] is the syntax for matching all multi-level dynamic routes. The data is random and may not match.'
+    },
     user: {
       addUser: 'Add User',
       editUser: 'Edit User',
