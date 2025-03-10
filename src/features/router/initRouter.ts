@@ -7,7 +7,7 @@ import { isStaticSuper, selectUserInfo } from '../auth/authStore';
 
 import { filterAuthRoutesByDynamic, filterAuthRoutesByRoles, mergeValuesByParent } from './shared';
 
-const hasRoutes = ['/manage/user', '/manage/user/:id', '/home', '/about'];
+const hasRoutes = ['/manage', '/manage/user', '/manage/user/:id', '/home', '/about'];
 
 export function initAuthRoutes(addRoutes: (parent: string | null, route: RouteObject[]) => void) {
   const authRouteMode = import.meta.env.VITE_AUTH_ROUTE_MODE;

@@ -12,7 +12,7 @@ function handleRouteSwitch(to: Router.Route, from: Router.Route | null) {
   if (to.handle.href) {
     window.open(to.handle.href, '_blank');
 
-    return { path: from?.fullPath, replace: true };
+    return { path: from?.fullPath as string, replace: true };
   }
 
   return null;
@@ -80,6 +80,8 @@ const RootLayout = () => {
 
   const routeId = useRef<string>(null);
 
+  const location = useRef<string | { path: string; replace: boolean } | null>(null);
+
   const { i18nKey, title } = handle;
 
   const { roles } = useAppSelector(selectUserInfo);
@@ -99,25 +101,22 @@ const RootLayout = () => {
   if (routeId.current !== id) {
     routeId.current = id;
 
-    const location = createRouteGuard(route, roles, isSuper);
-
-    if (location) {
-      if (typeof location === 'string') {
-        return <Navigate to={location} />;
-      }
-
-      if (location.path) {
-        return (
-          <Navigate
-            replace={location.replace}
-            to={location.path}
-          />
-        );
-      }
-    }
+    location.current = createRouteGuard(route, roles, isSuper);
   }
 
-  return <Outlet />;
+  // eslint-disable-next-line no-nested-ternary
+  return location.current ? (
+    typeof location.current === 'string' ? (
+      <Navigate to={location.current} />
+    ) : (
+      <Navigate
+        replace={location.current.replace}
+        to={location.current.path}
+      />
+    )
+  ) : (
+    <Outlet />
+  );
 };
 
 export const loader = () => {
