@@ -2,10 +2,12 @@ import { useLoading } from '@sa/hooks';
 
 import { getIsLogin, selectUserInfo } from '@/features/auth/authStore';
 import { useRoute, useRouter } from '@/features/router';
+import { fetchGetUserInfo, fetchLogin } from '@/service/api';
+import { localStg } from '@/utils/storage';
 
 import { useCacheTabs } from '../tab/tabHooks';
 
-import { login, resetAuth as resetAuthAction } from './authStore';
+import { resetAuth as resetAuthAction, setToken, setUserInfo } from './authStore';
 import { clearAuthStorage } from './shared';
 
 export function useAuth() {
@@ -43,27 +45,38 @@ export function useInitAuth() {
 
   const redirectUrl = searchParams.get('redirect');
 
-  async function toLogin(params: { password: string; userName: string }, redirect = true) {
+  async function toLogin({ password, userName }: { password: string; userName: string }, redirect = true) {
     if (loading) return;
 
     startLoading();
-    const res = await dispatch(login(params));
+    const { data: loginToken, error } = await fetchLogin(userName, password);
 
-    const info = res.payload as Api.Auth.Info;
+    if (!error) {
+      localStg.set('token', loginToken.token);
+      localStg.set('refreshToken', loginToken.refreshToken);
 
-    if (info.token) {
-      if (redirect) {
-        if (redirectUrl) {
-          navigate(redirectUrl);
-        } else {
-          navigate('/');
+      const { data: info, error: userInfoError } = await fetchGetUserInfo();
+
+      if (!userInfoError) {
+        // 2. store user info
+        localStg.set('userInfo', info);
+
+        dispatch(setToken(loginToken.token));
+        dispatch(setUserInfo(info));
+
+        if (redirect) {
+          if (redirectUrl) {
+            navigate(redirectUrl);
+          } else {
+            navigate('/');
+          }
         }
-      }
 
-      window.$notification?.success({
-        description: t('page.login.common.welcomeBack', { userName: info.userInfo.userName }),
-        message: t('page.login.common.loginSuccess')
-      });
+        window.$notification?.success({
+          description: t('page.login.common.welcomeBack', { userName: info.userName }),
+          message: t('page.login.common.loginSuccess')
+        });
+      }
     }
 
     endLoading();
@@ -79,8 +92,8 @@ export function useResetAuth() {
   const dispatch = useAppDispatch();
 
   const {
-    fullPath,
-    handle: { constant }
+    handle: { constant },
+    redirect
   } = useRoute();
 
   const cacheTabs = useCacheTabs();
@@ -97,7 +110,7 @@ export function useResetAuth() {
     cacheTabs();
 
     if (!constant) {
-      push('/login', { redirect: fullPath });
+      push('/login', { redirect: redirect?.fullPath });
     }
   }
 

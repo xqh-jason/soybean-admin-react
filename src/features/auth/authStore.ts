@@ -1,8 +1,5 @@
-import { createSelector } from '@reduxjs/toolkit';
-
-import { fetchGetUserInfo, fetchLogin } from '@/service/api';
-import { createAppSlice } from '@/store/createAppSlice';
-import { localStg } from '@/utils/storage';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
 import { getToken, getUserInfo } from './shared';
 
@@ -11,53 +8,27 @@ const initialState = {
   userInfo: getUserInfo()
 };
 
-export const authSlice = createAppSlice({
+export const authSlice = createSlice({
   initialState,
   name: 'auth',
-  reducers: create => ({
-    login: create.asyncThunk(
-      async ({ password, userName }: { password: string; userName: string }) => {
-        const { data: loginToken, error } = await fetchLogin(userName, password);
-        // 1. stored in the localStorage, the later requests need it in headers
-        if (!error) {
-          localStg.set('token', loginToken.token);
-          localStg.set('refreshToken', loginToken.refreshToken);
-
-          const { data: info, error: userInfoError } = await fetchGetUserInfo();
-
-          if (!userInfoError) {
-            // 2. store user info
-            localStg.set('userInfo', info);
-            return {
-              token: loginToken.token,
-              userInfo: info
-            };
-          }
-        }
-
-        return initialState;
-      },
-
-      {
-        fulfilled: (state, { payload }) => {
-          if (payload) {
-            state.token = payload.token;
-            state.userInfo = payload.userInfo;
-          }
-        }
-      }
-    ),
-    resetAuth: create.reducer(() => initialState)
-  }),
+  reducers: {
+    resetAuth: () => initialState,
+    setToken: (state, { payload }: PayloadAction<string>) => {
+      state.token = payload;
+    },
+    setUserInfo: (state, { payload }: PayloadAction<Api.Auth.UserInfo>) => {
+      state.userInfo = payload;
+    }
+  },
   selectors: {
     selectToken: auth => auth.token,
     selectUserInfo: auth => auth.userInfo
   }
 });
 
-export const { selectToken, selectUserInfo } = authSlice.selectors;
+export const { resetAuth, setToken, setUserInfo } = authSlice.actions;
 
-export const { login, resetAuth } = authSlice.actions;
+export const { selectToken, selectUserInfo } = authSlice.selectors;
 
 /** Is login */
 export const getIsLogin = createSelector([selectToken], token => Boolean(token));
