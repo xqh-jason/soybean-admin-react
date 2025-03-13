@@ -1,6 +1,5 @@
 import type { MenuProps } from 'antd';
 
-import { useResetAuth } from '@/features/auth';
 import { selectToken, selectUserInfo } from '@/features/auth/authStore';
 import { useRouter } from '@/features/router';
 
@@ -11,8 +10,6 @@ const UserAvatar = memo(() => {
 
   const userInfo = useAppSelector(selectUserInfo);
 
-  const resetAuth = useResetAuth();
-
   const { navigate } = useRouter();
 
   function logout() {
@@ -21,7 +18,7 @@ const UserAvatar = memo(() => {
       content: t('common.logoutConfirm'),
       okText: t('common.confirm'),
       onOk: () => {
-        resetAuth();
+        navigate('/login-out');
       },
       title: t('common.tip')
     });
