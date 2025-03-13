@@ -60,6 +60,7 @@ export const routeMap: RouteMap = {
  "(blank)_login_code-login": "/login/code-login",
  "(blank)_login_register": "/login/register",
  "(blank)_login_reset-pwd": "/login/reset-pwd",
+ "(blank)_login-out": "/login-out",
  "403": "/403",
  "404": "/404",
  "500": "/500",

@@ -32,6 +32,7 @@ const route: App.I18n.Schema['translation']['route'] = {
   '(blank)_login_code-login': 'Code Login',
   '(blank)_login_register': 'Register Account',
   '(blank)_login_reset-pwd': 'Reset Password',
+  '(blank)_login-out': 'Login Out',
   '403': 'No Permission',
   '404': 'Page Not Found',
   '500': 'Server Error',

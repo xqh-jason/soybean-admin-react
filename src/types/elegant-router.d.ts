@@ -61,6 +61,7 @@ declare module "@soybean-react/vite-plugin-react-router" {
     "(blank)_login_code-login": "/login/code-login";
     "(blank)_login_register": "/login/register";
     "(blank)_login_reset-pwd": "/login/reset-pwd";
+    "(blank)_login-out": "/login-out";
     "403": "/403";
     "404": "/404";
     "500": "/500";
@@ -163,6 +164,7 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "(base)_projects"
     | "(base)_user-center"
     | "(blank)"
+    | "(blank)_login-out"
     | "(blank)_login_code-login"
     | "(blank)_login"
     | "(blank)_login"
