@@ -2,6 +2,7 @@ import type { FlatRequestInstance } from '@sa/axios';
 import { BACKEND_ERROR_CODE } from '@sa/axios';
 import type { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
+import { router } from '@/features/router';
 import { $t } from '@/locales';
 
 import { getAuthorization, handleExpiredRequest, showErrorMsg } from './shared';
@@ -15,8 +16,13 @@ export async function backEndFail(
 ) {
   const responseCode = String(response.data.code);
 
+  function handleLogout() {
+    router.navigate('/login-out');
+  }
+
   function logoutAndCleanup() {
-    window.removeEventListener('beforeunload', () => {});
+    handleLogout();
+    window.removeEventListener('beforeunload', handleLogout);
 
     request.state.errMsgStack = request.state.errMsgStack.filter(msg => msg !== response.data.msg);
   }
@@ -24,6 +30,8 @@ export async function backEndFail(
   // when the backend response code is in `logoutCodes`, it means the user will be logged out and redirected to login page
   const logoutCodes = import.meta.env.VITE_SERVICE_LOGOUT_CODES?.split(',') || [];
   if (logoutCodes.includes(responseCode)) {
+    handleLogout();
+    return null;
   }
 
   // when the backend response code is in `modalLogoutCodes`, it means the user will be logged out by displaying a modal
@@ -32,7 +40,7 @@ export async function backEndFail(
     request.state.errMsgStack = [...(request.state.errMsgStack || []), response.data.msg];
 
     // prevent the user from refreshing the page
-    window.addEventListener('beforeunload', () => {});
+    window.addEventListener('beforeunload', handleLogout);
 
     window.$modal?.error({
       content: response.data.msg,

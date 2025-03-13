@@ -1,3 +1,4 @@
+import { router } from '@/features/router';
 import { localStg } from '@/utils/storage';
 
 import { fetchRefreshToken } from '../api';
@@ -24,6 +25,8 @@ export async function handleRefreshToken() {
     localStg.set('refreshToken', data.refreshToken);
     return true;
   }
+
+  router.navigate('/login-out');
 
   return false;
 }
