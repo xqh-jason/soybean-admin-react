@@ -6,7 +6,7 @@ import { store } from '@/store';
 
 import './plugins/assets';
 import App from './App.tsx';
-import FallbackRender from './ErrorBoundary.tsx';
+import FallbackRender from './components/ErrorBoundary.tsx';
 import { setupI18n } from './locales';
 import { setupAppVersionNotification, setupDayjs, setupIconifyOffline, setupNProgress } from './plugins';
 
