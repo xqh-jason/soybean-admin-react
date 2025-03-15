@@ -2,7 +2,7 @@ import { useMatches, useRouteError } from 'react-router-dom';
 
 import { parseQuery } from './query';
 
-function usePrevious<T>(value: T): T | null {
+export function usePrevious<T>(value: T): T | null {
   const ref = useRef<T>(null);
 
   useEffect(() => {
@@ -52,22 +52,24 @@ export function useRoute<
 
   const error = useRouteError() as Error | null;
 
-  const route = {
-    ...routes,
-    error,
-    fullPath,
-    hash,
-    matched: matches.slice(1) as Router.Route<T>[],
-    params: getParams(routes.params as Record<string, string>, routes.id) as P,
-    pathname,
-    query,
-    redirect: null,
-    search
-  } as Router.Route<T, Q, P>;
+  return useMemo(
+    () =>
+      ({
+        ...routes,
+        error,
+        fullPath,
+        hash,
+        matched: matches.slice(1) as Router.Route<T>[],
+        params: getParams(routes.params as Record<string, string>, routes.id) as P,
+        pathname,
+        query,
+        redirect: null,
+        search
+      }) as Router.Route<T, Q, P>,
+    [fullPath]
+  );
+}
 
-  const previousRoute = usePrevious(route);
-
-  route.redirect = previousRoute;
-
-  return useMemo(() => route, [route.fullPath]);
+export function usePreviousRoute() {
+  return useOutletContext<Router.Route>();
 }

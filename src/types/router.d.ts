@@ -86,7 +86,6 @@ declare namespace Router {
     params: P;
     pathname: string;
     query: Q;
-    redirect: Route<T, Q> | null;
     search: string;
   };
 

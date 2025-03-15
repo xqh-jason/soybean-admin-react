@@ -1,7 +1,7 @@
 import { useLoading } from '@sa/hooks';
 
 import { getIsLogin, selectUserInfo } from '@/features/auth/authStore';
-import { useRoute, useRouter } from '@/features/router';
+import { usePreviousRoute, useRoute, useRouter } from '@/features/router';
 import { fetchGetUserInfo, fetchLogin } from '@/service/api';
 import { localStg } from '@/utils/storage';
 
@@ -93,8 +93,9 @@ export function useResetAuth() {
 
   const {
     handle: { constant },
-    redirect
   } = useRoute();
+
+  const previousRoute = usePreviousRoute();
 
   const cacheTabs = useCacheTabs();
 
@@ -110,7 +111,7 @@ export function useResetAuth() {
     cacheTabs();
 
     if (!constant) {
-      push('/login', { redirect: redirect?.fullPath });
+      push('/login', { redirect: previousRoute?.fullPath });
     }
   }
 

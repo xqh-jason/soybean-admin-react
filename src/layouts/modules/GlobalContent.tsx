@@ -4,6 +4,7 @@ import KeepAlive, { useKeepAliveRef } from 'keepalive-for-react';
 import { selectCacheRoutes, selectRemoveCacheKey } from '@/features/router/routeStore';
 import { getReloadFlag } from '@/layouts/appStore';
 import './transition.css';
+import { usePreviousRoute } from '@/features/router';
 
 interface Props {
   /** Show padding for content */
@@ -11,7 +12,10 @@ interface Props {
 }
 
 const GlobalContent: FC<Props> = memo(({ closePadding }) => {
-  const currentOutlet = useOutlet();
+
+  const previousRoute = usePreviousRoute();
+
+  const currentOutlet = useOutlet(previousRoute);
 
   const { pathname } = useLocation();
 

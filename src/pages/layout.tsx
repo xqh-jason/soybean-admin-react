@@ -3,7 +3,7 @@ import { Outlet, matchRoutes } from 'react-router-dom';
 import type { ShouldRevalidateFunctionArgs } from 'react-router-dom';
 
 import { isStaticSuper, selectUserInfo } from '@/features/auth/authStore';
-import { useRoute } from '@/features/router';
+import { usePrevious, useRoute } from '@/features/router';
 import { allRoutes } from '@/router';
 import { localStg } from '@/utils/storage';
 
@@ -18,7 +18,8 @@ function handleRouteSwitch(to: Router.Route, from: Router.Route | null) {
   return null;
 }
 
-function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean) {
+// eslint-disable-next-line max-params
+function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean, previousRoute: Router.Route | null) {
   const loginRoute: RoutePath = '/login';
   const isLogin = Boolean(localStg.get('token'));
 
@@ -65,16 +66,18 @@ function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean) {
     return null;
   }
 
-  if (!needLogin) return handleRouteSwitch(to, to.redirect);
+  if (!needLogin) return handleRouteSwitch(to, previousRoute);
 
   // if the user is logged in but does not have authorization, then switch to the 403 page
   if (!hasAuth && import.meta.env.VITE_AUTH_ROUTE_MODE === 'static') return noAuthorizationRoute;
 
-  return handleRouteSwitch(to, to.redirect);
+  return handleRouteSwitch(to, previousRoute);
 }
 
 const RootLayout = () => {
   const route = useRoute();
+
+  const previousRoute = usePrevious(route);
 
   const { handle, id, pathname } = route;
 
@@ -101,7 +104,7 @@ const RootLayout = () => {
   if (routeId.current !== id) {
     routeId.current = id;
 
-    location.current = createRouteGuard(route, roles, isSuper);
+    location.current = createRouteGuard(route, roles, isSuper, previousRoute);
   }
 
   // eslint-disable-next-line no-nested-ternary
@@ -115,7 +118,7 @@ const RootLayout = () => {
       />
     )
   ) : (
-    <Outlet />
+    <Outlet context={previousRoute} />
   );
 };
 
