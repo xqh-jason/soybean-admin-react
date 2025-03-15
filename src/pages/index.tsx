@@ -1,7 +1,12 @@
 import { Navigate } from 'react-router-dom';
 
 const Index = () => {
-  return <Navigate to="/home" />;
+  return (
+    <Navigate
+      replace
+      to="/home"
+    />
+  );
 };
 
 export const handle = {

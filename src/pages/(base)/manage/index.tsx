@@ -1,11 +1,11 @@
-import { redirect } from 'react-router-dom';
+import { replace } from 'react-router-dom';
 
 const Manage = () => {
   return null;
 };
 
 export const loader = () => {
-  return redirect('user');
+  return replace('user');
 };
 
 export default Manage;

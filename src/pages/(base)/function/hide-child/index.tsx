@@ -1,11 +1,11 @@
-import { redirect } from 'react-router-dom';
+import { replace } from 'react-router-dom';
 
 const HideChild = () => {
   return null;
 };
 
 export const loader = () => {
-  return redirect('one');
+  return replace('one');
 };
 
 export default HideChild;
