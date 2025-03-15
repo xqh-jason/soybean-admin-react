@@ -4,10 +4,9 @@ import { Provider } from 'react-redux';
 
 import { store } from '@/store';
 
-import FallbackRender from '../ErrorBoundary.tsx';
-
-import App from './App.tsx';
 import './plugins/assets';
+import App from './App.tsx';
+import FallbackRender from './ErrorBoundary.tsx';
 import { setupI18n } from './locales';
 import { setupAppVersionNotification, setupDayjs, setupIconifyOffline, setupNProgress } from './plugins';
 
@@ -21,8 +20,6 @@ function setupApp() {
   const root = createRoot(container);
 
   root.render(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     <ErrorBoundary fallbackRender={FallbackRender}>
       <Provider store={store}>
         <App />
