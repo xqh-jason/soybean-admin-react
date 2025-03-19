@@ -158,6 +158,12 @@ export const generatedRoutes: ElegantConstRoute[] = [
                   order: 4,
                   title: 'function_toggle-auth'
                 }
+              },
+              {
+                matchedFiles: [null, '/src/pages/(base)/function/use-request/index.tsx', null, null],
+                name: '(base)_function_use-request',
+                path: '/function/use-request',
+                handle: { i18nKey: 'route.(base)_function_use-request', title: '(base)_function_use-request' }
               }
             ]
           },
