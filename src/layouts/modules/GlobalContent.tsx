@@ -1,18 +1,18 @@
 import clsx from 'clsx';
 import KeepAlive, { useKeepAliveRef } from 'keepalive-for-react';
 
+import { usePreviousRoute } from '@/features/router';
 import { selectCacheRoutes, selectRemoveCacheKey } from '@/features/router/routeStore';
+import { useThemeSettings } from '@/features/theme';
 import { getReloadFlag } from '@/layouts/appStore';
 import './transition.css';
-import { usePreviousRoute } from '@/features/router';
 
 interface Props {
   /** Show padding for content */
   closePadding?: boolean;
 }
 
-const GlobalContent: FC<Props> = memo(({ closePadding }) => {
-
+const GlobalContent = ({ closePadding }: Props) => {
   const previousRoute = usePreviousRoute();
 
   const currentOutlet = useOutlet(previousRoute);
@@ -27,9 +27,9 @@ const GlobalContent: FC<Props> = memo(({ closePadding }) => {
 
   const reload = useAppSelector(getReloadFlag);
 
-  // const themeSetting = useAppSelector(getThemeSettings);
+  const themeSetting = useThemeSettings();
 
-  // const transitionName = themeSetting.page.animate ? themeSetting.page.animateMode : '';
+  const transitionName = themeSetting.page.animate ? themeSetting.page.animateMode : '';
 
   useUpdateEffect(() => {
     if (!aliveRef.current || !removeCacheKey) return;
@@ -39,19 +39,20 @@ const GlobalContent: FC<Props> = memo(({ closePadding }) => {
 
   useUpdateEffect(() => {
     aliveRef.current?.refresh();
-  }, [reload]);
+  }, [reload, transitionName]);
 
   return (
     <div className={clsx('h-full flex-grow bg-layout', { 'p-16px': !closePadding })}>
       <KeepAlive
         activeCacheKey={pathname}
         aliveRef={aliveRef}
+        cacheNodeClassName={reload ? '' : transitionName}
         include={cacheKeys}
       >
-        {currentOutlet}
+        {!reload && currentOutlet}
       </KeepAlive>
     </div>
   );
-});
+};
 
 export default GlobalContent;
