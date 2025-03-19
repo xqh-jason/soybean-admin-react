@@ -59,6 +59,8 @@ declare namespace Env {
      * the value is a json
      */
     readonly VITE_OTHER_SERVICE_BASE_URL: string;
+    /** show proxy url log in terminal */
+    readonly VITE_PROXY_LOG?: CommonType.YesOrNo;
     /**
      * The home route key
      *
