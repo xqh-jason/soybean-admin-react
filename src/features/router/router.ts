@@ -10,7 +10,7 @@ import { initAuthRoutes } from './initRouter';
 import { type LocationQueryRaw, stringifyQuery } from './query';
 import { setCacheRoutes } from './routeStore';
 
-async function initRouter() {
+function initRouter() {
   let isAlreadyPatch = false;
 
   function getIsNeedPatch(path: string) {
@@ -43,7 +43,7 @@ async function initRouter() {
   store.dispatch(setCacheRoutes(initCacheRoutes));
 
   if (getIsLogin(store.getState()) && !isAlreadyPatch) {
-    await initAuthRoutes(reactRouter.patchRoutes);
+    initAuthRoutes(reactRouter.patchRoutes);
 
     isAlreadyPatch = true;
   }
@@ -59,8 +59,8 @@ async function initRouter() {
   };
 }
 
-async function navigator() {
-  const { reactRouter, resetRoutes } = await initRouter();
+function navigator() {
+  const { reactRouter, resetRoutes } = initRouter();
 
   async function navigate(path: To | null, options?: RouterNavigateOptions) {
     reactRouter.navigate(path, options);
@@ -122,6 +122,6 @@ async function navigator() {
   };
 }
 
-export const router = await navigator();
+export const router = navigator();
 
 export type RouterContextType = Awaited<ReturnType<typeof navigator>>;
