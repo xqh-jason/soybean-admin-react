@@ -1,5 +1,5 @@
 import type { FlatResponseData } from '@sa/axios';
-import { useCreation, useLatest, useMemoizedFn, useMount, useUnmount, useUpdate } from 'ahooks';
+import { useCreation, useLatest, useMemoizedFn, useUnmount, useUpdate } from 'ahooks';
 
 import Fetch from './Fetch';
 import type { Options, Plugin, Result, Service } from './type';
@@ -32,16 +32,6 @@ function useRequestImplement<
 
   // run all plugins hooks
   fetchInstance.pluginImpls = plugins.map(p => p(fetchInstance, fetchOptions));
-
-  useMount(() => {
-    if (!manual && ready) {
-      // useCachePlugin can set fetchInstance.state.params from cache when init
-      const params = fetchInstance.state.params || options.defaultParams || [];
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      fetchInstance.run(...params);
-    }
-  });
 
   useUnmount(() => {
     fetchInstance.cancel();
