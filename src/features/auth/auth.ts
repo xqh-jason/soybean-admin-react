@@ -1,7 +1,7 @@
 import { useLoading } from '@sa/hooks';
 
 import { getIsLogin, selectUserInfo } from '@/features/auth/authStore';
-import { usePreviousRoute, useRoute, useRouter } from '@/features/router';
+import { usePreviousRoute, useRouter } from '@/features/router';
 import { fetchGetUserInfo, fetchLogin } from '@/service/api';
 import { localStg } from '@/utils/storage';
 
@@ -91,13 +91,11 @@ export function useInitAuth() {
 export function useResetAuth() {
   const dispatch = useAppDispatch();
 
-
-
   const previousRoute = usePreviousRoute();
 
   const cacheTabs = useCacheTabs();
 
-  const { push, resetRoutes ,navigate} = useRouter();
+  const { navigate, push, resetRoutes } = useRouter();
 
   function resetAuth() {
     clearAuthStorage();
