@@ -1,15 +1,15 @@
 import type { RouteObject } from 'react-router-dom';
 
 import { authRoutes } from '@/router';
+import { fetchGetUserRoutes } from '@/service/api';
 import { store } from '@/store';
 
 import { isStaticSuper, selectUserInfo } from '../auth/authStore';
 
+import { setHomePath } from './routeStore';
 import { filterAuthRoutesByDynamic, filterAuthRoutesByRoles, mergeValuesByParent } from './shared';
 
-const hasRoutes = ['/manage', '/manage/user', '/manage/user/:id', '/home', '/about'];
-
-export function initAuthRoutes(addRoutes: (parent: string | null, route: RouteObject[]) => void) {
+export async function initAuthRoutes(addRoutes: (parent: string | null, route: RouteObject[]) => void) {
   const authRouteMode = import.meta.env.VITE_AUTH_ROUTE_MODE;
 
   const reactAuthRoutes = mergeValuesByParent(authRoutes);
@@ -35,7 +35,14 @@ export function initAuthRoutes(addRoutes: (parent: string | null, route: RouteOb
     }
   } else {
     // 动态模式
-    const filteredRoutes = filterAuthRoutesByDynamic(reactAuthRoutes, hasRoutes);
+    const { data, error } = await fetchGetUserRoutes();
+    if (error) {
+      console.error(error);
+      return;
+    }
+    store.dispatch(setHomePath(data.home));
+
+    const filteredRoutes = filterAuthRoutesByDynamic(reactAuthRoutes, data.routes);
 
     filteredRoutes.forEach(({ parent, route }) => {
       addRoutes(parent, route);

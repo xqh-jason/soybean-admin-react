@@ -28,6 +28,9 @@ export const routeSlice = createAppSlice({
     setCacheRoutes: create.reducer((state, { payload }: PayloadAction<string[]>) => {
       state.cacheRoutes = payload;
     }),
+    setHomePath: create.reducer((state, { payload }: PayloadAction<string>) => {
+      state.routeHomePath = payload;
+    }),
     setRemoveCacheKey: create.reducer((state, { payload }: PayloadAction<string | null>) => {
       state.removeCacheKey = payload;
     })
@@ -39,6 +42,6 @@ export const routeSlice = createAppSlice({
   }
 });
 
-export const { addCacheRoutes, resetRouteStore, setCacheRoutes, setRemoveCacheKey } = routeSlice.actions;
+export const { addCacheRoutes, resetRouteStore, setCacheRoutes, setHomePath, setRemoveCacheKey } = routeSlice.actions;
 
 export const { selectCacheRoutes, selectRemoveCacheKey, selectRouteHomePath } = routeSlice.selectors;
