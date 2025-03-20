@@ -91,15 +91,13 @@ export function useInitAuth() {
 export function useResetAuth() {
   const dispatch = useAppDispatch();
 
-  const {
-    handle: { constant },
-  } = useRoute();
+
 
   const previousRoute = usePreviousRoute();
 
   const cacheTabs = useCacheTabs();
 
-  const { push, resetRoutes } = useRouter();
+  const { push, resetRoutes ,navigate} = useRouter();
 
   function resetAuth() {
     clearAuthStorage();
@@ -110,8 +108,12 @@ export function useResetAuth() {
 
     cacheTabs();
 
-    if (!constant) {
-      push('/login', { redirect: previousRoute?.fullPath });
+    if (!previousRoute?.handle?.constant) {
+      if (previousRoute?.fullPath) {
+        push('/login', { redirect: previousRoute.fullPath }, null, true);
+      } else {
+        navigate('/login', { replace: true });
+      }
     }
   }
 

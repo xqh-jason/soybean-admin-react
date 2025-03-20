@@ -10,7 +10,7 @@ import { initAuthRoutes } from './initRouter';
 import { type LocationQueryRaw, stringifyQuery } from './query';
 import { setCacheRoutes } from './routeStore';
 
-function initRouter() {
+async function initRouter() {
   let isAlreadyPatch = false;
 
   function getIsNeedPatch(path: string) {
@@ -31,11 +31,11 @@ function initRouter() {
 
   const reactRouter = createBrowserRouter(routes, {
     basename: import.meta.env.VITE_BASE_URL,
-    patchRoutesOnNavigation: ({ patch, path }) => {
+    patchRoutesOnNavigation: async ({ patch, path }) => {
       if (getIsNeedPatch(path)) {
         isAlreadyPatch = true;
 
-        initAuthRoutes(patch);
+        await initAuthRoutes(patch);
       }
     }
   });
@@ -43,7 +43,7 @@ function initRouter() {
   store.dispatch(setCacheRoutes(initCacheRoutes));
 
   if (getIsLogin(store.getState()) && !isAlreadyPatch) {
-    initAuthRoutes(reactRouter.patchRoutes);
+    await initAuthRoutes(reactRouter.patchRoutes);
 
     isAlreadyPatch = true;
   }
@@ -59,8 +59,8 @@ function initRouter() {
   };
 }
 
-export function navigator() {
-  const { reactRouter, resetRoutes } = initRouter();
+async function navigator() {
+  const { reactRouter, resetRoutes } = await initRouter();
 
   async function navigate(path: To | null, options?: RouterNavigateOptions) {
     reactRouter.navigate(path, options);
@@ -94,7 +94,8 @@ export function navigator() {
     reactRouter.navigate('/');
   }
 
-  function push(path: string, query?: LocationQueryRaw, state?: any) {
+  // eslint-disable-next-line max-params
+  function push(path: string, query?: LocationQueryRaw, state?: any, _replace?: boolean) {
     let _path = path;
 
     if (query) {
@@ -103,7 +104,7 @@ export function navigator() {
       _path = `${path}?${search}`;
     }
 
-    reactRouter.navigate(_path, { state });
+    reactRouter.navigate(_path, { replace: _replace, state });
   }
 
   return {
@@ -121,6 +122,6 @@ export function navigator() {
   };
 }
 
-export const router = navigator();
+export const router = await navigator();
 
-export type RouterContextType = ReturnType<typeof navigator>;
+export type RouterContextType = Awaited<ReturnType<typeof navigator>>;

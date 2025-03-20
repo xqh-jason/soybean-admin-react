@@ -380,7 +380,7 @@ export const generatedRoutes: ElegantConstRoute[] = [
             matchedFiles: [null, '/src/pages/(blank)/login-out/index.tsx', null, null],
             name: '(blank)_login-out',
             path: '/login-out',
-            handle: { i18nKey: 'route.(blank)_login-out', title: '(blank)_login-out' }
+            handle: { i18nKey: 'route.(blank)_login-out', title: '(blank)_login-out', constant: true }
           }
         ],
         path: null
