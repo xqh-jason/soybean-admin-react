@@ -17,7 +17,7 @@
 
 ## 简介
 
-[`React SoybeanAdmin`](https://github.com/mufeng889/react-soybean-admin) 是一个基于 React19 技术栈的清新优雅中后台模版。项目采用了最新的前端技术栈:
+[`React SoybeanAdmin`](https://github.com/soybeanjs/soybean-admin-react) 是一个基于 React19 技术栈的清新优雅中后台模版。项目采用了最新的前端技术栈:
 
 - 🚀 React 19 + ReactRouter V7 + Redux/toolkit
 - 🎨 Ant Design + UnoCSS
@@ -54,14 +54,14 @@
 ### React版本
 
 - **React19 版本:**
-  - [预览地址](https://github.com/mufeng889/react-soybean-admin/)
+  - [预览地址](https://react.soybeanjs.cn/)
   - [国内加速访问]( https://react-soybean-admin.pages.dev/)
   - [Github 仓库](https://github.com/mufeng889/react-soybean-admin)
   - [Gitee 仓库](https://gitee.com/sjgk_dl/react-admin)
 
 #### 文档
 
-- [地址](https://react-soybean-docs.ohh-889.com/index-cn?theme=dark)
+- [地址](https://react-docs.soybeanjs.cn/guide)
 
 ### Vue版本
 
@@ -142,7 +142,13 @@ pnpm build
 
 ## 如何贡献
 
-我们热烈欢迎并感谢所有形式的贡献。如果您有任何想法或建议，欢迎通过提交 [pull requests](https://github.com/mufeng889/react-soybean-admin/pulls) 或创建 GitHub [issue](https://github.com/mufeng889/react-soybean-admin/issues/new) 来分享。
+我们热烈欢迎并感谢所有形式的贡献。如果您有任何想法或建议，欢迎通过提交 [pull requests](https://github.com/soybeanjs/soybean-admin-react/pulls) 或创建 GitHub [issue](https://github.com/soybeanjs/soybean-admin-react/issues) 来分享。
+
+## 团队理念
+
+- 欢迎各位小伙伴一起交流、讨论，彼此学习、共同进步。
+- 项目采用 **MIT** 开源协议，永久免费使用，无需担忧版权问题。
+- 任何关于功能扩展、Bug 修复、或文档纠正的贡献都十分欢迎，也鼓励你提交 **PR**，哪怕只是修正一个错别字。
 
 ## Git 提交规范
 
@@ -193,3 +199,7 @@ pnpm build
 ## 开源协议
 
 项目基于 [MIT © 2021 Soybean](./LICENSE) 协议，仅供学习参考，商业使用请保留作者版权信息，作者不保证也不承担任何软件的使用风险。
+
+## 祝福与展望
+
+非常感谢你选择 **soybean-admin-react**，愿它能在你的工作和学习中带来便利与收获。祝所有使用者在工作和生活中都能顺利进步、健康平安。欢迎大家积极参与、贡献代码，共同将 **soybean-admin-react** 打造得更加完善与强大！

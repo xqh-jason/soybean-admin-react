@@ -93,7 +93,7 @@ export const BaseChildrenRoutes = [
           localIcon: 'logo',
           order: 1,
           title: 'document_project',
-          url: 'https://react-soybean-docs.pages.dev/index-cn?theme=dark'
+          url: 'https://react-docs.soybeanjs.cn/guide'
         },
         id: 'document_project',
         lazy: () => import('@/pages/_builtin/iframe-page').then(convert),
@@ -101,7 +101,7 @@ export const BaseChildrenRoutes = [
       },
       {
         handle: {
-          href: 'https://react-soybean-docs.pages.dev/index-cn?theme=dark',
+          href: 'https://react-docs.soybeanjs.cn/guide',
           i18nKey: 'route.document_project-link',
           localIcon: 'logo',
           order: 2,
