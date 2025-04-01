@@ -1,16 +1,29 @@
-import { useLoading } from '@sa/hooks';
-import { flatten } from 'lodash-es';
+import { useLoading } from "@sa/hooks";
+import { flatten } from "lodash-es";
 
-import { getIsLogin, selectRoleBtns, setRoleBtns, setRoles } from '@/features/auth/authStore';
-import { usePreviousRoute, useRouter } from '@/features/router';
-import { fetchGetUserInfo, fetchLogin, fetchSystemMenuInfo } from '@/service/api';
-import { getFieldValuesByObject } from '@/utils/common';
-import { localStg } from '@/utils/storage';
+import {
+  getIsLogin,
+  selectRoleBtns,
+  setRoleBtns,
+  setRoles,
+} from "@/features/auth/authStore";
+import { usePreviousRoute, useRouter } from "@/features/router";
+import {
+  fetchGetUserInfo,
+  fetchLogin,
+  fetchSystemMenuInfo,
+} from "@/service/api";
+import { getFieldValuesByObject } from "@/utils/common";
+import { localStg } from "@/utils/storage";
 
-import { useCacheTabs } from '../tab/tabHooks';
+import { useCacheTabs } from "../tab/tabHooks";
 
-import { resetAuth as resetAuthAction, setToken, setUserInfo } from './authStore';
-import { clearAuthStorage } from './shared';
+import {
+  resetAuth as resetAuthAction,
+  setToken,
+  setUserInfo,
+} from "./authStore";
+import { clearAuthStorage } from "./shared";
 
 export function useAuth() {
   const roleBtns = useAppSelector(selectRoleBtns);
@@ -22,15 +35,15 @@ export function useAuth() {
       return false;
     }
 
-    if (typeof codes === 'string') {
+    if (typeof codes === "string") {
       return roleBtns.includes(codes);
     }
 
-    return codes.some(code => roleBtns.includes(code));
+    return codes.some((code) => roleBtns.includes(code));
   }
 
   return {
-    hasAuth
+    hasAuth,
   };
 }
 
@@ -45,9 +58,12 @@ export function useInitAuth() {
 
   const { navigate } = useRouter();
 
-  const redirectUrl = searchParams.get('redirect');
+  const redirectUrl = searchParams.get("redirect");
 
-  async function toLogin({ password, userName }: { password: string; userName: string }, redirect = true) {
+  async function toLogin(
+    { password, userName }: { password: string; userName: string },
+    redirect = true,
+  ) {
     if (loading) return;
 
     startLoading();
@@ -56,42 +72,33 @@ export function useInitAuth() {
     const { data: loginToken, error } = await fetchLogin(userName, password);
 
     if (!error) {
-      localStg.set('token', loginToken.number);
-      localStg.set('refreshToken', loginToken.number);
+      localStg.set("token", loginToken.number);
+      localStg.set("refreshToken", loginToken.number);
 
       // 获取用户信息
       const { data: info, error: userInfoError } = await fetchGetUserInfo();
-      console.log('info', info);
-      const { data: systemMenuInfo } = await fetchSystemMenuInfo('she-in');
-      const roles = getFieldValuesByObject(systemMenuInfo as Api.Auth.SystemMenuInfo[], 'key', {
-        childrenField: 'child'
-      });
-      const roleBtnsResult = getFieldValuesByObject(systemMenuInfo as Api.Auth.SystemMenuInfo[], 'btns', {
-        childrenField: 'child',
-        transformFn: (v: Api.Auth.SystemMenuInfo) => v.btns.map(btn => `${v.key}-${btn}`)
-      });
-      console.log('roleBtns', flatten(roleBtnsResult));
 
       if (!userInfoError) {
-        // 2. store user info
-        localStg.set('userInfo', info);
+        localStg.set("userInfo", info);
 
         dispatch(setToken(loginToken.number));
         dispatch(setUserInfo(info));
-        dispatch(setRoles(roles));
-        dispatch(setRoleBtns(flatten(roleBtnsResult)));
+
+        getAndSaveSystemInfo();
 
         if (redirect) {
           if (redirectUrl) {
             navigate(redirectUrl);
           } else {
-            navigate('/');
+            navigate("/");
           }
         }
 
         window.$notification?.success({
-          description: t('page.login.common.welcomeBack', { userName: info.name }),
-          message: t('page.login.common.loginSuccess')
+          description: t("page.login.common.welcomeBack", {
+            userName: info.name,
+          }),
+          message: t("page.login.common.loginSuccess"),
         });
       }
     }
@@ -99,9 +106,36 @@ export function useInitAuth() {
     endLoading();
   }
 
+  // 获取权限信息，相关菜单key 作为role
+  async function getAndSaveSystemInfo() {
+    const { data: systemMenuInfo } = await fetchSystemMenuInfo("she-in");
+
+    const roles = getFieldValuesByObject(
+      systemMenuInfo as Api.Auth.SystemMenuInfo[],
+      "key",
+      {
+        childrenField: "child",
+      },
+    );
+    const roleBtnsResult = getFieldValuesByObject(
+      systemMenuInfo as Api.Auth.SystemMenuInfo[],
+      "btns",
+      {
+        childrenField: "child",
+      },
+    );
+    const roleBtns = flatten(roleBtnsResult);
+    localStg.set("roles", roles);
+    localStg.set("roleBtns", roleBtns);
+
+    dispatch(setRoles(roles));
+    dispatch(setRoleBtns(roleBtns));
+  }
+
   return {
     loading,
-    toLogin
+    toLogin,
+    getAndSaveSystemInfo,
   };
 }
 
@@ -125,9 +159,9 @@ export function useResetAuth() {
 
     if (!previousRoute?.handle?.constant) {
       if (previousRoute?.fullPath) {
-        push('/login', { redirect: previousRoute.fullPath }, null, true);
+        push("/login", { redirect: previousRoute.fullPath }, null, true);
       } else {
-        navigate('/login', { replace: true });
+        navigate("/login", { replace: true });
       }
     }
   }

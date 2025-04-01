@@ -57,10 +57,11 @@ function createCommonRequest<ResponseData = any>(
         return Promise.resolve(response);
       }
 
-      const fail = await opts.onBackendFail(response, instance);
-      if (fail) {
-        return fail;
-      }
+      // 不需要刷新token ，现有系统没有刷新token的接口
+      // const fail = await opts.onBackendFail(response, instance);
+      // if (fail) {
+      //   return fail;
+      // }
 
       const backendError = new AxiosError<ResponseData>(
         'the backend request error',

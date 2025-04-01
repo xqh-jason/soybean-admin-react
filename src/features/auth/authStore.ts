@@ -1,7 +1,7 @@
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { createSelector, createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 
-import { getToken, getUserInfo } from './shared';
+import { getRoleBtns, getRoles, getToken, getUserInfo } from "./shared";
 
 // 定义 InitialStateType 类型
 interface InitialStateType {
@@ -12,15 +12,15 @@ interface InitialStateType {
 }
 
 const initialState: InitialStateType = {
-  roleBtns: [],
-  roles: [],
+  roleBtns: getRoleBtns(),
+  roles: getRoles(),
   token: getToken(),
-  userInfo: getUserInfo()
+  userInfo: getUserInfo(),
 };
 
 export const authSlice = createSlice({
   initialState,
-  name: 'auth',
+  name: "auth",
   reducers: {
     resetAuth: () => initialState,
     setRoleBtns: (state, { payload }: PayloadAction<string[]>) => {
@@ -34,26 +34,33 @@ export const authSlice = createSlice({
     },
     setUserInfo: (state, { payload }: PayloadAction<Api.Auth.UserInfo>) => {
       state.userInfo = payload;
-    }
+    },
   },
   selectors: {
-    selectRoleBtns: auth => auth.roleBtns,
-    selectRoles: auth => auth.roles,
-    selectToken: auth => auth.token,
-    selectUserInfo: auth => auth.userInfo
-  }
+    selectRoleBtns: (auth) => auth.roleBtns,
+    selectRoles: (auth) => auth.roles,
+    selectToken: (auth) => auth.token,
+    selectUserInfo: (auth) => auth.userInfo,
+  },
 });
 
-export const { resetAuth, setRoleBtns, setRoles, setToken, setUserInfo } = authSlice.actions;
+export const { resetAuth, setRoleBtns, setRoles, setToken, setUserInfo } =
+  authSlice.actions;
 
-export const { selectRoleBtns, selectRoles, selectToken, selectUserInfo } = authSlice.selectors;
+export const { selectRoleBtns, selectRoles, selectToken, selectUserInfo } =
+  authSlice.selectors;
 
 /** Is login */
-export const getIsLogin = createSelector([selectToken], token => Boolean(token));
+export const getIsLogin = createSelector([selectToken], (token) =>
+  Boolean(token),
+);
 
 /** Is static super role */
-export const isStaticSuper = createSelector([selectRoles], roles => {
+export const isStaticSuper = createSelector([selectRoles], (roles) => {
   const { VITE_AUTH_ROUTE_MODE } = import.meta.env;
 
-  return VITE_AUTH_ROUTE_MODE === 'static' && roles.includes(import.meta.env.VITE_STATIC_SUPER_ROLE);
+  return (
+    VITE_AUTH_ROUTE_MODE === "static" &&
+    roles.includes(import.meta.env.VITE_STATIC_SUPER_ROLE)
+  );
 });

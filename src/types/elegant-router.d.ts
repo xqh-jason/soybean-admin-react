@@ -20,18 +20,9 @@ declare module "@soybean-react/vite-plugin-react-router" {
     "exception_403": "/exception/403";
     "exception_404": "/exception/404";
     "exception_500": "/exception/500";
-    "document": "/document";
-    "document_project": "/document/project";
-    "document_project-link": "/document/project-link";
-    "document_react": "/document/react";
-    "document_vite": "/document/vite";
-    "document_unocss": "/document/unocss";
-    "document_procomponents": "/document/procomponents";
-    "document_antd": "/document/antd";
     "(base)_home": "/home";
-    "(base)_manage": "/manage";
-    "(base)_manage_role": "/manage/role";
-    "(base)_manage_role_[...slug]": "/manage/role/*";
+    "(base)_sheinlisting": "/sheinlisting";
+    "(base)_sheinlisting_fullcaremode": "/sheinlisting/fullcaremode";
     "(blank)_login": "/login";
     "(blank)_login_code-login": "/login/code-login";
     "(blank)_login_register": "/login/register";
@@ -64,14 +55,6 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "exception_403"
     | "exception_404"
     | "exception_500"
-    | "document"
-    | "document_project"
-    | "document_project-link"
-    | "document_react"
-    | "document_vite"
-    | "document_unocss"
-    | "document_procomponents"
-    | "document_antd"
   >;
 
   /**
@@ -100,7 +83,6 @@ declare module "@soybean-react/vite-plugin-react-router" {
     CustomRouteKey,
     | "not-found"
     | "exception"
-    | "document"
   >;
 
   /**
@@ -110,9 +92,8 @@ declare module "@soybean-react/vite-plugin-react-router" {
     RouteKey,
     | "(base)_home"
     | "(base)"
-    | "(base)_manage"
-    | "(base)_manage_role_[...slug]"
-    | "(base)_manage_role"
+    | "(base)_sheinlisting_fullcaremode"
+    | "(base)_sheinlisting"
     | "(blank)"
     | "(blank)_login-out"
     | "(blank)_login_code-login"
@@ -139,12 +120,5 @@ declare module "@soybean-react/vite-plugin-react-router" {
     | "exception_403"
     | "exception_404"
     | "exception_500"
-    | "document_project"
-    | "document_project-link"
-    | "document_react"
-    | "document_vite"
-    | "document_unocss"
-    | "document_procomponents"
-    | "document_antd"
   >;
 }

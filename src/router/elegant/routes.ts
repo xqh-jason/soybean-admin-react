@@ -13,129 +13,198 @@ import type { ElegantConstRoute } from '@soybean-react/vite-plugin-react-router'
 
 export const generatedRoutes: ElegantConstRoute[] = [
   {
-    matchedFiles: ['root', '/src/pages/index.tsx', '/src/pages/loading.tsx', 'root'],
-    name: 'root',
-    path: '/',
-    handle: { i18nKey: 'route.root', title: 'root', constant: true },
+    matchedFiles: [
+      "root",
+      "/src/pages/index.tsx",
+      "/src/pages/loading.tsx",
+      "root",
+    ],
+    name: "root",
+    path: "/",
+    handle: { i18nKey: "route.root", title: "root", constant: true },
     children: [
       {
-        matchedFiles: ['(base)', null, null, null],
-        name: '(base)',
+        matchedFiles: ["(base)", null, null, null],
+        name: "(base)",
         children: [
           {
-            matchedFiles: [null, '/src/pages/(base)/home/index.tsx', null, null],
-            name: '(base)_home',
-            path: '/home',
-            handle: { i18nKey: 'route.(base)_home', icon: 'mdi:monitor-dashboard', order: 1, title: 'home' }
+            matchedFiles: [
+              null,
+              "/src/pages/(base)/home/index.tsx",
+              null,
+              null,
+            ],
+            name: "(base)_home",
+            path: "/home",
+            handle: {
+              i18nKey: "route.(base)_home",
+              icon: "mdi:monitor-dashboard",
+              order: 0,
+              title: "home",
+            },
           },
           {
-            matchedFiles: [null, '/src/pages/(base)/manage/index.tsx', null, null],
-            name: '(base)_manage',
-            path: '/manage',
+            matchedFiles: [
+              null,
+              "/src/pages/(base)/sheInListing/index.tsx",
+              null,
+              null,
+            ],
+            name: "(base)_sheinlisting",
+            path: "/sheinlisting",
             handle: {
-              i18nKey: 'route.(base)_manage',
-              icon: 'carbon:cloud-service-management',
-              order: 8,
-              title: 'manage'
+              title: "SheInListing",
+              i18nKey: "route.(base)_sheinlisting",
+              roles: ["SheInListing"],
             },
             children: [
               {
-                matchedFiles: [null, '/src/pages/(base)/manage/role/index.tsx', null, null],
-                name: '(base)_manage_role',
-                path: '/manage/role',
+                matchedFiles: [
+                  null,
+                  "/src/pages/(base)/sheInListing/fullCareMode/index.tsx",
+                  null,
+                  null,
+                ],
+                name: "(base)_sheinlisting_fullcaremode",
+                path: "/sheinlisting/fullcaremode",
                 handle: {
-                  i18nKey: 'route.(base)_manage_role',
-                  icon: 'carbon:user-role',
-                  order: 2,
-                  title: 'manage_role'
+                  title: "(base)_sheinlisting_fullcaremode",
+                  i18nKey: "route.(base)_sheinlisting_fullcaremode",
+                  roles: ["FullCareMode"],
                 },
-                children: [
-                  {
-                    matchedFiles: [null, '/src/pages/(base)/manage/role/[...slug].tsx', null, null],
-                    name: '(base)_manage_role_[...slug]',
-                    path: '/manage/role/*',
-                    handle: {
-                      i18nKey: 'route.(base)_manage_role_[...slug]',
-                      hideInMenu: true,
-                      title: '(base)_manage_role_[...slug]'
-                    }
-                  }
-                ]
-              }
-            ]
-          }
+              },
+            ],
+          },
         ],
-        path: null
+        path: null,
       },
       {
-        matchedFiles: ['(blank)', null, null, null],
-        name: '(blank)',
+        matchedFiles: ["(blank)", null, null, null],
+        name: "(blank)",
         children: [
           {
-            matchedFiles: ['(blank)_login', '/src/pages/(blank)/login/index.tsx', null, null],
-            name: '(blank)_login',
-            path: '/login',
-            handle: { i18nKey: 'route.(blank)_login', title: '(blank)_login', constant: true },
+            matchedFiles: [
+              "(blank)_login",
+              "/src/pages/(blank)/login/index.tsx",
+              null,
+              null,
+            ],
+            name: "(blank)_login",
+            path: "/login",
+            handle: {
+              i18nKey: "route.(blank)_login",
+              title: "(blank)_login",
+              constant: true,
+            },
             children: [
               {
-                matchedFiles: [null, '/src/pages/(blank)/login/code-login/index.tsx', null, null],
-                name: '(blank)_login_code-login',
-                path: '/login/code-login',
-                handle: { i18nKey: 'route.(blank)_login_code-login', title: '(blank)_login_code-login', constant: true }
+                matchedFiles: [
+                  null,
+                  "/src/pages/(blank)/login/code-login/index.tsx",
+                  null,
+                  null,
+                ],
+                name: "(blank)_login_code-login",
+                path: "/login/code-login",
+                handle: {
+                  i18nKey: "route.(blank)_login_code-login",
+                  title: "(blank)_login_code-login",
+                  constant: true,
+                },
               },
               {
-                matchedFiles: [null, '/src/pages/(blank)/login/register/index.tsx', null, null],
-                name: '(blank)_login_register',
-                path: '/login/register',
-                handle: { i18nKey: 'route.(blank)_login_register', title: '(blank)_login_register', constant: true }
+                matchedFiles: [
+                  null,
+                  "/src/pages/(blank)/login/register/index.tsx",
+                  null,
+                  null,
+                ],
+                name: "(blank)_login_register",
+                path: "/login/register",
+                handle: {
+                  i18nKey: "route.(blank)_login_register",
+                  title: "(blank)_login_register",
+                  constant: true,
+                },
               },
               {
-                matchedFiles: [null, '/src/pages/(blank)/login/reset-pwd/index.tsx', null, null],
-                name: '(blank)_login_reset-pwd',
-                path: '/login/reset-pwd',
-                handle: { i18nKey: 'route.(blank)_login_reset-pwd', title: '(blank)_login_reset-pwd', constant: true }
-              }
-            ]
+                matchedFiles: [
+                  null,
+                  "/src/pages/(blank)/login/reset-pwd/index.tsx",
+                  null,
+                  null,
+                ],
+                name: "(blank)_login_reset-pwd",
+                path: "/login/reset-pwd",
+                handle: {
+                  i18nKey: "route.(blank)_login_reset-pwd",
+                  title: "(blank)_login_reset-pwd",
+                  constant: true,
+                },
+              },
+            ],
           },
           {
-            matchedFiles: [null, '/src/pages/(blank)/login-out/index.tsx', null, null],
-            name: '(blank)_login-out',
-            path: '/login-out',
-            handle: { i18nKey: 'route.(blank)_login-out', title: '(blank)_login-out', constant: true }
-          }
+            matchedFiles: [
+              null,
+              "/src/pages/(blank)/login-out/index.tsx",
+              null,
+              null,
+            ],
+            name: "(blank)_login-out",
+            path: "/login-out",
+            handle: {
+              i18nKey: "route.(blank)_login-out",
+              title: "(blank)_login-out",
+              constant: true,
+            },
+          },
         ],
-        path: null
+        path: null,
       },
       {
-        matchedFiles: [null, '/src/pages/_builtin/403/index.tsx', null, null],
-        name: '403',
-        path: '/403',
-        handle: { i18nKey: 'route.403', title: '403', constant: true }
+        matchedFiles: [null, "/src/pages/_builtin/403/index.tsx", null, null],
+        name: "403",
+        path: "/403",
+        handle: { i18nKey: "route.403", title: "403", constant: true },
       },
       {
-        matchedFiles: [null, '/src/pages/_builtin/404/index.tsx', null, null],
-        name: '404',
-        path: '/404',
-        handle: { i18nKey: 'route.404', title: '404', constant: true }
+        matchedFiles: [null, "/src/pages/_builtin/404/index.tsx", null, null],
+        name: "404",
+        path: "/404",
+        handle: { i18nKey: "route.404", title: "404", constant: true },
       },
       {
-        matchedFiles: [null, '/src/pages/_builtin/500/index.tsx', null, null],
-        name: '500',
-        path: '/500',
-        handle: { i18nKey: 'route.500', title: '500', constant: true }
+        matchedFiles: [null, "/src/pages/_builtin/500/index.tsx", null, null],
+        name: "500",
+        path: "/500",
+        handle: { i18nKey: "route.500", title: "500", constant: true },
       },
       {
-        matchedFiles: [null, '/src/pages/_builtin/iframe-page/index.tsx', null, null],
-        name: 'iframe-page',
-        path: '/iframe-page',
-        handle: { i18nKey: 'route.iframe-page', title: 'iframe-page', constant: true }
+        matchedFiles: [
+          null,
+          "/src/pages/_builtin/iframe-page/index.tsx",
+          null,
+          null,
+        ],
+        name: "iframe-page",
+        path: "/iframe-page",
+        handle: {
+          i18nKey: "route.iframe-page",
+          title: "iframe-page",
+          constant: true,
+        },
       },
       {
-        matchedFiles: [null, '/src/pages/_builtin/404/index.tsx', null, null],
-        name: 'notFound',
-        path: '*',
-        handle: { i18nKey: 'route.notFound', title: 'notFound', constant: true }
-      }
-    ]
-  }
+        matchedFiles: [null, "/src/pages/_builtin/404/index.tsx", null, null],
+        name: "notFound",
+        path: "*",
+        handle: {
+          i18nKey: "route.notFound",
+          title: "notFound",
+          constant: true,
+        },
+      },
+    ],
+  },
 ];

@@ -18,9 +18,8 @@ export const layouts: Record<string, () => Promise<any>> = {
 
 export const pages: Record<string, () => Promise<any>> = {
 "(base)_home": () => import("@/pages/(base)/home/index.tsx"),
-"(base)_manage": () => import("@/pages/(base)/manage/index.tsx"),
-"(base)_manage_role_[...slug]": () => import("@/pages/(base)/manage/role/[...slug].tsx"),
-"(base)_manage_role": () => import("@/pages/(base)/manage/role/index.tsx"),
+"(base)_sheinlisting_fullcaremode": () => import("@/pages/(base)/sheInListing/fullCareMode/index.tsx"),
+"(base)_sheinlisting": () => import("@/pages/(base)/sheInListing/index.tsx"),
 "(blank)_login-out": () => import("@/pages/(blank)/login-out/index.tsx"),
 "(blank)_login_code-login": () => import("@/pages/(blank)/login/code-login/index.tsx"),
 "(blank)_login": () => import("@/pages/(blank)/login/index.tsx"),
