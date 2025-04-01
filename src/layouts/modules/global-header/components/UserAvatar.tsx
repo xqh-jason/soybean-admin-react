@@ -27,8 +27,6 @@ const UserAvatar = memo(() => {
   function onClick({ key }: { key: string }) {
     if (key === '1') {
       logout();
-    } else {
-      navigate('/user-center');
     }
   }
 
@@ -37,18 +35,6 @@ const UserAvatar = memo(() => {
   }
 
   const items: MenuProps['items'] = [
-    {
-      key: '0',
-      label: (
-        <div className="flex-center gap-8px">
-          <SvgIcon
-            className="text-icon"
-            icon="ph:user-circle"
-          />
-          {t('common.userCenter')}
-        </div>
-      )
-    },
     {
       type: 'divider'
     },
@@ -78,7 +64,7 @@ const UserAvatar = memo(() => {
             className="text-icon-large"
             icon="ph:user-circle"
           />
-          <span className="text-16px font-medium">{userInfo.userName}</span>
+          <span className="text-16px font-medium">{userInfo?.name}</span>
         </ButtonIcon>
       </div>
     </ADropdown>

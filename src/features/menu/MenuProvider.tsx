@@ -22,7 +22,6 @@ const MenuProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const menus = useMemo(
     () => filterRoutesToMenus(getBaseChildrenRoutes(router.reactRouter.routes)),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.reactRouter.routes, locale]
   );
 

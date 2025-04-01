@@ -2,7 +2,7 @@ import type { RoutePath } from '@soybean-react/vite-plugin-react-router';
 import { Outlet, matchRoutes } from 'react-router-dom';
 import type { ShouldRevalidateFunctionArgs } from 'react-router-dom';
 
-import { isStaticSuper, selectUserInfo } from '@/features/auth/authStore';
+import { isStaticSuper, selectRoles } from '@/features/auth/authStore';
 import { usePrevious, useRoute } from '@/features/router';
 import { allRoutes } from '@/router';
 import { localStg } from '@/utils/storage';
@@ -87,7 +87,7 @@ const RootLayout = () => {
 
   const { i18nKey, title } = handle;
 
-  const { roles } = useAppSelector(selectUserInfo);
+  const roles = useAppSelector(selectRoles);
 
   const isSuper = useAppSelector(isStaticSuper);
 

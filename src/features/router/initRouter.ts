@@ -4,7 +4,7 @@ import { authRoutes } from '@/router';
 import { fetchGetUserRoutes } from '@/service/api';
 import { store } from '@/store';
 
-import { isStaticSuper, selectUserInfo } from '../auth/authStore';
+import { isStaticSuper, selectRoles } from '../auth/authStore';
 
 import { setHomePath } from './routeStore';
 import { filterAuthRoutesByDynamic, filterAuthRoutesByRoles, mergeValuesByParent } from './shared';
@@ -16,7 +16,7 @@ export async function initAuthRoutes(addRoutes: (parent: string | null, route: R
 
   const isSuper = isStaticSuper(store.getState());
 
-  const { roles } = selectUserInfo(store.getState());
+  const roles = selectRoles(store.getState());
 
   // 静态模式
   if (authRouteMode === 'static') {

@@ -1,8 +1,10 @@
 import { useLoading } from '@sa/hooks';
+import { flatten } from 'lodash-es';
 
-import { getIsLogin, selectUserInfo } from '@/features/auth/authStore';
+import { getIsLogin, selectRoleBtns, setRoleBtns, setRoles } from '@/features/auth/authStore';
 import { usePreviousRoute, useRouter } from '@/features/router';
-import { fetchGetUserInfo, fetchLogin } from '@/service/api';
+import { fetchGetUserInfo, fetchLogin, fetchSystemMenuInfo } from '@/service/api';
+import { getFieldValuesByObject } from '@/utils/common';
 import { localStg } from '@/utils/storage';
 
 import { useCacheTabs } from '../tab/tabHooks';
@@ -11,7 +13,7 @@ import { resetAuth as resetAuthAction, setToken, setUserInfo } from './authStore
 import { clearAuthStorage } from './shared';
 
 export function useAuth() {
-  const userInfo = useAppSelector(selectUserInfo);
+  const roleBtns = useAppSelector(selectRoleBtns);
 
   const isLogin = useAppSelector(getIsLogin);
 
@@ -21,10 +23,10 @@ export function useAuth() {
     }
 
     if (typeof codes === 'string') {
-      return userInfo.buttons.includes(codes);
+      return roleBtns.includes(codes);
     }
 
-    return codes.some(code => userInfo.buttons.includes(code));
+    return codes.some(code => roleBtns.includes(code));
   }
 
   return {
@@ -49,20 +51,35 @@ export function useInitAuth() {
     if (loading) return;
 
     startLoading();
+    // 正常login接口应该返回token
+    // 现有接口没有返回token, token在cookie里，使用number字段作为token
     const { data: loginToken, error } = await fetchLogin(userName, password);
 
     if (!error) {
-      localStg.set('token', loginToken.token);
-      localStg.set('refreshToken', loginToken.refreshToken);
+      localStg.set('token', loginToken.number);
+      localStg.set('refreshToken', loginToken.number);
 
+      // 获取用户信息
       const { data: info, error: userInfoError } = await fetchGetUserInfo();
+      console.log('info', info);
+      const { data: systemMenuInfo } = await fetchSystemMenuInfo('she-in');
+      const roles = getFieldValuesByObject(systemMenuInfo as Api.Auth.SystemMenuInfo[], 'key', {
+        childrenField: 'child'
+      });
+      const roleBtnsResult = getFieldValuesByObject(systemMenuInfo as Api.Auth.SystemMenuInfo[], 'btns', {
+        childrenField: 'child',
+        transformFn: (v: Api.Auth.SystemMenuInfo) => v.btns.map(btn => `${v.key}-${btn}`)
+      });
+      console.log('roleBtns', flatten(roleBtnsResult));
 
       if (!userInfoError) {
         // 2. store user info
         localStg.set('userInfo', info);
 
-        dispatch(setToken(loginToken.token));
+        dispatch(setToken(loginToken.number));
         dispatch(setUserInfo(info));
+        dispatch(setRoles(roles));
+        dispatch(setRoleBtns(flatten(roleBtnsResult)));
 
         if (redirect) {
           if (redirectUrl) {
@@ -73,7 +90,7 @@ export function useInitAuth() {
         }
 
         window.$notification?.success({
-          description: t('page.login.common.welcomeBack', { userName: info.userName }),
+          description: t('page.login.common.welcomeBack', { userName: info.name }),
           message: t('page.login.common.loginSuccess')
         });
       }

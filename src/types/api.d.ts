@@ -54,19 +54,84 @@ declare namespace Api {
    */
   namespace Auth {
     interface LoginToken {
-      refreshToken: string;
-      token: string;
+      id: string;
+      name: string;
+      number: string;
+      platform: string;
+      reSet: string;
+    }
+
+    interface GroupList {
+      id: number;
+      name: string;
+    }
+
+    export interface SystemMenuInfo {
+      btns: string[];
+      child: SystemMenuInfoChild[];
+      id: number;
+      key: string;
+      name: string;
+      parentId: number;
+      path: string;
+      priority: number;
+      type: number;
+    }
+
+    export interface SystemMenuInfoChild {
+      btns: string[];
+      child: any[];
+      id: number;
+      key: string;
+      name: string;
+      parentId: number;
+      path: string;
+      priority: number;
+      type: number;
+    }
+
+    interface RoleList {
+      createdTime: any;
+      creator: any;
+      id: number;
+      name: string;
+      remarks: any;
+      status: any;
+      statusStr: string;
+      type: number;
+      updatedTime: any;
+      updater: any;
     }
 
     interface UserInfo {
-      buttons: string[];
-      roles: string[];
-      userId: string;
-      userName: string;
+      btns: any[];
+      businessStatus: number;
+      businessStatusName: string;
+      createdTime: string;
+      effectiveTime: string;
+      email: string;
+      externalUserId: string;
+      groupList: GroupList[];
+      id: number;
+      menus: any[];
+      name: string;
+      number: string;
+      organizationList: any[];
+      phone: string;
+      platform: string;
+      positionList: any[];
+      roleIdList: number[];
+      roleList: RoleList[];
+      sex: number;
+      sexName: string;
+      status: number;
+      statusName: string;
+      uniqueId: string[];
+      validIp: string;
     }
 
     type Info = {
-      token: LoginToken['token'];
+      token: LoginToken['number'];
       userInfo: UserInfo;
     };
   }

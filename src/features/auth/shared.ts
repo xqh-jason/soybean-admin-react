@@ -8,17 +8,32 @@ export function getToken() {
 /** Get user info */
 export function getUserInfo() {
   const emptyInfo: Api.Auth.UserInfo = {
-    buttons: [],
-    roles: [],
-    userId: '',
-    userName: ''
+    btns: [],
+    businessStatus: 0,
+    businessStatusName: '',
+    createdTime: '',
+    effectiveTime: '',
+    email: '',
+    externalUserId: '',
+    groupList: [],
+    id: 0,
+    menus: [],
+    name: '',
+    number: '',
+    organizationList: [],
+    phone: '',
+    platform: '',
+    positionList: [],
+    roleIdList: [],
+    roleList: [],
+    sex: 0,
+    sexName: '',
+    status: 0,
+    statusName: '',
+    uniqueId: [],
+    validIp: ''
   };
   const userInfo = localStg.get('userInfo') || emptyInfo;
-
-  // fix new property: buttons, this will be removed in the next version `1.1.0`
-  if (!userInfo.buttons) {
-    userInfo.buttons = [];
-  }
 
   return userInfo;
 }
