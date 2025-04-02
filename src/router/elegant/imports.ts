@@ -7,8 +7,6 @@
 // 如果需要修改，请在优雅路由配置文件中进行修改
 // 这是自动生成的文件，请不要手动修改
 
-
-
 export const layouts: Record<string, () => Promise<any>> = {
 "(base)": () => import("@/pages/(base)/layout.tsx"),
 "(blank)": () => import("@/pages/(blank)/layout.tsx"),
@@ -17,21 +15,26 @@ export const layouts: Record<string, () => Promise<any>> = {
 };
 
 export const pages: Record<string, () => Promise<any>> = {
-"(base)_home": () => import("@/pages/(base)/home/index.tsx"),
-"(base)_sheinlisting_fullcaremode": () => import("@/pages/(base)/sheInListing/fullCareMode/index.tsx"),
-"(base)_sheinlisting": () => import("@/pages/(base)/sheInListing/index.tsx"),
-"(blank)_login-out": () => import("@/pages/(blank)/login-out/index.tsx"),
-"(blank)_login_code-login": () => import("@/pages/(blank)/login/code-login/index.tsx"),
-"(blank)_login": () => import("@/pages/(blank)/login/index.tsx"),
-"(blank)_login_register": () => import("@/pages/(blank)/login/register/index.tsx"),
-"(blank)_login_reset-pwd": () => import("@/pages/(blank)/login/reset-pwd/index.tsx"),
-"403": () => import("@/pages/_builtin/403/index.tsx"),
-"404": () => import("@/pages/_builtin/404/index.tsx"),
-"500": () => import("@/pages/_builtin/500/index.tsx"),
-"iframe-page": () => import("@/pages/_builtin/iframe-page/index.tsx"),
-"root": () => import("@/pages/index.tsx"),
+  "(base)_home": () => import("@/pages/(base)/home/index.tsx"),
+  "(base)_shein-listing_full-care-mode": () =>
+    import("@/pages/(base)/shein-listing/full-care-mode/index.tsx"),
+  "(base)_shein-listing": () =>
+    import("@/pages/(base)/shein-listing/index.tsx"),
+  "(blank)_login-out": () => import("@/pages/(blank)/login-out/index.tsx"),
+  "(blank)_login_code-login": () =>
+    import("@/pages/(blank)/login/code-login/index.tsx"),
+  "(blank)_login": () => import("@/pages/(blank)/login/index.tsx"),
+  "(blank)_login_register": () =>
+    import("@/pages/(blank)/login/register/index.tsx"),
+  "(blank)_login_reset-pwd": () =>
+    import("@/pages/(blank)/login/reset-pwd/index.tsx"),
+  "403": () => import("@/pages/_builtin/403/index.tsx"),
+  "404": () => import("@/pages/_builtin/404/index.tsx"),
+  "500": () => import("@/pages/_builtin/500/index.tsx"),
+  "iframe-page": () => import("@/pages/_builtin/iframe-page/index.tsx"),
+  root: () => import("@/pages/index.tsx"),
 };
 
 export const errors: Record<string, () => Promise<any>> = {
-"root": () => import("@/pages/error.tsx"),
+  root: () => import("@/pages/error.tsx"),
 };

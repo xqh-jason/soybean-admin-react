@@ -8,19 +8,19 @@ declare namespace Api {
     /** common params of paginating */
     interface PaginatingCommonParams {
       /** current page number */
-      current: number;
+      pn: number;
       /** page size */
-      size: number;
+      ps: number;
       /** total count */
       total: number;
     }
 
     /** common params of paginating query list data */
     interface PaginatingQueryRecord<T = any> extends PaginatingCommonParams {
-      records: T[];
+      list: T[];
     }
 
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, "pn" | "ps">;
 
     /**
      * enable status
@@ -28,7 +28,7 @@ declare namespace Api {
      * - "1": enabled
      * - "2": disabled
      */
-    type EnableStatus = '1' | '2';
+    type EnableStatus = "1" | "2";
 
     /** common record */
     type CommonRecord<T = any> = {
@@ -131,7 +131,7 @@ declare namespace Api {
     }
 
     type Info = {
-      token: LoginToken['number'];
+      token: LoginToken["number"];
       userInfo: UserInfo;
     };
   }
@@ -142,14 +142,15 @@ declare namespace Api {
    * backend api module: "route"
    */
   namespace Route {
-    type ElegantConstRoute = import('@soybean-react/vite-plugin-react-router').ElegantConstRoute;
+    type ElegantConstRoute =
+      import("@soybean-react/vite-plugin-react-router").ElegantConstRoute;
 
     interface MenuRoute extends ElegantConstRoute {
       id: string;
     }
 
     interface UserRoute {
-      home: import('@soybean-react/vite-plugin-react-router').LastLevelRouteKey;
+      home: import("@soybean-react/vite-plugin-react-router").LastLevelRouteKey;
       routes: string[];
     }
   }
@@ -160,7 +161,7 @@ declare namespace Api {
    * backend api module: "systemManage"
    */
   namespace SystemManage {
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, "pn" | "ps">;
 
     /** role */
     type Role = Common.CommonRecord<{
@@ -174,14 +175,15 @@ declare namespace Api {
 
     /** role search params */
     type RoleSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.Role, 'roleCode' | 'roleName' | 'status'> & CommonSearchParams
+      Pick<Api.SystemManage.Role, "roleCode" | "roleName" | "status"> &
+        CommonSearchParams
     >;
 
     /** role list */
     type RoleList = Common.PaginatingQueryRecord<Role>;
 
     /** all role */
-    type AllRole = Pick<Role, 'id' | 'roleCode' | 'roleName'>;
+    type AllRole = Pick<Role, "id" | "roleCode" | "roleName">;
 
     /**
      * user gender
@@ -189,7 +191,7 @@ declare namespace Api {
      * - "1": "male"
      * - "2": "female"
      */
-    type UserGender = '1' | '2';
+    type UserGender = "1" | "2";
 
     /** user */
     type User = Common.CommonRecord<{
@@ -209,7 +211,15 @@ declare namespace Api {
 
     /** user search params */
     type UserSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.User, 'nickName' | 'status' | 'userEmail' | 'userGender' | 'userName' | 'userPhone'> &
+      Pick<
+        Api.SystemManage.User,
+        | "nickName"
+        | "status"
+        | "userEmail"
+        | "userGender"
+        | "userName"
+        | "userPhone"
+      > &
         CommonSearchParams
     >;
 
@@ -222,7 +232,7 @@ declare namespace Api {
      * - "1": directory
      * - "2": menu
      */
-    type MenuType = '1' | '2';
+    type MenuType = "1" | "2";
 
     type MenuButton = {
       /**
@@ -241,20 +251,20 @@ declare namespace Api {
      * - "1": iconify icon
      * - "2": local icon
      */
-    type IconType = '1' | '2';
+    type IconType = "1" | "2";
 
     type MenuPropsOfRoute = Pick<
-      import('@soybean-react/vite-plugin-react-router').RouteMeta,
-      | 'activeMenu'
-      | 'constant'
-      | 'fixedIndexInTab'
-      | 'hideInMenu'
-      | 'href'
-      | 'i18nKey'
-      | 'keepAlive'
-      | 'multiTab'
-      | 'order'
-      | 'query'
+      import("@soybean-react/vite-plugin-react-router").RouteMeta,
+      | "activeMenu"
+      | "constant"
+      | "fixedIndexInTab"
+      | "hideInMenu"
+      | "href"
+      | "i18nKey"
+      | "keepAlive"
+      | "multiTab"
+      | "order"
+      | "query"
     >;
 
     type Menu = Common.CommonRecord<{
