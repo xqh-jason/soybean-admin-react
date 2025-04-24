@@ -8,19 +8,19 @@ declare namespace Api {
     /** common params of paginating */
     interface PaginatingCommonParams {
       /** current page number */
-      pn: number;
+      current: number;
       /** page size */
-      ps: number;
+      size: number;
       /** total count */
       total: number;
     }
 
     /** common params of paginating query list data */
     interface PaginatingQueryRecord<T = any> extends PaginatingCommonParams {
-      list: T[];
+      records: T[];
     }
 
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, "pn" | "ps">;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
 
     /**
      * enable status
@@ -28,7 +28,7 @@ declare namespace Api {
      * - "1": enabled
      * - "2": disabled
      */
-    type EnableStatus = "1" | "2";
+    type EnableStatus = '1' | '2';
 
     /** common record */
     type CommonRecord<T = any> = {
@@ -54,84 +54,19 @@ declare namespace Api {
    */
   namespace Auth {
     interface LoginToken {
-      id: string;
-      name: string;
-      number: string;
-      platform: string;
-      reSet: string;
-    }
-
-    interface GroupList {
-      id: number;
-      name: string;
-    }
-
-    export interface SystemMenuInfo {
-      btns: string[];
-      child: SystemMenuInfoChild[];
-      id: number;
-      key: string;
-      name: string;
-      parentId: number;
-      path: string;
-      priority: number;
-      type: number;
-    }
-
-    export interface SystemMenuInfoChild {
-      btns: string[];
-      child: any[];
-      id: number;
-      key: string;
-      name: string;
-      parentId: number;
-      path: string;
-      priority: number;
-      type: number;
-    }
-
-    interface RoleList {
-      createdTime: any;
-      creator: any;
-      id: number;
-      name: string;
-      remarks: any;
-      status: any;
-      statusStr: string;
-      type: number;
-      updatedTime: any;
-      updater: any;
+      refreshToken: string;
+      token: string;
     }
 
     interface UserInfo {
-      btns: any[];
-      businessStatus: number;
-      businessStatusName: string;
-      createdTime: string;
-      effectiveTime: string;
-      email: string;
-      externalUserId: string;
-      groupList: GroupList[];
-      id: number;
-      menus: any[];
-      name: string;
-      number: string;
-      organizationList: any[];
-      phone: string;
-      platform: string;
-      positionList: any[];
-      roleIdList: number[];
-      roleList: RoleList[];
-      sex: number;
-      sexName: string;
-      status: number;
-      statusName: string;
-      uniqueId: string[];
-      validIp: string;
+      buttons: string[];
+      roles: string[];
+      userId: string;
+      userName: string;
     }
 
     type Info = {
-      token: LoginToken["number"];
+      token: LoginToken['token'];
       userInfo: UserInfo;
     };
   }
@@ -142,15 +77,14 @@ declare namespace Api {
    * backend api module: "route"
    */
   namespace Route {
-    type ElegantConstRoute =
-      import("@soybean-react/vite-plugin-react-router").ElegantConstRoute;
+    type ElegantConstRoute = import('@soybean-react/vite-plugin-react-router').ElegantConstRoute;
 
     interface MenuRoute extends ElegantConstRoute {
       id: string;
     }
 
     interface UserRoute {
-      home: import("@soybean-react/vite-plugin-react-router").LastLevelRouteKey;
+      home: import('@soybean-react/vite-plugin-react-router').LastLevelRouteKey;
       routes: string[];
     }
   }
@@ -161,7 +95,7 @@ declare namespace Api {
    * backend api module: "systemManage"
    */
   namespace SystemManage {
-    type CommonSearchParams = Pick<Common.PaginatingCommonParams, "pn" | "ps">;
+    type CommonSearchParams = Pick<Common.PaginatingCommonParams, 'current' | 'size'>;
 
     /** role */
     type Role = Common.CommonRecord<{
@@ -175,15 +109,14 @@ declare namespace Api {
 
     /** role search params */
     type RoleSearchParams = CommonType.RecordNullable<
-      Pick<Api.SystemManage.Role, "roleCode" | "roleName" | "status"> &
-        CommonSearchParams
+      Pick<Api.SystemManage.Role, 'roleCode' | 'roleName' | 'status'> & CommonSearchParams
     >;
 
     /** role list */
     type RoleList = Common.PaginatingQueryRecord<Role>;
 
     /** all role */
-    type AllRole = Pick<Role, "id" | "roleCode" | "roleName">;
+    type AllRole = Pick<Role, 'id' | 'roleCode' | 'roleName'>;
 
     /**
      * user gender
@@ -191,7 +124,7 @@ declare namespace Api {
      * - "1": "male"
      * - "2": "female"
      */
-    type UserGender = "1" | "2";
+    type UserGender = '1' | '2';
 
     /** user */
     type User = Common.CommonRecord<{
@@ -211,15 +144,7 @@ declare namespace Api {
 
     /** user search params */
     type UserSearchParams = CommonType.RecordNullable<
-      Pick<
-        Api.SystemManage.User,
-        | "nickName"
-        | "status"
-        | "userEmail"
-        | "userGender"
-        | "userName"
-        | "userPhone"
-      > &
+      Pick<Api.SystemManage.User, 'nickName' | 'status' | 'userEmail' | 'userGender' | 'userName' | 'userPhone'> &
         CommonSearchParams
     >;
 
@@ -232,7 +157,7 @@ declare namespace Api {
      * - "1": directory
      * - "2": menu
      */
-    type MenuType = "1" | "2";
+    type MenuType = '1' | '2';
 
     type MenuButton = {
       /**
@@ -251,20 +176,20 @@ declare namespace Api {
      * - "1": iconify icon
      * - "2": local icon
      */
-    type IconType = "1" | "2";
+    type IconType = '1' | '2';
 
     type MenuPropsOfRoute = Pick<
-      import("@soybean-react/vite-plugin-react-router").RouteMeta,
-      | "activeMenu"
-      | "constant"
-      | "fixedIndexInTab"
-      | "hideInMenu"
-      | "href"
-      | "i18nKey"
-      | "keepAlive"
-      | "multiTab"
-      | "order"
-      | "query"
+      import('@soybean-react/vite-plugin-react-router').RouteMeta,
+      | 'activeMenu'
+      | 'constant'
+      | 'fixedIndexInTab'
+      | 'hideInMenu'
+      | 'href'
+      | 'i18nKey'
+      | 'keepAlive'
+      | 'multiTab'
+      | 'order'
+      | 'query'
     >;
 
     type Menu = Common.CommonRecord<{

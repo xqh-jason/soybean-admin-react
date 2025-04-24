@@ -21,8 +21,8 @@ export async function handleRefreshToken() {
   const refreshToken = localStg.get('refreshToken') || '';
   const { data, error } = await fetchRefreshToken(refreshToken);
   if (!error) {
-    localStg.set('token', data.number);
-    localStg.set('refreshToken', data.number);
+    localStg.set('token', data.token);
+    localStg.set('refreshToken', data.refreshToken);
     return true;
   }
 

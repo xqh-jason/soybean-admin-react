@@ -1,5 +1,5 @@
 import type { RouterNavigateOptions, To } from 'react-router-dom';
-import { createHashRouter, matchRoutes } from 'react-router-dom';
+import { createBrowserRouter, matchRoutes } from 'react-router-dom';
 
 import { initCacheRoutes, routes } from '@/router';
 import { store } from '@/store';
@@ -29,8 +29,8 @@ function initRouter() {
     return false;
   }
 
-  const reactRouter = createHashRouter(routes, {
-    // basename: import.meta.env.VITE_BASE_URL,
+  const reactRouter = createBrowserRouter(routes, {
+    basename: import.meta.env.VITE_BASE_URL,
     patchRoutesOnNavigation: async ({ patch, path }) => {
       if (getIsNeedPatch(path)) {
         isAlreadyPatch = true;

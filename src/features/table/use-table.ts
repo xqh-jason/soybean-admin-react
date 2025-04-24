@@ -1,26 +1,26 @@
-import { useBoolean, useHookTable } from "@sa/hooks";
-import type { TablePaginationConfig, TableProps } from "antd";
-import { Form } from "antd";
+import { useBoolean, useHookTable } from '@sa/hooks';
+import type { TablePaginationConfig, TableProps } from 'antd';
+import { Form } from 'antd';
 
-import { parseQuery } from "@/features/router/query";
-import { getIsMobile } from "@/layouts/appStore";
+import { parseQuery } from '@/features/router/query';
+import { getIsMobile } from '@/layouts/appStore';
 
 type TableData = AntDesign.TableData;
 type GetTableData<A extends AntDesign.TableApiFn> = AntDesign.GetTableData<A>;
 type TableColumn<T> = AntDesign.TableColumn<T>;
+type Config<A extends AntDesign.TableApiFn> = AntDesign.AntDesignTableConfig<A> & {
+  isChangeURL?: boolean;
+};
 
 export function useTable<A extends AntDesign.TableApiFn>(
-  config: AntDesign.AntDesignTableConfig<A>,
-  paginationConfig?: Omit<
-    TablePaginationConfig,
-    "pn" | "onChange" | "ps" | "total"
-  >,
+  config: Config<A>,
+  paginationConfig?: Omit<TablePaginationConfig, 'current' | 'onChange' | 'pageSize' | 'total'>
 ) {
   const isMobile = useAppSelector(getIsMobile);
 
-  const { apiFn, apiParams, immediate, rowKey = "id" } = config;
+  const { apiFn, apiParams, immediate, isChangeURL = true, rowKey = 'id' } = config;
 
-  const [form] = Form.useForm<AntDesign.AntDesignTableConfig<A>["apiParams"]>();
+  const [form] = Form.useForm<AntDesign.AntDesignTableConfig<A>['apiParams']>();
 
   const { search } = useLocation();
 
@@ -38,24 +38,20 @@ export function useTable<A extends AntDesign.TableApiFn>(
     searchParams,
     setColumnChecks,
     total,
-    updateSearchParams,
-  } = useHookTable<
-    A,
-    GetTableData<A>,
-    TableColumn<AntDesign.TableDataWithIndex<GetTableData<A>>>
-  >({
+    updateSearchParams
+  } = useHookTable<A, GetTableData<A>, TableColumn<AntDesign.TableDataWithIndex<GetTableData<A>>>>({
     apiFn,
     apiParams: { ...apiParams, ...query },
     columns: config.columns,
-    getColumnChecks: (cols) => {
+    getColumnChecks: cols => {
       const checks: AntDesign.TableColumnCheck[] = [];
 
-      cols.forEach((column) => {
+      cols.forEach(column => {
         if (column.key) {
           checks.push({
             checked: true,
             key: column.key as string,
-            title: column.title as string,
+            title: column.title as string
           });
         }
       });
@@ -63,66 +59,54 @@ export function useTable<A extends AntDesign.TableApiFn>(
       return checks;
     },
     getColumns: (cols, checks) => {
-      const columnMap = new Map<
-        string,
-        TableColumn<AntDesign.TableDataWithIndex<GetTableData<A>>>
-      >();
+      const columnMap = new Map<string, TableColumn<AntDesign.TableDataWithIndex<GetTableData<A>>>>();
 
-      cols.forEach((column) => {
+      cols.forEach(column => {
         if (column.key) {
           columnMap.set(column.key as string, column);
         }
       });
 
-      const filteredColumns = checks
-        .filter((item) => item.checked)
-        .map((check) => columnMap.get(check.key));
+      const filteredColumns = checks.filter(item => item.checked).map(check => columnMap.get(check.key));
 
-      return filteredColumns as TableColumn<
-        AntDesign.TableDataWithIndex<GetTableData<A>>
-      >[];
+      return filteredColumns as TableColumn<AntDesign.TableDataWithIndex<GetTableData<A>>>[];
     },
     immediate,
-    transformer: (res) => {
-      const {
-        pn = 1,
-        list = [],
-        ps = 10,
-        total: totalNum = 0,
-      } = res.data || {};
+    isChangeURL,
+    transformer: res => {
+      const { current = 1, records = [], size = 10, total: totalNum = 0 } = res.data || {};
 
-      const recordsWithIndex = list.map((item, index) => {
+      const recordsWithIndex = records.map((item, index) => {
         return {
           ...item,
-          index: (pn - 1) * ps + index + 1,
+          index: (current - 1) * size + index + 1
         };
       });
 
       return {
         data: recordsWithIndex,
-        pageNum: pn,
-        pageSize: ps,
-        total: totalNum,
+        pageNum: current,
+        pageSize: size,
+        total: totalNum
       };
-    },
+    }
   });
 
   // this is for mobile, if the system does not support mobile, you can use `pagination` directly
   const pagination: TablePaginationConfig = {
     current: pageNum,
-    onChange: async (pn: number, ps: number) => {
+    onChange: async (current: number, size: number) => {
       updateSearchParams({
-        pn,
-        ps,
+        current,
+        size
       });
     },
     pageSize,
-    pageSizeOptions: ["10", "15", "20", "25", "30"],
+    pageSizeOptions: ['10', '15', '20', '25', '30'],
     showSizeChanger: true,
-    showTotal: (total) => `共  ${total} 条数据`,
     simple: isMobile,
     total,
-    ...paginationConfig,
+    ...paginationConfig
   };
 
   function reset() {
@@ -136,8 +120,8 @@ export function useTable<A extends AntDesign.TableApiFn>(
 
     if (res) {
       if (isResetCurrent) {
-        const { pn = 1, ...rest } = res;
-        updateSearchParams({ pn, ...rest });
+        const { current = 1, ...rest } = res;
+        updateSearchParams({ current, ...rest });
       } else {
         updateSearchParams(res);
       }
@@ -154,7 +138,7 @@ export function useTable<A extends AntDesign.TableApiFn>(
       form,
       reset,
       search: run,
-      searchParams: searchParams as NonNullable<Parameters<A>[0]>,
+      searchParams: searchParams as NonNullable<Parameters<A>[0]>
     },
     setColumnChecks,
     tableProps: {
@@ -162,44 +146,39 @@ export function useTable<A extends AntDesign.TableApiFn>(
       dataSource: data,
       loading,
       pagination,
-      rowKey,
-    },
+      rowKey
+    }
   };
 }
 
 export function useTableOperate<T extends TableData = TableData>(
   data: T[],
   getData: (isResetCurrent?: boolean) => Promise<void>,
-  executeResActions: (res: T, operateType: AntDesign.TableOperateType) => void,
+  executeResActions: (res: T, operateType: AntDesign.TableOperateType) => void
 ) {
-  const {
-    bool: drawerVisible,
-    setFalse: closeDrawer,
-    setTrue: openDrawer,
-  } = useBoolean();
+  const { bool: drawerVisible, setFalse: closeDrawer, setTrue: openDrawer } = useBoolean();
 
   const { t } = useTranslation();
 
-  const [operateType, setOperateType] =
-    useState<AntDesign.TableOperateType>("add");
+  const [operateType, setOperateType] = useState<AntDesign.TableOperateType>('add');
 
   const [form] = Form.useForm<T>();
 
   function handleAdd() {
-    setOperateType("add");
+    setOperateType('add');
     openDrawer();
   }
 
   /** the editing row data */
   const [editingData, setEditingData] = useState<T>();
 
-  function handleEdit(idOrData: T["id"] | T) {
-    if (typeof idOrData === "object") {
+  function handleEdit(idOrData: T['id'] | T) {
+    if (typeof idOrData === 'object') {
       form.setFieldsValue(idOrData);
 
       setEditingData(idOrData);
     } else {
-      const findItem = data.find((item) => item.id === idOrData);
+      const findItem = data.find(item => item.id === idOrData);
       if (findItem) {
         form.setFieldsValue(findItem);
 
@@ -207,7 +186,7 @@ export function useTableOperate<T extends TableData = TableData>(
       }
     }
 
-    setOperateType("edit");
+    setOperateType('edit');
     openDrawer();
   }
 
@@ -218,12 +197,12 @@ export function useTableOperate<T extends TableData = TableData>(
     setCheckedRowKeys(keys);
   }
 
-  const rowSelection: TableProps<T>["rowSelection"] = {
+  const rowSelection: TableProps<T>['rowSelection'] = {
     columnWidth: 48,
     fixed: true,
     onChange: onSelectChange,
     selectedRowKeys: checkedRowKeys,
-    type: "checkbox",
+    type: 'checkbox'
   };
 
   function onClose() {
@@ -234,7 +213,7 @@ export function useTableOperate<T extends TableData = TableData>(
 
   /** the hook after the batch delete operation is completed */
   async function onBatchDeleted() {
-    window.$message?.success(t("common.deleteSuccess"));
+    window.$message?.success(t('common.deleteSuccess'));
     setCheckedRowKeys([]);
 
     await getData(false);
@@ -242,7 +221,7 @@ export function useTableOperate<T extends TableData = TableData>(
 
   /** the hook after the delete operation is completed */
   async function onDeleted() {
-    window.$message?.success(t("common.deleteSuccess"));
+    window.$message?.success(t('common.deleteSuccess'));
 
     await getData(false);
   }
@@ -253,7 +232,7 @@ export function useTableOperate<T extends TableData = TableData>(
     // request
     await executeResActions(res, operateType);
 
-    window.$message?.success(t("common.updateSuccess"));
+    window.$message?.success(t('common.updateSuccess'));
 
     onClose();
     getData();
@@ -269,7 +248,7 @@ export function useTableOperate<T extends TableData = TableData>(
       handleSubmit,
       onClose,
       open: drawerVisible,
-      operateType,
+      operateType
     },
     handleAdd,
     handleEdit,
@@ -278,7 +257,7 @@ export function useTableOperate<T extends TableData = TableData>(
     onSelectChange,
     openDrawer,
     operateType,
-    rowSelection,
+    rowSelection
   };
 }
 
@@ -297,11 +276,11 @@ export function useTableScroll(scrollX: number = 702) {
 
   const scrollConfig = {
     x: scrollX,
-    y: getTableScrollY(),
+    y: getTableScrollY()
   };
 
   return {
     scrollConfig,
-    tableWrapperRef,
+    tableWrapperRef
   };
 }

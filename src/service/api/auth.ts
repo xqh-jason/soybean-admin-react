@@ -1,5 +1,3 @@
-import { encryptByMd5 } from '@/utils/cipher';
-
 import { request } from '../request';
 
 /**
@@ -11,21 +9,17 @@ import { request } from '../request';
 export function fetchLogin(userName: string, password: string) {
   return request<Api.Auth.LoginToken>({
     data: {
-      passwd: encryptByMd5(password),
-      uname: userName
+      password,
+      userName
     },
     method: 'post',
-    url: '/dologin'
+    url: '/auth/login'
   });
 }
 
 /** Get user info */
 export function fetchGetUserInfo() {
-  return request<Api.Auth.UserInfo>({ url: '/baseuser/info' });
-}
-
-export function fetchSystemMenuInfo(syskey: string) {
-  return request<Api.Auth.SystemMenuInfo[]>({ params: { syskey }, url: '/basemenu/user/system' });
+  return request<Api.Auth.UserInfo>({ url: '/auth/getUserInfo' });
 }
 
 /**

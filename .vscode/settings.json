@@ -5,7 +5,7 @@
   },
   "eslint.useFlatConfig": true,
   "editor.guides.bracketPairs": "active",
-  "editor.formatOnSave": true,
+  "editor.formatOnSave": false,
   "eslint.validate": ["html", "css", "scss", "json", "jsonc"],
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
@@ -23,7 +23,7 @@
   "i18n-ally.extract.targetPickingStrategy": "most-similar",
   "i18n-ally.pathMatcher": "{locale}/{namespaces}.ts",
   "i18n-ally.localesPaths": ["src/locales/langs"],
-  "prettier.enable": true,
+  "prettier.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
   "unocss.root": ["./"],
   "i18n-ally.sourceLanguage": "zh-cn"
