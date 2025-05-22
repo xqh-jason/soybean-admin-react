@@ -1,9 +1,9 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Divider } from 'antd';
+import { Divider, Input } from 'antd';
 
 import { useProTableSizeObserver } from '@/features/pro-table/useProTableSizeObserver';
-import { fetchFullCareModeList } from '@/service/api/shein-listing';
+import { fetchFullCareModeList, shopList } from '@/service/api/shein-listing';
 import type { ListingListItem } from '@/service/model/shein-listing-model';
 
 export type TableListItem = ListingListItem;
@@ -14,9 +14,68 @@ interface ActionButtonsFn {
 const columns = (_buttonKeys: string[], _actionButtons: ActionButtonsFn): ProColumns<TableListItem>[] => [
   {
     dataIndex: 'skc',
+    renderFormItem: () => {
+      return (
+        // value 和 onchange 会通过 form 自动注入。
+        <Input.TextArea
+          maxLength={3000}
+          placeholder="输入多个，使用空行键分隔"
+          rows={2}
+          showCount={true}
+        />
+      );
+    },
     title: 'SKC',
     valueType: 'textarea',
     width: 120
+  },
+  {
+    dataIndex: 'skuCode',
+    hideInTable: true,
+    renderFormItem: () => {
+      return (
+        // value 和 onchange 会通过 form 自动注入。
+        <Input.TextArea
+          maxLength={3000}
+          placeholder="输入多个，使用空行键分隔"
+          rows={2}
+          showCount={true}
+        />
+      );
+    },
+    title: 'SKUCode'
+  },
+  {
+    dataIndex: 'supplierSku',
+    hideInTable: true,
+    renderFormItem: () => {
+      return (
+        // value 和 onchange 会通过 form 自动注入。
+        <Input.TextArea
+          maxLength={3000}
+          placeholder="输入多个，使用空行键分隔"
+          rows={2}
+          showCount={true}
+        />
+      );
+    },
+    title: '供应商SKU'
+  },
+  {
+    dataIndex: 'erpSku',
+    hideInTable: true,
+    renderFormItem: () => {
+      return (
+        // value 和 onchange 会通过 form 自动注入。
+        <Input.TextArea
+          maxLength={3000}
+          placeholder="输入多个，使用空行键分隔"
+          rows={2}
+          showCount={true}
+        />
+      );
+    },
+    title: '系统SKU'
   },
   {
     hideInSearch: true,
@@ -56,6 +115,26 @@ const columns = (_buttonKeys: string[], _actionButtons: ActionButtonsFn): ProCol
     },
     title: '变体属性',
     width: 180
+  },
+  {
+    dataIndex: 'shopIdList',
+    fieldProps: {
+      allowClear: true,
+      mode: 'multiple',
+      placeholder: '请选择账号'
+    },
+    hideInTable: true,
+    request: async () => {
+      const res = await shopList();
+      return (
+        res.data?.list.map(item => ({
+          label: item.shopName,
+          value: item.id
+        })) || []
+      );
+    },
+    title: '账号',
+    valueType: 'select'
   },
   {
     dataIndex: 'shopName',
@@ -145,14 +224,14 @@ export default function FullCareMode() {
           };
 
           if (apiParams.createTime && apiParams.createTime.length > 0) {
-            Reflect.set(apiParams, 'createTimeStart', apiParams.createTime[0]);
-            Reflect.set(apiParams, 'createTimeEnd', apiParams.createTime[1]);
+            Reflect.set(apiParams, 'createTimeStart', `${apiParams.createTime[0]} 00:00:00`);
+            Reflect.set(apiParams, 'createTimeEnd', `${apiParams.createTime[1]} 23:59:59`);
             Reflect.deleteProperty(apiParams, 'createTime');
           }
 
           if (apiParams.updateTime && apiParams.updateTime.length > 0) {
-            Reflect.set(apiParams, 'updateTimeStart', apiParams.updateTime[0]);
-            Reflect.set(apiParams, 'updateTimeEnd', apiParams.updateTime[1]);
+            Reflect.set(apiParams, 'updateTimeStart', `${apiParams.updateTime[0]} 00:00:00`);
+            Reflect.set(apiParams, 'updateTimeEnd', `${apiParams.updateTime[1]} 23:59:59`);
             Reflect.deleteProperty(apiParams, 'updateTime');
           }
 

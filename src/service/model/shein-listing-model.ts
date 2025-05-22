@@ -28,3 +28,11 @@ export interface SheinListingVariantsDolist {
   supplierSku: string;
   updateTime: string;
 }
+
+export type ShopList = Api.Common.PaginatingQueryRecord<ShopListItem>;
+
+export interface ShopListItem {
+  id: number;
+  sellerId: string;
+  shopName: string;
+}

@@ -410,14 +410,14 @@ export default function ProductLabels() {
           }
 
           if (apiParams.createTime && apiParams.createTime.length > 0) {
-            Reflect.set(apiParams, 'createTimeStart', apiParams.createTime[0]);
-            Reflect.set(apiParams, 'createTimeEnd', apiParams.createTime[1]);
+            Reflect.set(apiParams, 'createTimeStart', `${apiParams.createTime[0]} 00:00:00`);
+            Reflect.set(apiParams, 'createTimeEnd', `${apiParams.createTime[1]} 23:59:59`);
             Reflect.deleteProperty(apiParams, 'createTime');
           }
 
           if (apiParams.updateTime && apiParams.updateTime.length > 0) {
-            Reflect.set(apiParams, 'updateTimeStart', apiParams.updateTime[0]);
-            Reflect.set(apiParams, 'updateTimeEnd', apiParams.updateTime[1]);
+            Reflect.set(apiParams, 'updateTimeStart', `${apiParams.updateTime[0]} 00:00:00`);
+            Reflect.set(apiParams, 'updateTimeEnd', `${apiParams.updateTime[1]} 23:59:59`);
             Reflect.deleteProperty(apiParams, 'updateTime');
           }
 
