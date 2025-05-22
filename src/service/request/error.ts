@@ -82,6 +82,15 @@ export function handleError(
   error: AxiosError<App.Service.Response<unknown>, any>,
   request: FlatRequestInstance<RequestInstanceState, App.Service.Response<unknown>>
 ) {
+  function handleLogout() {
+    router.navigate('/login-out');
+  }
+
+  function logoutAndCleanup() {
+    handleLogout();
+    window.removeEventListener('beforeunload', handleLogout);
+  }
+
   // when the request is fail, you can show error message
 
   let message = error.message;
@@ -90,12 +99,13 @@ export function handleError(
   // get backend error message and code
   if (error.code === BACKEND_ERROR_CODE) {
     message = error.response?.data?.msg || message;
-    backendErrorCode = String(error.response?.data?.code || '');
+    backendErrorCode = error.response?.data?.code || '';
   }
 
   // the error message is displayed in the modal
   const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];
   if (modalLogoutCodes.includes(backendErrorCode)) {
+    logoutAndCleanup();
     return;
   }
 

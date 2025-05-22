@@ -1,10 +1,10 @@
+import './plugins/assets';
 import { createRoot } from 'react-dom/client';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Provider } from 'react-redux';
 
 import { store } from '@/store';
 
-import './plugins/assets';
 import App from './App.tsx';
 import FallbackRender from './components/ErrorBoundary.tsx';
 import { setupI18n } from './locales';

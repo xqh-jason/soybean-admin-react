@@ -115,6 +115,7 @@ const VerticalMenu = memo(() => {
         mode="inline"
         openKeys={stateOpenKeys}
         selectedKeys={selectKey}
+        theme="dark"
         onOpenChange={onOpenChange}
         onSelect={handleClickMenu}
       />

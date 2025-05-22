@@ -52,13 +52,10 @@ const VerticalMix = memo(() => {
         inverted={siderInverted}
         onSelect={handleSelectMixMenu}
       >
-        <GlobalLogo
-          showTitle={false}
-          style={{ height: `${themeSettings.header.height}px` }}
-        />
+        <GlobalLogo style={{ height: `${themeSettings.header.height}px` }} />
       </FirstLevelMenu>
       <div
-        className="relative h-full transition-width-300"
+        className="relative h-full bg-[#1c1e22] transition-width-300"
         style={{ width: mixSiderFixed && hasMenus ? `${themeSettings.sider.mixChildMenuWidth}px` : '0px' }}
       >
         <DarkModeContainer

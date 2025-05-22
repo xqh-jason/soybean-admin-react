@@ -23,6 +23,7 @@ export default defineConfig(
           noUselessIndex: true
         }
       ],
+
       'import/order': [
         'error',
         {
@@ -35,8 +36,6 @@ export default defineConfig(
           pathGroupsExcludedImportTypes: ['builtin']
         }
       ],
-
-      'max-params': ['error', 8],
 
       'no-underscore-dangle': 'off',
 

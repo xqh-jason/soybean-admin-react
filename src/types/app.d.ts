@@ -1,5 +1,7 @@
 /** The global namespace for the app */
 declare namespace App {
+  export type MenuBtns = Record<string, string[]>;
+
   /** Theme namespace */
   namespace Theme {
     type ColorPaletteNumber = import('@sa/color').ColorPaletteNumber;
@@ -745,10 +747,10 @@ declare namespace App {
     type Response<T = unknown> = {
       /** The backend service response code */
       code: string;
-      /** The backend service response data */
-      data: T;
       /** The backend service response message */
       msg: string;
+      /** The backend service response data */
+      result: T;
     };
 
     /** The demo backend service response data */

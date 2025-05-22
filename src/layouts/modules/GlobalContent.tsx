@@ -1,3 +1,4 @@
+import './transition.css';
 import clsx from 'clsx';
 import KeepAlive, { useKeepAliveRef } from 'keepalive-for-react';
 
@@ -5,7 +6,6 @@ import { usePreviousRoute } from '@/features/router';
 import { selectCacheRoutes, selectRemoveCacheKey } from '@/features/router/routeStore';
 import { useThemeSettings } from '@/features/theme';
 import { getReloadFlag } from '@/layouts/appStore';
-import './transition.css';
 
 interface Props {
   /** Show padding for content */

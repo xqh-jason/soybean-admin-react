@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import DarkModeContainer from '@/components/DarkModeContainer.tsx';
 import { GLOBAL_SIDER_MENU_ID } from '@/constants/app';
 import { ThemeContext } from '@/features/theme';
@@ -9,10 +11,9 @@ interface Props {
   inverted: boolean;
   isHorizontalMix: boolean;
   isVerticalMix: boolean;
-  siderCollapse: boolean;
 }
 
-const GlobalSider: FC<Props> = memo(({ headerHeight, inverted, isHorizontalMix, isVerticalMix, siderCollapse }) => {
+const GlobalSider: FC<Props> = memo(({ headerHeight, inverted, isHorizontalMix, isVerticalMix }) => {
   const { darkMode } = useContext(ThemeContext);
 
   const showLogo = !isVerticalMix && !isHorizontalMix;
@@ -24,14 +25,9 @@ const GlobalSider: FC<Props> = memo(({ headerHeight, inverted, isHorizontalMix, 
       className="size-full flex-col-stretch shadow-sider"
       inverted={darkMenu}
     >
-      {showLogo && (
-        <GlobalLogo
-          showTitle={!siderCollapse}
-          style={{ height: `${headerHeight}px` }}
-        />
-      )}
+      {showLogo && <GlobalLogo style={{ height: `${headerHeight}px` }} />}
       <div
-        className={showLogo ? 'flex-1-hidden' : 'h-full'}
+        className={clsx(showLogo ? 'flex-1-hidden ' : 'h-full', 'bg-[#2b2f3a]')}
         id={GLOBAL_SIDER_MENU_ID}
       />
     </DarkModeContainer>

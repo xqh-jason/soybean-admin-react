@@ -14,7 +14,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
   {
     baseURL,
     headers: {
-      apifoxToken: 'XL299LiMEDZ0H5h3A29PxwQXdMJqWyY2'
+      // apifoxToken: 'XL299LiMEDZ0H5h3A29PxwQXdMJqWyY2'
     }
   },
   {
@@ -36,7 +36,7 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       return config;
     },
     transformBackendResponse(response) {
-      return response.data.data;
+      return response.data.result;
     }
   }
 );

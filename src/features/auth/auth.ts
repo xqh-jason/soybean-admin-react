@@ -1,34 +1,34 @@
 import { useLoading } from '@sa/hooks';
 
-import { getIsLogin, selectUserInfo } from '@/features/auth/authStore';
+import { getIsLogin, setMenuBtns, setMenuRoles } from '@/features/auth/authStore';
 import { usePreviousRoute, useRouter } from '@/features/router';
-import { fetchGetUserInfo, fetchLogin } from '@/service/api';
+import { fetchGetUserInfo, fetchLogin, fetchLogout, fetchMenuInfo } from '@/service/api';
 import { localStg } from '@/utils/storage';
 
 import { useCacheTabs } from '../tab/tabHooks';
 
-import { resetAuth as resetAuthAction, setToken, setUserInfo } from './authStore';
-import { clearAuthStorage } from './shared';
+import { resetAuth as resetAuthAction, selectMenuBtns, setToken, setUserInfo } from './authStore';
+import { clearAuthStorage, getMenuRolesAndBtns } from './shared';
 
 export function useAuth() {
-  const userInfo = useAppSelector(selectUserInfo);
-
   const isLogin = useAppSelector(getIsLogin);
 
-  function hasAuth(codes: string | string[]) {
+  const menuBtns = useAppSelector(selectMenuBtns);
+
+  function hasButtonAuth(menuKey: string, codes: string | string[]) {
     if (!isLogin) {
       return false;
     }
 
     if (typeof codes === 'string') {
-      return userInfo.buttons.includes(codes);
+      return menuBtns[menuKey]?.includes(codes);
     }
 
-    return codes.some(code => userInfo.buttons.includes(code));
+    return codes.some(code => menuBtns[menuKey]?.includes(code));
   }
 
   return {
-    hasAuth
+    hasButtonAuth
   };
 }
 
@@ -52,16 +52,23 @@ export function useInitAuth() {
     const { data: loginToken, error } = await fetchLogin(userName, password);
 
     if (!error) {
-      localStg.set('token', loginToken.token);
-      localStg.set('refreshToken', loginToken.refreshToken);
+      localStg.set('token', loginToken.number);
+      localStg.set('refreshToken', loginToken.number);
 
       const { data: info, error: userInfoError } = await fetchGetUserInfo();
 
       if (!userInfoError) {
+        const { data: menuInfo } = await fetchMenuInfo(import.meta.env.VITE_SYSTEM_CODE);
+        const { menuBtns, menuRoles } = getMenuRolesAndBtns(menuInfo || []);
+        dispatch(setMenuRoles(menuRoles));
+        dispatch(setMenuBtns(menuBtns));
+        localStg.set('menuRoles', menuRoles);
+        localStg.set('menuBtns', menuBtns);
+
         // 2. store user info
         localStg.set('userInfo', info);
 
-        dispatch(setToken(loginToken.token));
+        dispatch(setToken(loginToken.number));
         dispatch(setUserInfo(info));
 
         if (redirect) {
@@ -73,7 +80,7 @@ export function useInitAuth() {
         }
 
         window.$notification?.success({
-          description: t('page.login.common.welcomeBack', { userName: info.userName }),
+          description: t('page.login.common.welcomeBack', { userName: info.name }),
           message: t('page.login.common.loginSuccess')
         });
       }
@@ -105,6 +112,8 @@ export function useResetAuth() {
     resetRoutes();
 
     cacheTabs();
+
+    fetchLogout();
 
     if (!previousRoute?.handle?.constant) {
       if (previousRoute?.fullPath) {

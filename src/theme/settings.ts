@@ -48,7 +48,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
     mode: 'chrome',
     visible: true
   },
-  themeColor: '#646cff',
+  themeColor: '#2080f0',
   tokens: {
     dark: {
       colors: {
@@ -72,7 +72,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
     }
   },
   watermark: {
-    text: 'SoybeanAdmin',
+    text: 'JetCloud',
     visible: false
   }
 };
@@ -84,7 +84,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
  */
 export const overrideThemeSettings: Partial<App.Theme.ThemeSetting> = {
   watermark: {
-    text: 'SoybeanAdmin',
+    text: 'JetCloud',
     visible: false
   }
 };

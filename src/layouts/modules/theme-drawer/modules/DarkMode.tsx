@@ -1,3 +1,4 @@
+import '@/styles/css/darkMode.css';
 import { Switch } from 'antd';
 
 import {
@@ -9,7 +10,6 @@ import {
 } from '@/features/theme';
 
 import SettingItem from '../components/SettingItem';
-import '@/styles/css/darkMode.css';
 
 const DarkMode = () => {
   const { t } = useTranslation();

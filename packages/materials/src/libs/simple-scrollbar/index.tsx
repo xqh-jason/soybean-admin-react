@@ -1,7 +1,7 @@
+import 'simplebar-react/dist/simplebar.min.css';
 import classNames from 'clsx';
 import React from 'react';
 import SimpleBar from 'simplebar-react';
-import 'simplebar-react/dist/simplebar.min.css';
 
 const SimpleScrollbar = ({
   children,

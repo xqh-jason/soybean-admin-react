@@ -2,7 +2,7 @@ const common: App.I18n.Schema['translation']['common'] = {
   action: '操作',
   add: '新增',
   addSuccess: '添加成功',
-  backToHome: '返回首页',
+  backToHome: '返回工作台',
   batchDelete: '批量删除',
   cancel: '取消',
   check: '勾选',

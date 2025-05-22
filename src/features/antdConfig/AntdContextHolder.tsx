@@ -1,6 +1,6 @@
+import '@ant-design/v5-patch-for-react-19';
 import { App } from 'antd';
 import type { PropsWithChildren } from 'react';
-import '@ant-design/v5-patch-for-react-19';
 
 function ContextHolder() {
   const { message, modal, notification } = App.useApp();

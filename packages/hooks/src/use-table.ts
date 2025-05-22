@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import type { URLSearchParamsInit } from 'react-router-dom';
-import { useSearchParams } from 'react-router-dom';
+// import type { URLSearchParamsInit } from 'react-router-dom';
+// import { useSearchParams } from 'react-router-dom';
 
 import useBoolean from './use-boolean';
 import useLoading from './use-loading';
@@ -24,7 +24,7 @@ export type TransformedData<T> = {
   total: number;
 };
 
-export type Transformer<T, Response> = (response: Response) => TransformedData<T>;
+export type Transformer<T, Response> = (response: Response, pn: number, ps: number) => TransformedData<T>;
 
 export type TableConfig<A extends ApiFn, T, C> = {
   /** api function to get table data */
@@ -64,7 +64,7 @@ export type TableConfig<A extends ApiFn, T, C> = {
 };
 
 export default function useHookTable<A extends ApiFn, T, C>(config: TableConfig<A, T, C>) {
-  const { apiFn, apiParams, getColumnChecks, getColumns, immediate = true, isChangeURL, transformer } = config;
+  const { apiFn, apiParams, getColumnChecks, getColumns, immediate = true, transformer } = config;
 
   const { endLoading, loading, startLoading } = useLoading();
 
@@ -72,7 +72,7 @@ export default function useHookTable<A extends ApiFn, T, C>(config: TableConfig<
 
   const searchParams = useRef<Parameters<A>[0]>(apiParams || { current: 1, size: 10 });
 
-  const [_, setSearchParams] = useSearchParams();
+  // const [_, setSearchParams] = useSearchParams();
 
   const allColumns: C[] = config.columns();
 
@@ -92,13 +92,17 @@ export default function useHookTable<A extends ApiFn, T, C>(config: TableConfig<
 
     const formattedParams = formatSearchParams(searchParams.current);
 
-    if (isChangeURL) {
-      setSearchParams(formattedParams as URLSearchParamsInit);
-    }
+    // if (isChangeURL) {
+    //   setSearchParams(formattedParams as URLSearchParamsInit);
+    // }
 
     const response = await apiFn(formattedParams);
 
-    const transformed = transformer(response as Awaited<ReturnType<A>>);
+    const transformed = transformer(
+      response as Awaited<ReturnType<A>>,
+      formattedParams.pn as number,
+      formattedParams.ps as number
+    );
 
     setData(transformed);
 

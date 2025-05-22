@@ -1,9 +1,9 @@
+import './index.scss';
 import { AdminLayout, LAYOUT_SCROLL_EL_ID } from '@sa/materials';
 import type { LayoutMode } from '@sa/materials';
 import { configResponsive } from 'ahooks';
 import { Suspense } from 'react';
 
-import './index.scss';
 import {
   LAYOUT_MODE_HORIZONTAL,
   LAYOUT_MODE_HORIZONTAL_MIX,
@@ -16,10 +16,10 @@ import { getThemeSettings, setLayoutMode } from '@/features/theme';
 
 import { getFullContent, getMixSiderFixed, getSiderCollapse, setIsMobile, setSiderCollapse } from '../appStore';
 import GlobalContent from '../modules/GlobalContent';
-import GlobalFooter from '../modules/GlobalFooter';
 import GlobalSider from '../modules/GlobalSider';
 import GlobalHeader from '../modules/global-header/GlobalHeader';
 import GlobalMenu from '../modules/global-menu';
+// import GlobalFooter from '../modules/GlobalFooter';
 import ThemeDrawer from '../modules/theme-drawer';
 
 configResponsive({ sm: 640 });
@@ -104,7 +104,7 @@ const BaseLayout = () => {
     <AdminLayout
       fixedFooter={themeSettings.footer.fixed}
       fixedTop={themeSettings.fixedHeaderAndTab}
-      Footer={<GlobalFooter />}
+      // Footer={<GlobalFooter />}
       footerHeight={themeSettings.footer.height}
       footerVisible={themeSettings.footer.visible}
       fullContent={fullContent}
@@ -136,7 +136,6 @@ const BaseLayout = () => {
           inverted={themeSettings.sider.inverted}
           isHorizontalMix={isHorizontalMix}
           isVerticalMix={isVerticalMix}
-          siderCollapse={siderCollapse}
         />
       }
     >

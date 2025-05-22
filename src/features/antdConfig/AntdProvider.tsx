@@ -1,7 +1,7 @@
 import type { WatermarkProps } from 'antd';
 import type { PropsWithChildren } from 'react';
 
-import { info } from '@/constants/app';
+// import { info } from '@/constants/app';
 import { themeColors } from '@/features/theme';
 import { getAntdTheme, setupThemeVarsToHtml } from '@/features/theme/shared';
 import { useThemeSettings } from '@/features/theme/themeHook';
@@ -36,7 +36,7 @@ function useAntdTheme() {
     localStg.set('themeColor', colors.primary);
   }, [colors, themeSettings]);
 
-  console.info(`%c${info}`, `color: ${colors.primary}`);
+  // console.info(`%c${info}`, `color: ${colors.primary}`);
 
   return { antdTheme, watermarkText: themeSettings.watermark.text, watermarkVisible: themeSettings.watermark.visible };
 }

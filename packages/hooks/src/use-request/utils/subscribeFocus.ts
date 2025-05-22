@@ -1,4 +1,5 @@
 // from swr
+
 import isDocumentVisible from './isDocumentVisible';
 import isOnline from './isOnline';
 

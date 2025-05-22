@@ -2,7 +2,7 @@ import type { RoutePath } from '@soybean-react/vite-plugin-react-router';
 import { Outlet, matchRoutes } from 'react-router-dom';
 import type { ShouldRevalidateFunctionArgs } from 'react-router-dom';
 
-import { isStaticSuper, selectUserInfo } from '@/features/auth/authStore';
+import { isStaticSuper, selectMenuRoles } from '@/features/auth/authStore';
 import { usePrevious, useRoute } from '@/features/router';
 import { allRoutes } from '@/router';
 import { localStg } from '@/utils/storage';
@@ -18,6 +18,7 @@ function handleRouteSwitch(to: Router.Route, from: Router.Route | null) {
   return null;
 }
 
+// eslint-disable-next-line max-params
 function createRouteGuard(to: Router.Route, roles: string[], isSuper: boolean, previousRoute: Router.Route | null) {
   const loginRoute: RoutePath = '/login';
   const isLogin = Boolean(localStg.get('token'));
@@ -86,7 +87,7 @@ const RootLayout = () => {
 
   const { i18nKey, title } = handle;
 
-  const { roles } = useAppSelector(selectUserInfo);
+  const roles = useAppSelector(selectMenuRoles);
 
   const isSuper = useAppSelector(isStaticSuper);
 

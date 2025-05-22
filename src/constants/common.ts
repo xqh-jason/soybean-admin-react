@@ -9,7 +9,7 @@ export const yesOrNoOptions = transformRecordToOption(yesOrNoRecord);
 
 export const DARK_CLASS = 'dark';
 
-export const ATG_MAP: Record<Api.Common.EnableStatus, string> = {
+export const ATG_MAP: Record<string, string> = {
   1: 'success',
   2: 'warning'
 };

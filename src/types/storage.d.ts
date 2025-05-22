@@ -21,6 +21,8 @@ declare namespace StorageType {
     globalTabs: App.Global.Tab[];
     /** The i18n language */
     lang: App.I18n.LangType;
+    menuBtns: App.MenuBtns;
+    menuRoles: string[];
     /** Fixed sider with mix-menu */
     mixSiderFixed: CommonType.YesOrNo;
     /**

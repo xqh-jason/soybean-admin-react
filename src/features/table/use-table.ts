@@ -8,17 +8,17 @@ import { getIsMobile } from '@/layouts/appStore';
 type TableData = AntDesign.TableData;
 type GetTableData<A extends AntDesign.TableApiFn> = AntDesign.GetTableData<A>;
 type TableColumn<T> = AntDesign.TableColumn<T>;
-type Config<A extends AntDesign.TableApiFn> = AntDesign.AntDesignTableConfig<A> & {
+export type Config<A extends AntDesign.TableApiFn> = AntDesign.AntDesignTableConfig<A> & {
   isChangeURL?: boolean;
 };
 
 export function useTable<A extends AntDesign.TableApiFn>(
   config: Config<A>,
-  paginationConfig?: Omit<TablePaginationConfig, 'current' | 'onChange' | 'pageSize' | 'total'>
+  paginationConfig?: Omit<TablePaginationConfig, 'onChange' | 'pn' | 'ps' | 'total'>
 ) {
   const isMobile = useAppSelector(getIsMobile);
 
-  const { apiFn, apiParams, immediate, isChangeURL = true, rowKey = 'id' } = config;
+  const { apiFn, apiParams, immediate, isChangeURL = false, rowKey = 'id' } = config;
 
   const [form] = Form.useForm<AntDesign.AntDesignTableConfig<A>['apiParams']>();
 
@@ -73,20 +73,20 @@ export function useTable<A extends AntDesign.TableApiFn>(
     },
     immediate,
     isChangeURL,
-    transformer: res => {
-      const { current = 1, records = [], size = 10, total: totalNum = 0 } = res.data || {};
+    transformer: (res, pn, ps) => {
+      const { list: records = [], total: totalNum = 0 } = res.data || {};
 
       const recordsWithIndex = records.map((item, index) => {
         return {
           ...item,
-          index: (current - 1) * size + index + 1
+          index: (pn - 1) * ps + index + 1
         };
       });
 
       return {
         data: recordsWithIndex,
-        pageNum: current,
-        pageSize: size,
+        pageNum: pn,
+        pageSize: ps,
         total: totalNum
       };
     }
@@ -95,15 +95,18 @@ export function useTable<A extends AntDesign.TableApiFn>(
   // this is for mobile, if the system does not support mobile, you can use `pagination` directly
   const pagination: TablePaginationConfig = {
     current: pageNum,
-    onChange: async (current: number, size: number) => {
+    onChange: async (pn: number, ps: number) => {
       updateSearchParams({
-        current,
-        size
+        pn,
+        ps
       });
     },
     pageSize,
     pageSizeOptions: ['10', '15', '20', '25', '30'],
     showSizeChanger: true,
+    showTotal: (totalNum: number) => {
+      return `共 ${totalNum} 条数据`;
+    },
     simple: isMobile,
     total,
     ...paginationConfig
@@ -120,8 +123,8 @@ export function useTable<A extends AntDesign.TableApiFn>(
 
     if (res) {
       if (isResetCurrent) {
-        const { current = 1, ...rest } = res;
-        updateSearchParams({ current, ...rest });
+        const { pn = 1, ...rest } = res;
+        updateSearchParams({ pn, ...rest });
       } else {
         updateSearchParams(res);
       }

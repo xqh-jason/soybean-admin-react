@@ -149,7 +149,7 @@ const page: App.I18n.Schema['translation']['page'] = {
         fixedIndexInTab: '请输入固定在页签中的序号',
         fixedInTab: '请选择是否固定在页签中',
         hideInMenu: '请选择是否隐藏菜单',
-        home: '请选择首页',
+        home: '请选择工作台',
         href: '请输入外链',
         i18nKey: '请输入国际化key',
         icon: '请输入图标',
@@ -170,7 +170,7 @@ const page: App.I18n.Schema['translation']['page'] = {
         routePath: '请输入路由路径'
       },
       hideInMenu: '隐藏菜单',
-      home: '首页',
+      home: '工作台',
       href: '外链',
       i18nKey: '国际化key',
       icon: '图标',

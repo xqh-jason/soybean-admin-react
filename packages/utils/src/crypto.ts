@@ -24,4 +24,8 @@ export class Crypto<T extends object> {
       return null;
     }
   }
+
+  static md5Encrypt(data: string) {
+    return CryptoJS.MD5(data).toString();
+  }
 }

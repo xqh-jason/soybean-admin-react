@@ -7,18 +7,7 @@ interface RouteMeta extends Record<string | number, unknown> {}
 export function setupElegantRouter() {
   return ElegantReactRouter({
     customRoutes: {
-      names: [
-        'exception_403',
-        'exception_404',
-        'exception_500',
-        'document_project',
-        'document_project-link',
-        'document_react',
-        'document_vite',
-        'document_unocss',
-        'document_proComponents',
-        'document_antd'
-      ]
+      names: ['exception_403', 'exception_404', 'exception_500']
     },
     onRouteMetaGen(routeName) {
       const key = routeName as RouteKey;
