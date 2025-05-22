@@ -43,6 +43,7 @@
     "dev:test": "vite --mode test",
     "gen-route": "sa gen-route",
     "lint": "eslint . --fix",
+    "prepare": "simple-git-hooks",
     "preview": "vite preview",
     "release": "sa release",
     "typecheck": "tsc --noEmit --skipLibCheck",
@@ -115,6 +116,7 @@
     "kolorist": "1.8.0",
     "lint-staged": "15.4.3",
     "sass": "1.85.0",
+    "simple-git-hooks": "2.11.1",
     "tsx": "4.19.3",
     "typescript": "5.7.3",
     "unplugin-auto-import": "19.1.0",
@@ -123,6 +125,17 @@
     "vite-plugin-inspect": "10.2.1",
     "vite-plugin-remove-console": "2.2.0",
     "vite-plugin-svg-icons": "2.0.1"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": ["simple-git-hooks"],
+    "onlyBuiltDependencies": ["simple-git-hooks"]
+  },
+  "simple-git-hooks": {
+    "commit-msg": "pnpm sa git-commit-verify",
+    "pre-commit": "pnpm typecheck && pnpm lint-staged"
+  },
+  "lint-staged": {
+    "*": "eslint --fix"
   },
   "website": "https://react.soybeanjs.cn/home/"
 }
