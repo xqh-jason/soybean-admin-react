@@ -6,7 +6,7 @@ import { useAuth } from '@/features/auth';
 import { useProTableSizeObserver } from '@/features/pro-table/useProTableSizeObserver';
 import { getAllUser } from '@/service/api/common';
 import { batchDisabled, batchEnabled, fetchGetLabelList, getTagList } from '@/service/api/label-manage';
-import type { ProductLabelListItem } from '@/service/model/label-manage-model';
+import type { ProductLabelListItem, ProductLabelSearchParams } from '@/service/model/label-manage-model';
 
 import AddOrEditModal from './_components/add-or-edit-modal';
 import LogModal from './_components/log-modal';
@@ -205,11 +205,12 @@ const columns = (buttonKeys: string[], actionButtons: ActionButtonsFn): ProColum
   }
 ];
 
-async function listApi(params: any) {
+async function listApi(params: ProductLabelSearchParams) {
   const res = await fetchGetLabelList(params);
   return {
     data: res.data?.list,
-    success: true
+    success: true,
+    total: res.data?.total
   };
 }
 
@@ -374,7 +375,7 @@ export default function ProductLabels() {
           actionRef.current?.reload();
         }}
       />
-      <ProTable<TableListItem>
+      <ProTable<TableListItem, TableListItem>
         bordered
         actionRef={actionRef}
         columns={columns(buttonKeys, actionButtons)}
@@ -390,26 +391,37 @@ export default function ProductLabels() {
         }}
         request={(params, _sorter, _filter) => {
           // 表单搜索项会从 params 传入，传递给后端接口。
-          params.pn = params.current;
-          params.ps = params.pageSize;
-          params.tagList = params.tags;
-          params.erpSpuStr = params.erpSpu;
+          const apiParams = {
+            ...params,
+            pn: params.current || 1,
+            ps: params.pageSize || 10
+          };
+          Reflect.deleteProperty(apiParams, 'current');
+          Reflect.deleteProperty(apiParams, 'pageSize');
 
-          if (params.createTime && params.createTime.length > 0) {
-            params.createTimeStart = `${params.createTime[0]} 00:00:00`;
-            params.createTimeEnd = `${params.createTime[1]} 23:59:59`;
-            delete params.createTime;
+          if (params.erpSpu) {
+            Reflect.set(apiParams, 'erpSpuStr', params.erpSpu);
+            Reflect.deleteProperty(apiParams, 'erpSpu');
           }
-          if (params.updateTime && params.updateTime.length > 0) {
-            params.updateTimeStart = `${params.updateTime[0]} 00:00:00`;
-            params.updateTimeEnd = `${params.updateTime[1]} 23:59:59`;
-            delete params.updateTime;
+
+          if (params.tags) {
+            Reflect.set(apiParams, 'tagList', params.tags);
+            Reflect.deleteProperty(apiParams, 'tags');
           }
-          delete params.erpSpu;
-          delete params.tags;
-          delete params.current;
-          delete params.pageSize;
-          return listApi(params);
+
+          if (apiParams.createTime && apiParams.createTime.length > 0) {
+            Reflect.set(apiParams, 'createTimeStart', apiParams.createTime[0]);
+            Reflect.set(apiParams, 'createTimeEnd', apiParams.createTime[1]);
+            Reflect.deleteProperty(apiParams, 'createTime');
+          }
+
+          if (apiParams.updateTime && apiParams.updateTime.length > 0) {
+            Reflect.set(apiParams, 'updateTimeStart', apiParams.updateTime[0]);
+            Reflect.set(apiParams, 'updateTimeEnd', apiParams.updateTime[1]);
+            Reflect.deleteProperty(apiParams, 'updateTime');
+          }
+
+          return listApi(apiParams);
         }}
         rowSelection={{
           onChange: (keys: React.Key[]) => {

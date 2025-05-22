@@ -1,6 +1,14 @@
 export interface ProductLabelSearchParams extends Api.Common.CommonSearchParams {
-  erpSpu: string;
-  tagList: string[];
+  createById?: number;
+  createTimeEnd?: string;
+  createTimeStart?: string;
+  erpSpuStr?: string;
+  isDeleted?: number;
+  status?: number;
+  tagList?: string[];
+  updateById?: number;
+  updateTimeEnd?: string;
+  updateTimeStart?: string;
 }
 
 export type ProductLabelList = Api.Common.PaginatingQueryRecord<ProductLabelListItem>;

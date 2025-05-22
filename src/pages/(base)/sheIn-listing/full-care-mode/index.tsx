@@ -1,220 +1,110 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Tag } from 'antd';
+import { Divider } from 'antd';
 
-import { useAuth } from '@/features/auth';
 import { useProTableSizeObserver } from '@/features/pro-table/useProTableSizeObserver';
-import { getAllUser } from '@/service/api/common';
-import { fetchGetLabelList, getTagList } from '@/service/api/label-manage';
-import type { ProductLabelListItem } from '@/service/model/label-manage-model';
+import { fetchFullCareModeList } from '@/service/api/shein-listing';
+import type { ListingListItem } from '@/service/model/shein-listing-model';
 
-export type TableListItem = ProductLabelListItem;
+export type TableListItem = ListingListItem;
 interface ActionButtonsFn {
-  (buttonAuthKeys: string[], item: ProductLabelListItem): React.ReactNode[];
+  (buttonAuthKeys: string[], item: ListingListItem): React.ReactNode[];
 }
 
-const columns = (buttonKeys: string[], actionButtons: ActionButtonsFn): ProColumns<TableListItem>[] => [
+const columns = (_buttonKeys: string[], _actionButtons: ActionButtonsFn): ProColumns<TableListItem>[] => [
   {
-    dataIndex: 'erpSpu',
-    title: 'ERP SPU',
+    dataIndex: 'skc',
+    title: 'SKC',
     valueType: 'textarea',
-    width: 150
+    width: 120
   },
   {
-    dataIndex: 'productName',
     hideInSearch: true,
-    title: '产品名称',
-    width: 150
+    render: (_, record) => {
+      const { sheinListingVariantsDOList } = record;
+      return sheinListingVariantsDOList
+        ? sheinListingVariantsDOList.map((item, index) => (
+            <div key={item.id}>
+              <div>
+                SKUcode:{item.skuCode}
+                <br />
+                供应商sku:{item.supplierSku}
+                <br />
+                系统SKU:{item.erpSkuStr}
+                <br />
+              </div>
+              {sheinListingVariantsDOList[index + 1] && <Divider />}
+            </div>
+          ))
+        : '';
+    },
+    title: 'SKUcode/供应商sku/系统SKU',
+    width: 250
   },
   {
-    dataIndex: 'manufacturerName',
     hideInSearch: true,
-    title: '制造商名称',
+    render: (_, record) => {
+      const { sheinListingVariantsDOList } = record;
+      return sheinListingVariantsDOList
+        ? sheinListingVariantsDOList.map((item, index) => (
+            <div key={item.id}>
+              <div>{item.attribute}</div>
+              {sheinListingVariantsDOList[index + 1] && <Divider />}
+            </div>
+          ))
+        : '';
+    },
+    title: '变体属性',
     width: 180
   },
   {
-    dataIndex: 'manufacturerAddress',
+    dataIndex: 'shopName',
     hideInSearch: true,
-    title: '制造商地址',
-    width: 300
-  },
-  {
-    dataIndex: 'tags',
-    fieldProps: {
-      mode: 'multiple',
-      showSearch: true
-    },
-    render: (_, record) => {
-      const { tags } = record;
-      if (tags) {
-        const tagList: string[] = JSON.parse(tags);
-        return (
-          <div className="tags">
-            {tagList.map(tag => (
-              <div
-                className="tag"
-                key={tag}
-              >
-                <Tag color="blue">{tag}</Tag>
-              </div>
-            ))}
-          </div>
-        );
-      }
-      return '';
-    },
-    request: async () => {
-      const tagList = await getTagList();
-      return tagList.data
-        ? tagList.data.map(item => ({
-            label: item,
-            value: item
-          }))
-        : [];
-    },
-    title: '标签信息',
-    valueType: 'select',
-    width: 150
-  },
-  {
-    dataIndex: 'status',
-    fieldProps: {
-      options: [
-        { label: '待完善', value: 0 },
-        { label: '已完善', value: 1 }
-      ],
-      showSearch: true
-    },
-    title: '完善数据状态',
-    valueType: 'select',
-    width: 150
-  },
-  {
-    dataIndex: 'createById',
-    fieldProps: {
-      showSearch: true
-    },
-    hideInTable: true,
-    request: async () => {
-      const res = await getAllUser();
-      return res.data
-        ? res.data.map(item => ({
-            label: item.name,
-            value: item.id
-          }))
-        : [];
-    },
-    title: '创建人',
-    valueType: 'select'
-  },
-  {
-    dataIndex: 'updateById',
-    fieldProps: {
-      showSearch: true
-    },
-    hideInTable: true,
-    request: async () => {
-      const res = await getAllUser();
-      return res.data
-        ? res.data.map(item => ({
-            label: item.name,
-            value: item.id
-          }))
-        : [];
-    },
-    title: '更新人',
-    valueType: 'select'
-  },
-  {
-    dataIndex: 'isDeleted',
-    fieldProps: {
-      options: [
-        { label: '启用', value: 0 },
-        { label: '禁用', value: 1 }
-      ]
-    },
-    title: '使用状态',
-    valueType: 'select',
-    width: 100
+    title: '账号',
+    width: 180
   },
   {
     dataIndex: 'createTime',
     hideInTable: true,
-    title: '创建时间',
-    valueType: 'dateRange'
+    title: '系统创建时间',
+    valueType: 'dateRange',
+    width: 180
+  },
+  {
+    dataIndex: 'createTime',
+    hideInSearch: true,
+    title: '系统创建时间',
+    width: 180
   },
   {
     dataIndex: 'updateTime',
     hideInTable: true,
     title: '系统更新时间',
-    valueType: 'dateRange'
-  },
-  {
-    dataIndex: 'createBy',
-    hideInSearch: true,
-    render: (_, record) => {
-      return (
-        <div className="create-info">
-          <div className="name">{record.createBy}</div>
-          <div className="time">{record.createTime}</div>
-        </div>
-      );
-    },
-    title: '创建人/时间',
+    valueType: 'dateRange',
     width: 180
   },
   {
-    dataIndex: 'updateBy',
+    dataIndex: 'updateTime',
     hideInSearch: true,
-    render: (_, record) => {
-      return (
-        <div className="update-info">
-          <div className="name">{record.updateBy}</div>
-          <div className="time">{record.updateTime}</div>
-        </div>
-      );
-    },
-    title: '更新人/时间',
+    title: '系统更新时间',
     width: 180
-  },
-  {
-    dataIndex: 'action',
-    fixed: 'right',
-    hideInSearch: true,
-    render: (_, record) => {
-      return (
-        <>
-          {actionButtons(buttonKeys, record).map((item, index) => (
-            <div key={index}>{item}</div>
-          ))}
-        </>
-      );
-    },
-    title: '操作',
-    width: 150
   }
 ];
 
 async function listApi(params: any) {
-  const res = await fetchGetLabelList(params);
+  const res = await fetchFullCareModeList(params);
   return {
     data: res.data?.list,
-    success: true
+    success: true,
+    total: res.data?.total
   };
 }
 
-export default function ProductLabels() {
+export default function FullCareMode() {
   const actionRef = useRef<ActionType>(null);
   const { tableScrollY } = useProTableSizeObserver(actionRef);
-  const { hasButtonAuth } = useAuth();
 
   const buttonKeys: string[] = [];
-  if (hasButtonAuth('ProductLabels', 'add')) buttonKeys.push('add');
-  if (hasButtonAuth('ProductLabels', 'start')) buttonKeys.push('start');
-  if (hasButtonAuth('ProductLabels', 'close')) buttonKeys.push('close');
-  if (hasButtonAuth('ProductLabels', 'edit')) buttonKeys.push('edit');
-  if (hasButtonAuth('ProductLabels', 'log')) buttonKeys.push('log');
-  if (hasButtonAuth('ProductLabels', 'downloadTags')) buttonKeys.push('downloadTags');
 
   function toolBarButtons(_buttonAuthKeys: string[]) {
     const buttons: React.ReactNode[] = [];
@@ -224,7 +114,7 @@ export default function ProductLabels() {
 
   const toolButtons = toolBarButtons(buttonKeys);
 
-  function actionButtons(_buttonAuthKeys: string[], _item: ProductLabelListItem) {
+  function actionButtons(_buttonAuthKeys: string[], _item: ListingListItem) {
     const buttons: React.ReactNode[] = [];
 
     return buttons;
@@ -232,7 +122,7 @@ export default function ProductLabels() {
 
   return (
     <div className="h-full">
-      <ProTable<TableListItem>
+      <ProTable<TableListItem, Partial<TableListItem>>
         bordered
         actionRef={actionRef}
         columns={columns(buttonKeys, actionButtons)}
@@ -248,24 +138,27 @@ export default function ProductLabels() {
         }}
         request={(params, _sorter, _filter) => {
           // 表单搜索项会从 params 传入，传递给后端接口。
-          params.pn = params.current;
-          params.ps = params.pageSize;
-          params.tagList = params.tags;
+          const apiParams = {
+            ...params,
+            pn: params.current || 1,
+            ps: params.pageSize || 10
+          };
 
-          if (params.createTime && params.createTime.length > 0) {
-            params.createTimeStart = `${params.createTime[0]} 00:00:00`;
-            params.createTimeEnd = `${params.createTime[1]} 23:59:59`;
-            delete params.createTime;
+          if (apiParams.createTime && apiParams.createTime.length > 0) {
+            Reflect.set(apiParams, 'createTimeStart', apiParams.createTime[0]);
+            Reflect.set(apiParams, 'createTimeEnd', apiParams.createTime[1]);
+            Reflect.deleteProperty(apiParams, 'createTime');
           }
-          if (params.updateTime && params.updateTime.length > 0) {
-            params.updateTimeStart = `${params.updateTime[0]} 00:00:00`;
-            params.updateTimeEnd = `${params.updateTime[1]} 23:59:59`;
-            delete params.updateTime;
+
+          if (apiParams.updateTime && apiParams.updateTime.length > 0) {
+            Reflect.set(apiParams, 'updateTimeStart', apiParams.updateTime[0]);
+            Reflect.set(apiParams, 'updateTimeEnd', apiParams.updateTime[1]);
+            Reflect.deleteProperty(apiParams, 'updateTime');
           }
-          delete params.tags;
-          delete params.current;
-          delete params.pageSize;
-          return listApi(params);
+
+          delete apiParams.current;
+          delete apiParams.pageSize;
+          return listApi(apiParams);
         }}
         search={{
           defaultCollapsed: false,

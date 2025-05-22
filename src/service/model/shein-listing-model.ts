@@ -1,6 +1,6 @@
-export type ListingSearchParams = CommonType.RecordNullable<
-  Pick<ListingListItem, 'skc'> & Api.Common.CommonSearchParams
->;
+export interface ListingSearchParams extends Api.Common.CommonSearchParams {
+  skc?: string;
+}
 
 export type ListingList = Api.Common.PaginatingQueryRecord<ListingListItem>;
 
