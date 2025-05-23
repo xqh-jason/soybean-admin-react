@@ -50,7 +50,7 @@ export const generatedRoutes: ElegantConstRoute[] = [
             matchedFiles: [null, '/src/pages/(base)/sheIn-listing/index.tsx', null, null],
             name: '(base)_shein-listing',
             path: '/shein-listing',
-            handle: { i18nKey: 'route.(base)_shein-listing', title: '(base)_shein-listing' },
+            handle: { i18nKey: 'route.(base)_shein-listing', title: '(base)_shein-listing', roles: ['SheInListing']  },
             children: [
               {
                 matchedFiles: [null, '/src/pages/(base)/sheIn-listing/full-care-mode/index.tsx', null, null],
@@ -58,7 +58,8 @@ export const generatedRoutes: ElegantConstRoute[] = [
                 path: '/shein-listing/full-care-mode',
                 handle: {
                   i18nKey: 'route.(base)_shein-listing_full-care-mode',
-                  title: '(base)_shein-listing_full-care-mode'
+                  title: '(base)_shein-listing_full-care-mode',
+                  roles: ['FullCareMode']
                 }
               }
             ]
